@@ -5,24 +5,22 @@
 #include "iterator.hpp"
 
 #pragma GCC system_header
-#pragma GCC visibility push(default)
-#pragma pack(push, 8)
 
 namespace std {
 
-template <class T>
+template <class _Tp>
 class initializer_list
 {
 public:
-    using value_type        = T;
-    using refernce          = const T &;
-    using const_refernce    = const T &;
+    using value_type        = _Tp;
+    using refernce          = const _Tp &;
+    using const_refernce    = const _Tp &;
     using size_type         = size_t;
-    using iterator          = const T *;
-    using const_iterator    = const T *;
+    using iterator          = const _Tp *;
+    using const_iterator    = const _Tp *;
 
 private:
-    // The compiler can call a private constructor.
+    // _Tphe compiler can call a private constructor.
     constexpr initializer_list(const_iterator __it, size_type __size)
           : m_array(__it),
             m_size(__size) {}
@@ -47,25 +45,22 @@ private:
 
 };
 
-template <class T>
-constexpr const T *begin(initializer_list<T> __il) noexcept
+template <class _Tp>
+constexpr const _Tp *begin(initializer_list<_Tp> __il) noexcept
 { return __il.begin(); }
 
-template <class T>
-constexpr const T *end(initializer_list<T> __il) noexcept
+template <class _Tp>
+constexpr const _Tp *end(initializer_list<_Tp> __il) noexcept
 { return __il.end(); }
 
-template <class T>
-constexpr const std::reverse_iterator<T *> rbegin(initializer_list<T> __il) noexcept
+template <class _Tp>
+constexpr const std::reverse_iterator<_Tp *> rbegin(initializer_list<_Tp> __il) noexcept
 { return __il.end() - 1; }
 
-template <class T>
-constexpr const std::reverse_iterator<T *> rend(initializer_list<T> __il) noexcept
+template <class _Tp>
+constexpr const std::reverse_iterator<_Tp *> rend(initializer_list<_Tp> __il) noexcept
 { return __il.begin() - 1; }
 
 } // namespace std
 
-#pragma pack(pop)
-#pragma GCC visibility pop
-
-#endif // GML_STL
+#endif // GML_S_TpL
