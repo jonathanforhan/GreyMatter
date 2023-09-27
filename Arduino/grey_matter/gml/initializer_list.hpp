@@ -16,7 +16,7 @@ public:
     using refernce          = const _Tp &;
     using const_refernce    = const _Tp &;
     using size_type         = size_t;
-    using iterator          = const _Tp *;
+    using iterator          = _Tp *;
     using const_iterator    = const _Tp *;
 
 private:
@@ -31,13 +31,19 @@ public:
             m_size(0) {}
 
     constexpr size_type size() const noexcept
-    { return m_size; }
+    {
+		return m_size;
+	}
 
     constexpr const_iterator begin() const noexcept
-    { return m_array; }
+    {
+		return m_array;
+	}
 
     constexpr const_iterator end() const noexcept
-    { return begin() + size(); }
+    {
+		return m_array + m_size;
+	}
 
 private:
     iterator m_array;
@@ -47,19 +53,27 @@ private:
 
 template <class _Tp>
 constexpr const _Tp *begin(initializer_list<_Tp> __il) noexcept
-{ return __il.begin(); }
+{
+    return __il.begin();
+}
 
 template <class _Tp>
 constexpr const _Tp *end(initializer_list<_Tp> __il) noexcept
-{ return __il.end(); }
+{
+    return __il.end();
+}
 
 template <class _Tp>
 constexpr const std::reverse_iterator<_Tp *> rbegin(initializer_list<_Tp> __il) noexcept
-{ return __il.end() - 1; }
+{
+    return __il.end() - 1;
+}
 
 template <class _Tp>
 constexpr const std::reverse_iterator<_Tp *> rend(initializer_list<_Tp> __il) noexcept
-{ return __il.begin() - 1; }
+{
+    return __il.begin() - 1;
+}
 
 } // namespace std
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#if GML_S_TpL
+#if GML_STL
 
 #pragma GCC system_header
 
