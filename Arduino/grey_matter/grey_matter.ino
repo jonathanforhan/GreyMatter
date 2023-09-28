@@ -12,48 +12,6 @@ void test();
 
 GMLCD lcd;
 
-void cache_line(const std::vector<Point> &vec, int16_t x0, int16_t y0, int16_t x1, int16_t y1)
-{
-    int16_t steep = abs(y1 - y0) > abs(x1 - x0);
-    if (steep)
-    {
-        std::swap(x0, y0);
-        std::swap(x1, y1);
-    }
-
-    if (x0 > x1)
-    {
-        std::swap(x0, x1);
-        std::swap(y0, y1);
-    }
-
-    int16_t dx, dy;
-    dx = x1 - x0;
-    dy = abs(y1 - y0);
-
-    int16_t err = dx / 2;
-    int16_t ystep;
-
-    if (y0 < y1)
-        ystep = 1;
-    else
-        ystep = -1;
-
-    for (; x0 <= x1; x0++)
-    {
-        if (steep)
-            vec.push_back({ y0, x0 });
-        else
-            vec.push_back({ x0, y0 });
-        err -= dy;
-        if (err < 0)
-        {
-            y0 += ystep;
-            err += dx;
-        }
-    }
-}
-
 struct Cube {
     const vec3 raw[8] = {
             { -1, -1, -1 },
@@ -66,12 +24,12 @@ struct Cube {
             { -1, 1, 1 },
     };
     vec3 pts[8] = {};
+    vec3 cache[8] = {};
 
-    static constexpr unsigned scale = 20;
-    static constexpr unsigned offset = 120;
-    static constexpr unsigned tilt = 25;
+    unsigned scale = 15;
+    unsigned offset = 120;
+    unsigned tilt = 25;
     float theta = 0;
-    std::vector<Point> cache1;
 
 
     void rotate()
@@ -102,23 +60,17 @@ struct Cube {
             for (int j = 0; j < 3; j++)
                 pts[i][j] = pts[i][j] * scale + offset;
 
-        for (int i = 0; i < cache1.size(); i++)
-            lcd.drawPixel(cache1[i], Color::Black);
+        Point px = { offset - 2 * scale, offset - 2 * scale };
+        lcd.fillRect(px, { scale * 4, scale * 4 }, Color::Black);
 
-        cache1.clear();
-        cache_line(cache1, pts[0].x, pts[0].y, pts[1].x, pts[1].y);
-        cache_line(cache1, pts[1].x, pts[1].y, pts[2].x, pts[2].y);
-        cache_line(cache1, pts[2].x, pts[2].y, pts[3].x, pts[3].y);
-        cache_line(cache1, pts[3].x, pts[3].y, pts[0].x, pts[0].y);
-        cache_line(cache1, pts[4].x, pts[4].y, pts[5].x, pts[5].y);
-        cache_line(cache1, pts[5].x, pts[5].y, pts[6].x, pts[6].y);
-        cache_line(cache1, pts[6].x, pts[6].y, pts[7].x, pts[7].y);
-        cache_line(cache1, pts[7].x, pts[7].y, pts[4].x, pts[4].y);
         for (int i = 0; i < 4; i++)
-            cache_line(cache1, pts[i].x, pts[i].y, pts[i + 4].x, pts[i + 4].y);
-
-        for (int i = 0; i < cache1.size(); i++)
-            lcd.drawPixel(cache1[i], Color::White);
+        {
+            int j = i + 1;
+            if (j % 4 == 0) j -= 4;
+            lcd.drawLine({ pts[i].x, pts[i].y }, { pts[j].x, pts[j].y }, Color::White);
+            lcd.drawLine({ pts[i + 4].x, pts[i + 4].y }, { pts[j + 4].x, pts[j + 4].y }, Color::White);
+            lcd.drawLine({ pts[i].x, pts[i].y }, { pts[i + 4].x, pts[i + 4].y }, Color::White);
+        }
     }
 };
     
