@@ -13,8 +13,8 @@ public:
     using iterator_type = const _Tp *;
     using size_type     = size_t;
 
-    explicit constexpr iterator(_Tp *__ptr) noexcept : m_internal(__ptr) {}
-    explicit constexpr iterator(const _Tp *__ptr) noexcept : m_internal(__ptr) {}
+    constexpr iterator(_Tp *__ptr) noexcept : m_internal(__ptr) {}
+    constexpr iterator(const _Tp *__ptr) noexcept : m_internal(__ptr) {}
 
     iterator &operator++() noexcept                              { ++m_internal; return *this; }
     iterator &operator--() noexcept                              { --m_internal; return *this; }
@@ -37,6 +37,9 @@ public:
     _Tp &operator*() const noexcept                              { return *m_internal; }
     _Tp *operator->() noexcept                                   { return m_internal; }
     _Tp *operator->() const noexcept                             { return m_internal; }
+
+    bool operator==(_Tp * __ptr) { return __ptr == m_internal; }
+    bool operator==(const _Tp * __ptr) { return __ptr == m_internal; }
 
 protected:
     iterator_type m_internal;
@@ -73,6 +76,9 @@ public:
     _Tp &operator*() const noexcept                                      { return *m_internal; }
     _Tp *operator->() noexcept                                           { return m_internal; }
     _Tp *operator->() const noexcept                                     { return m_internal; }
+
+    bool operator==(_Tp * __ptr) { return __ptr == m_internal; }
+    bool operator==(const _Tp * __ptr) { return __ptr == m_internal; }
 
 protected:
     reverse_iterator_type m_internal;

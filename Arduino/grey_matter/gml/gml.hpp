@@ -7,5 +7,3 @@
 #   include "iterator.hpp"
 #   include "vector.hpp"
 #endif // GML_STL
-
-#define LOOP(_Expr) do { _Expr; } while(1)

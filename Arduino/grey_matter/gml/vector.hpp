@@ -153,7 +153,7 @@ public:
 		return { m_data };
 	}
 
-    constexpr const_iterator begin() const noexcept
+    const_iterator begin() const noexcept
     {
 		return { m_data };
 	}
@@ -163,7 +163,7 @@ public:
 		return { m_data + m_size };
 	}
 
-    constexpr const_iterator end() const noexcept
+    const_iterator end() const noexcept
     {
 		return { m_data + m_size };
 	}
@@ -173,7 +173,7 @@ public:
 		return { m_data + m_size - 1 };
 	}
 
-    constexpr const_reverse_iterator rbegin() const noexcept
+    const_reverse_iterator rbegin() const noexcept
     {
 		return { m_data + m_size - 1 };
 	}
@@ -183,7 +183,7 @@ public:
 		return { m_data - 1 };
 	}
 
-    constexpr const_reverse_iterator rend() const noexcept
+    const_reverse_iterator rend() const noexcept
     {
 		return { m_data - 1 };
 	}
@@ -288,11 +288,13 @@ public:
             ++__first;
             ++__pos;
         }
+        const auto __index = __pos - m_data;
+        return m_data + __index;
     }
 
     iterator insert(iterator __pos, initializer_list<_Tp> __il)
     {
-        insert(__pos, __il.begin(), __il.end());
+        return insert(__pos, __il.begin(), __il.end());
     }
 
     template <class ..._Args>
@@ -382,9 +384,9 @@ public:
 
     void swap(vector<value_type> &__v) {
         if (this == &__v) return;
-        swap(m_data, __v.m_data);
-        swap(m_size, __v.m_size);
-        swap(m_capacity, __v.m_capacity);
+        std::swap<pointer>(m_data, __v.m_data);
+        std::swap<size_type>(m_size, __v.m_size);
+        std::swap<size_type>(m_capacity, __v.m_capacity);
     }
 
 protected:
