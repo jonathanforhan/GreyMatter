@@ -1464,4 +1464,44 @@ void GMLCD::writeRegister32(uint8_t r, uint32_t d)
     CS_IDLE;
 }
 
+void GMLCD::printCentered(const char *s, uint16_t _h)
+{
+    auto x_start = getCursorX();
+    auto y_start = getCursorY();
+    int16_t x, y;
+    uint16_t w, h;
+    Adafruit_GFX::getTextBounds(s, 0, 0, &x, &y, &w, &h);
+    setCursor(_width / 2 - w / 2, _h);
+    print(s);
+    setCursor(x_start, y_start);
+}
+
+void GMLCD::printCentered(const String &s, uint16_t _h)
+{
+    auto x_start = getCursorX();
+    auto y_start = getCursorY();
+    int16_t x, y;
+    uint16_t w, h;
+    Adafruit_GFX::getTextBounds(s, 0, 0, &x, &y, &w, &h);
+    setCursor(_width / 2 - w / 2, _h);
+    print(s);
+    setCursor(x_start, y_start);
+}
+
+Size GMLCD::getTextBounds(const char *s, Point px)
+{
+    int16_t x, y;
+    uint16_t w, h;
+    Adafruit_GFX::getTextBounds(s, (int)px.x, (int)px.y, &x, &y, &w, &h);
+    return { w, h };
+}
+
+Size GMLCD::getTextBounds(const String &s, Point px)
+{
+    int16_t x, y;
+    uint16_t w, h;
+    Adafruit_GFX::getTextBounds(s, (int)px.x, (int)px.y, &x, &y, &w, &h);
+    return { w, h };
+}
+
 } // namespace gmlcd

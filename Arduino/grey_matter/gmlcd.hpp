@@ -9,6 +9,9 @@
 #include "gmlcd/Point.hpp"
 #include "gmlcd/Size.hpp"
 
+#define LCD_WIDTH 320
+#define LCD_HEIGHT 240
+
 namespace gmlcd {
         
 enum class Color : uint16_t {
@@ -59,6 +62,9 @@ public:
     constexpr void drawLine(Point src, Point dst, Color color)
     { Adafruit_GFX::drawLine(src.x, src.y, dst.x, dst.y, (uint16_t)color); }
 
+    constexpr void drawLine(Point src, Point dst, uint16_t color)
+    { Adafruit_GFX::drawLine(src.x, src.y, dst.x, dst.y, color); }
+
     constexpr void fillRect(Point px, Size size, Color color)
     { fillRect(px.x, px.y, size.w, size.h, (uint16_t)color); }
 
@@ -67,6 +73,12 @@ public:
 
     constexpr void drawRect(Point px, Size size, Color color)
     { Adafruit_GFX::drawRect(px.x, px.y, size.w, size.h, (uint16_t)color); }
+
+    void printCentered(const char *s, uint16_t h);
+    void printCentered(const String &s, uint16_t h);
+
+    Size getTextBounds(const char *s, Point px = { 0, 0 });
+    Size getTextBounds(const String &s, Point px = { 0, 0 });
 
 private:
     void init(),
