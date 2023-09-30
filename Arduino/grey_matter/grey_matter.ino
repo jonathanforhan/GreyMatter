@@ -1,51 +1,22 @@
 #define GML_STL 1
-#include "gml/gml.hpp"
-#include "gmgui.hpp"
-#include "DHT.h"
+#include "gm_stl/gm_stl.hpp"
+#include "gm_gfx_LCD.hpp"
 
-#define DHT22_PIN 50
+using namespace gm;
 
-using namespace gmlcd;
-
-GMLCD lcd;
-GMGUI gui(lcd);
-Waveform waveform(lcd);
-
-DHT dht22(DHT22_PIN, DHT22);
-
-void setup()
+MAIN()
 {
     Serial.begin(9600);
-    gui.init();
-    dht22.begin();
-}
+    gfx::LCD lcd(A3, A2, A1, A0, A4);
+    lcd.reset();
+    lcd.begin();
+    lcd.set_rotation(gfx::Rotation::r270);
+    lcd.set_cursor({ 10, 10 });
 
-void loop()
-{
-    float now = millis();
-    std::vector<float> dht_data;
-
-    gui.loadingScreen("initializing sensors...", [&]() {
-        if (millis() >= now + 2000)
-        {
-            dht_data.push_back(dht22.readHumidity());
-            now = millis();
-        }
-        return dht_data.size() >= 2;
-    });
-
-    waveform.redraw();
-    waveform.draw(dht_data);
-    now = millis();
-    for (;;)
+    lcd.fill_screen(gfx::Black);
+    lcd.print("Hello, World");
+    lcd.fill_rect({ 20, 20 }, { 50, 50 }, gfx::Red);
+    LOOP()
     {
-        if (millis() >= now + 2000)
-        {
-            now = millis();
-            dht_data.push_back(dht22.readHumidity());
-            waveform.draw(dht_data);
-            if (dht_data.size() == 96)
-                dht_data.pop_front();
-        }
     }
 }
