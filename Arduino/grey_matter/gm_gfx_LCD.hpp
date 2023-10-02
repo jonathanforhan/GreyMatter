@@ -1,11 +1,7 @@
 #pragma once
-
 #include "Arduino.h"
 #include "Print.h"
 #include "gm_gfx_Font.hpp"
-#include <Adafruit_I2CDevice.h>
-#include <Adafruit_SPIDevice.h>
-
 #include "gm_gfx_Vec2.hpp"
 
 namespace gm::gfx {
@@ -23,7 +19,7 @@ enum Color : color_t
     White   = 0xFFFF,
 };
 
-using rotation_t = uint16_t;
+using rotation_t = uint8_t;
 enum Rotation : rotation_t
 {
     r0      = 0,
@@ -34,30 +30,39 @@ enum Rotation : rotation_t
 
 class LCD : public Print
 {
-
 public:
-    LCD(uint8_t cs, uint8_t cd, uint8_t wr, uint8_t rd, uint8_t rst);
+    LCD(uint8_t cs = A3, uint8_t cd = A2, uint8_t wr = A1, uint8_t rd = A0, uint8_t rst = A4);
 
     void begin(uint16_t id = 0x9341);
     void reset();
     void setAddrWindow(int x1, int y1, int x2, int y2);
     void setLR();
     void flood(uint16_t color, uint32_t len);
+
     void draw_px(int16_t x, int16_t y, color_t color);
-    void draw_px(Pixel px, color_t color);
     void draw_h_line(int16_t x, int16_t y, int16_t w, color_t color);
-    void draw_h_line(Pixel px, int16_t w, color_t color);
     void draw_v_line(int16_t x, int16_t y, int16_t h, color_t color);
-    void draw_v_line(Pixel px, int16_t h, color_t color);
     void draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, color_t color);
-    void draw_line(Pixel src, Pixel dst, color_t color);
+    void draw_bitmap(int16_t x, int16_t y, uint8_t *bitmap, int16_t w, int16_t h, color_t color);
     void fill_rect(int16_t x, int16_t y, int16_t w, int16_t h, color_t color);
-    void fill_rect(Pixel px, Size size, color_t color);
+    void draw_line_to_bitmap(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint8_t *bitmap, int16_t w, int16_t h);
+
+    void draw_px(Pixel px, color_t color)                  { draw_px(px.x, px.y, color); }
+    void draw_h_line(Pixel px, int16_t w, color_t color)   { draw_h_line(px.x, px.y, w, color); }
+    void draw_v_line(Pixel px, int16_t h, color_t color)   { draw_v_line(px.x, px.y, h, color); }
+    void draw_line(Pixel src, Pixel dst, color_t color)    { draw_line(src.x, src.y, dst.x, dst.y, color); }
+    void fill_rect(Pixel px, Size size, color_t color)     { fill_rect(px.x, px.y, size.x, size.y, color); }
+    void draw_bitmap(Pixel px, uint8_t *bitmap, Size size, color_t color)
+    { draw_bitmap(px.x, px.y, bitmap, size.x, size.y, color); }
+    void draw_line_to_bitmap(Pixel src, Pixel dst, uint8_t *bitmap, Size size)
+    { draw_line_to_bitmap(src.x, src.y, dst.x, dst.y, bitmap, size.x, size.y); }
+
     void fill_screen(color_t color);
     void set_rotation(rotation_t rotation);
-
-    void draw_char(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size);
-    void draw_char(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size_x, uint8_t size_y);
+    void draw_char(int16_t x, int16_t y, unsigned char c, color_t color, uint16_t bg, uint8_t size);
+    void draw_char(int16_t x, int16_t y, unsigned char c, color_t color, uint16_t bg, uint8_t size_x, uint8_t size_y);
+    void print_centered(const char *str, int16_t h);
+    void print_centered(const String &str, int16_t h);
     void get_text_bounds(const char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h);
     void get_text_bounds(const __FlashStringHelper *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h);
     void get_text_bounds(const String &str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h);
@@ -69,7 +74,7 @@ public:
     size_t write(uint8_t) override;
 
     void set_cursor(int16_t x, int16_t y)   { _cursor.x = x; _cursor.y = y; }
-    void set_cursor(Point2 pnt)             { _cursor.x = pnt.x; _cursor.y = pnt.y; }
+    void set_cursor(Position pos)           { _cursor.x = pos.x; _cursor.y = pos.y; }
     void set_text_color(color_t c)          { _text_fg = c; }
     void set_text_color(color_t c, color_t bg) { _text_fg = c; _text_bg = bg; }
     void set_text_wrap(bool b = true)       { _wrap = b; }
@@ -90,11 +95,11 @@ protected:
     int16_t WIDTH;        // This is the 'raw' display width - never changes
     int16_t HEIGHT;       // This is the 'raw' display height - never changes
     Size _dimensions;     // Display dimensions as modified by current rotation
-    Point2 _cursor;
+    Position _cursor;
     color_t _text_fg;
     color_t _text_bg;
     Size _text_size;
-    uint8_t _rotation;
+    rotation_t _rotation;
     bool _wrap;
 
 private:
@@ -135,10 +140,7 @@ private:
     Pio *csPort, *cdPort, *wrPort, *rdPort;
     uint32_t csPinSet, cdPinSet, wrPinSet, rdPinSet, csPinUnset, cdPinUnset, wrPinUnset, rdPinUnset, _reset;
 #endif
-
 #endif
 };
-
-#define Color565 color565
 
 } // namespace gm::gfx

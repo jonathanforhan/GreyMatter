@@ -27,7 +27,8 @@ struct Vec2
     constexpr bool operator!=(const Vec2 &v)   { return !(*this == v); }
 };
 
-using Point2 = Vec2<int16_t>;
+using Point2 = Vec2<float>;
+using Position = Vec2<int16_t>;
 using Pixel = Vec2<int16_t>;
 using Size = Vec2<int16_t>;
 

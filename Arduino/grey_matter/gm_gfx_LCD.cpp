@@ -1,4 +1,3 @@
-#include "gm_gfx_Font.ipp"
 #ifdef __AVR__
 #   include <avr/pgmspace.h>
 #elif defined(ESP8266) || defined(ESP32)
@@ -8,7 +7,7 @@
 #ifndef pgm_read_byte
 #   define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #endif
-#   ifndef pgm_read_word
+#ifndef pgm_read_word
 #   define pgm_read_word(addr) (*(const unsigned short *)(addr))
 #endif
 #ifndef pgm_read_dword
@@ -26,16 +25,12 @@
 #if defined(__SAM3X8E__)
 #   include <include/pio.h>
 #   define PROGMEM
-#   define pgm_read_byte(addr) (*(const unsigned char *)(addr))
-#   define pgm_read_word(addr) (*(const unsigned short *)(addr))
-#endif
-#ifdef __AVR__
-#   include <avr/pgmspace.h>
 #endif
 #include "pins_arduino.h"
 #include "wiring_private.h"
-#include "gm_gfx_LCD.hpp"
 #include "detail/pin_magic.h"
+#include "gm_gfx_LCD.hpp"
+#include "gm_gfx_Font.ipp"
 
 #define TFTWIDTH   240
 #define TFTHEIGHT  320
@@ -44,7 +39,7 @@
 #define ID_932X    0
 #define ID_7575    1
 #define ID_9341    2
-#define ID_HX8357D    3
+#define ID_HX8357D 3
 #define ID_4535    4
 #define ID_9481    5
 #define ID_UNKNOWN 0xFF
@@ -53,6 +48,8 @@
 
 #define GML_STL 1
 #include "gm_stl/gm_stl.hpp"
+
+#define GM_USE_9341 1
 
 namespace gm::gfx {
 
@@ -522,6 +519,7 @@ void LCD::reset()
 void LCD::setAddrWindow(int x1, int y1, int x2, int y2)
 {
     CS_ACTIVE;
+#ifndef GM_USE_9341
     if (driver == ID_932X)
     {
 
@@ -585,6 +583,7 @@ void LCD::setAddrWindow(int x1, int y1, int x2, int y2)
     }
     else if ((driver == ID_9341) || (driver == ID_HX8357D))
     {
+#endif // GM_USE_9341
         uint32_t t;
 
         t = x1;
@@ -595,7 +594,9 @@ void LCD::setAddrWindow(int x1, int y1, int x2, int y2)
         t <<= 16;
         t |= y2;
         writeRegister32(ILI9341_PAGEADDRSET, t); // HX8357D uses same registers!
+#ifndef GM_USE_9341
     }
+#endif // GM_USE_9341
     CS_IDLE;
 }
 
@@ -624,9 +625,12 @@ void LCD::flood(uint16_t color, uint32_t len)
 
     CS_ACTIVE;
     CD_COMMAND;
+#ifndef GM_USE_9341
     if (driver == ID_9341)
     {
+#endif // GM_USE_9341
         write8(0x2C);
+#ifndef GM_USE_9341
     }
     else if (driver == ID_932X)
     {
@@ -641,6 +645,7 @@ void LCD::flood(uint16_t color, uint32_t len)
     {
         write8(0x22); // Write data to GRAM
     }
+#endif // GM_USE_9341
 
     // Write first pixel normally, decrement counter by 1
     CD_DATA;
@@ -707,7 +712,9 @@ void LCD::draw_px(int16_t x, int16_t y, color_t color)
     if (x < 0 || y < 0 || x >= _dimensions.x || y >= _dimensions.y)
         return;
 
-    CS_ACTIVE; if(driver == ID_932X)
+    CS_ACTIVE;
+#ifndef GM_USE_9341
+    if(driver == ID_932X)
     {
         int16_t t;
         switch (_rotation)
@@ -763,6 +770,7 @@ void LCD::draw_px(int16_t x, int16_t y, color_t color)
     }
     else if ((driver == ID_9341) || (driver == ID_HX8357D))
     {
+#endif // GM_USE_9341
         setAddrWindow(x, y, _dimensions.x - 1, _dimensions.y - 1);
         CS_ACTIVE;
         CD_COMMAND;
@@ -770,13 +778,10 @@ void LCD::draw_px(int16_t x, int16_t y, color_t color)
         CD_DATA;
         write8(color >> 8);
         write8(color);
+#ifndef GM_USE_9341
     }
+#endif // GM_USE_9341
     CS_IDLE;
-}
-
-void LCD::draw_px(Pixel px, color_t color)
-{
-    draw_px(px.x, px.y, color);
 }
 
 void LCD::draw_h_line(int16_t x, int16_t y, int16_t w, color_t color)
@@ -806,11 +811,6 @@ void LCD::draw_h_line(int16_t x, int16_t y, int16_t w, color_t color)
         : setLR();
 }
 
-void LCD::draw_h_line(Pixel px, int16_t w, color_t color)
-{
-    draw_h_line(px.x, px.y, w, color);
-}
-
 void LCD::draw_v_line(int16_t x, int16_t y, int16_t h, color_t color)
 {
     int16_t y2;
@@ -838,16 +838,22 @@ void LCD::draw_v_line(int16_t x, int16_t y, int16_t h, color_t color)
         : setLR();
 }
 
-void LCD::draw_v_line(Pixel px, int16_t h, color_t color)
-{
-    draw_v_line(px.x, px.y, h, color);
-}
-
 void LCD::draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, color_t color)
 {
+    if (x0 == x1) {
+        if (y0 > y1)
+            std::swap(y0, y1);
+        return draw_v_line(x0, y0, y1 - y0 + 1, color);
+    } else if (y0 == y1) {
+        if (x0 > x1)
+            std::swap(x0, x1);
+        return draw_h_line(x0, y0, x1 - x0 + 1, color);
+    }
+
 #if defined(ESP8266)
     yield();
 #endif
+
     int steep = abs(y1 - y0) > abs(x1 - x0);
     if (steep)
     {
@@ -882,9 +888,26 @@ void LCD::draw_line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, color_t colo
     }
 }
 
-void LCD::draw_line(Pixel src, Pixel dst, color_t color)
+void LCD::draw_bitmap(int16_t x, int16_t y, uint8_t *bitmap, int16_t w, int16_t h, color_t color)
 {
-    draw_line(src.x, src.y, dst.x, dst.y, color);
+    int16_t byteWidth = (w + 7) / 8; // Bitmap scanline pad = whole byte
+    uint8_t b = 0;
+
+    for (int16_t j = 0; j < h; j++, y++)
+    {
+        for (int16_t i = 0; i < w; i++)
+        {
+            if (i & 7)
+                b <<= 1;
+            else
+                b = bitmap[j * byteWidth + i / 8];
+
+            if (b & 0x80)
+            {
+                draw_px(x + i, y, color);
+            }
+        }
+    }
 }
 
 void LCD::fill_rect(int16_t x1, int16_t y1, int16_t w, int16_t h, color_t color) {
@@ -925,9 +948,45 @@ void LCD::fill_rect(int16_t x1, int16_t y1, int16_t w, int16_t h, color_t color)
         : setLR();
 }
 
-void LCD::fill_rect(Pixel px, Size size, color_t color)
+// instead of drawing to screen draw line to a w * h dimensioned bitmap
+// this is used to reduce the time inbetween draws by doing the calculations upfront
+void LCD::draw_line_to_bitmap(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint8_t *bitmap, int16_t w, int16_t h)
 {
-    fill_rect(px.x, px.y, size.x, size.y, color);
+    int16_t byteWidth = (w + 7) / 8; // Bitmap scanline pad = whole byte
+    int steep = abs(y1 - y0) > abs(x1 - x0);
+    if (steep)
+    {
+        std::swap(x0, y0);
+        std::swap(x1, y1);
+    }
+
+    if (x0 > x1)
+    {
+        std::swap(x0, x1);
+        std::swap(y0, y1);
+    }
+
+    int dx = x1 - x0;
+    int dy = abs(y1 - y0);
+
+    int err = dx / 2;
+    int ystep = y0 < y1 ? 1 : -1;
+
+    for (; x0 <= x1; x0++)
+    {
+        Pixel px = steep ? Pixel{ y0, x0 } : Pixel{ x0, y0 }; 
+        if (px.x < w && px.y < h)
+        {
+            bitmap[px.y * byteWidth + px.x / 8] |= 0x80 >> (px.x % 8);
+        }
+
+        err -= dy;
+        if (err < 0)
+        {
+            y0 += ystep;
+            err += dx;
+        }
+    }
 }
 
 void LCD::fill_screen(color_t color)
@@ -965,14 +1024,13 @@ void LCD::fill_screen(color_t color)
         writeRegister16(0x0020, x);
         writeRegister16(0x0021, y);
     } else if ((driver == ID_9341) || (driver == ID_7575) || (driver == ID_HX8357D)) {
-    // For these, there is no settable address pointer, instead the
-    // address window must be set for each drawing operation.  However,
-    // this display takes rotation into account for the parameters, no
-    // need to do extra rotation math here.
-    setAddrWindow(0, 0, _dimensions.x - 1, _dimensions.y - 1);
-
-  }
-  flood(color, (long)TFTWIDTH * (long)TFTHEIGHT);
+        // For these, there is no settable address pointer, instead the
+        // address window must be set for each drawing operation.  However,
+        // this display takes rotation into account for the parameters, no
+        // need to do extra rotation math here.
+        setAddrWindow(0, 0, _dimensions.x - 1, _dimensions.y - 1);
+    }
+    flood(color, (long)TFTWIDTH * (long)TFTHEIGHT);
 }
 
 void LCD::set_rotation(rotation_t x)
@@ -1092,12 +1150,12 @@ void LCD::set_rotation(rotation_t x)
     }
 }
 
-void LCD::draw_char(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size)
+void LCD::draw_char(int16_t x, int16_t y, unsigned char c, color_t color, uint16_t bg, uint8_t size)
 {
     draw_char(x, y, c, color, bg, size, size);
 }
 
-void LCD::draw_char(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size_x, uint8_t size_y)
+void LCD::draw_char(int16_t x, int16_t y, unsigned char c, color_t color, uint16_t bg, uint8_t size_x, uint8_t size_y)
 {
 
     if (x >= _dimensions.x || y >= _dimensions.y || (x + 6 * size_x - 1) < 0 || (y + 8 * size_y - 1) < 0)
@@ -1129,6 +1187,18 @@ void LCD::draw_char(int16_t x, int16_t y, unsigned char c, uint16_t color, uint1
         else
             fill_rect(x + 5 * size_x, y, size_x, 8 * size_y, bg);
     }
+}
+
+void LCD::print_centered(const char *str, int16_t h)
+{
+    auto size = get_text_dimensions(str);
+    set_cursor(_dimensions.x / 2 - size.x / 2, h);
+    print(str);
+}
+
+void LCD::print_centered(const String &str, int16_t h)
+{
+    print_centered(str.c_str(), h);
 }
 
 void LCD::get_text_bounds(const char *str, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h)

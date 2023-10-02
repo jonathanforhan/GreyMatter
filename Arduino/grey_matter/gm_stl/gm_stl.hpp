@@ -8,4 +8,4 @@
 #endif // GML_STL
 
 #define MAIN() void loop(){} void setup()
-#define LOOP() for (;;)
+#define LOOP(_Expr) for (;;_Expr)
