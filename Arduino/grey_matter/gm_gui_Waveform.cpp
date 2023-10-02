@@ -8,34 +8,63 @@ void Waveform::draw() const
     if (data.size() < 2)
         return;
 
-    lcd.draw_v_line(padding + Size{ 1, 0 }, dimensions.y - 1, Black);
+    lcd.draw_v_line(padding + Size{ 1, 0 }, dimensions.y, Black);
+
+    float min_val = 99999;
+    float max_val = -99999;
+    float numerator = 0;
+    size_t n_elems = 0; // we ignore elements that fail bounding checks so we track n_elems independant of data.size()
 
     for (size_t i = 0; i < data.size(); i++)
     {
-        Pixel px = padding + Pixel{ i + 1, dimensions.y - data[i] };
-        if (data[i] > 0 && data[i] < 101)
-            lcd.draw_px(px, Color::White);
+        if (!(data[i] >= 0 && data[i] < 100))
+            continue;
+
+        Pixel px = padding + Pixel{ i + 1, dimensions.y - data[i] - 1 };
+        lcd.draw_px(px, Color::White);
+
+        min_val = std::min(min_val, data[i]);
+        max_val = std::max(max_val, data[i]);
+        numerator += data[i];
+        n_elems++;
 
         if (i != data.size() - 1 && data[i] != data[i+1])
         {
             px.x++;
-            lcd.draw_px(px, Color::Black);
+            lcd.draw_px(px, Black);
         }
     }
 
-    lcd.set_text_size(1);
+    Size pos = { lcd.width() / 2, padding.y };
+    String msg;
+    auto print_optimal = [this, &pos, &msg](String *base = nullptr) {
+        for (size_t i = 0; i < msg.length(); i++, pos.x += 6)
+            if (!base || i >= base->length() || (*base)[i] != msg[i])
+                lcd.draw_char(pos.x, pos.y, msg[i], White, Black, 1);
 
-    auto new_vpadding = 2 * padding.y + dimensions.y;
+        if (base)
+        {
+            for (size_t i = msg.length(); i < base->length(); i++, pos.x += 6)
+                lcd.draw_char(pos.x, pos.y, ' ', White, Black, 1);
+            *base = msg;
+        }
 
-    auto msg = String("Current ") + title + ": ";
-    Size readout_size = lcd.get_text_dimensions(msg);
+        pos.x = lcd.width() / 2;
+        pos.y += 12;
+    };
 
-    Pixel readout_pos = { padding.x + readout_size.x, new_vpadding };
-    readout_size = lcd.get_text_dimensions("0000000%");
-    lcd.fill_rect(readout_pos, readout_size, Color::Black);
-    lcd.set_cursor(padding.x, new_vpadding);
-
-    lcd.print(msg + data.back() + y_unit);
+    msg = String("Delta T: ") + update_time + "ms";
+    print_optimal();
+    msg = String("Current: ") + data.back() + " " + unit_symbol;
+    print_optimal(const_cast<String *>(&current_read));
+    msg = String("Mean: ") + numerator / n_elems + " " + unit_symbol;
+    print_optimal(const_cast<String *>(&mean));
+    // msg = String("Stdev: ") + data.back() + unit_symbol;
+    // print_optimal(const_cast<String *>(&stdev));
+    msg = String("Min: ") + min_val + " " + unit_symbol;
+    print_optimal(const_cast<String *>(&local_min));
+    msg = String("Max: ") + max_val + " " + unit_symbol;
+    print_optimal(const_cast<String *>(&local_max));
 }
 
 void Waveform::redraw() const
@@ -48,6 +77,11 @@ void Waveform::redraw() const
         lcd.set_text_size(1);
         lcd.print_centered(title, 20);
     }
+    current_read = "";
+    mean = "";
+    stdev = "";
+    local_max = "";
+    local_min = "";
     draw();
 }
 
@@ -59,6 +93,13 @@ bool Waveform::should_update(long ms)
         return true;
     }
     return false;
+}
+
+void Waveform::append(float x)
+{
+    data.push_back(x);
+    if (data.size() >= 100)
+        data.pop_front();
 }
 
 } // namespace gm::gui

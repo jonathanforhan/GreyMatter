@@ -14,4 +14,9 @@ void GUI::begin()
     lcd.set_rotation(gfx::r270);
 }
 
+void GUI::call(size_t i, CallbackAction action)
+{
+    callbacks[i](millis(), action);
+}
+
 } // namespace gm::gui

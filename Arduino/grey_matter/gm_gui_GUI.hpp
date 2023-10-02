@@ -23,10 +23,7 @@ public:
     template <class F>
     void loading_screen(const char *msg, F &&fn);
 
-    void call(size_t i, CallbackAction action)
-    {
-        callbacks[i](millis(), action);
-    }
+    void call(size_t i, CallbackAction action);
 
     gfx::LCD lcd;
     std::vector<void(*)(long, CallbackAction)> callbacks;
@@ -44,13 +41,12 @@ void GUI::loading_screen(const char *msg, F &&fn)
     const float tilt = 0.25f;
     for (;;)
     {
-        theta += 0.15f;
+        theta += 0.1f;
         cube.rotate_y(theta);
         cube.rotate_x(tilt);
         cube.scale({ 12, 12, 12 });
         cube.offset(lcd.dimensions() / 2);
         cube.draw(gfx::White);
-        delay(25);
 
         if (fn()) break;
     }

@@ -7,5 +7,5 @@
 #   include "vector.hpp"
 #endif // GML_STL
 
-#define MAIN() void loop(){} void setup()
-#define LOOP(_Expr) for (;;_Expr)
+#define gm_main() loop(){} void setup()
+#define gm_loop(_Expr) for (;;_Expr)

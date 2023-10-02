@@ -84,8 +84,8 @@ void Cube::draw(color_t color)
     const Pixel position = local_offset - (max_scale + 0.5 * max_scale);
 
     // erase and redraw as close as possible
+    lcd.draw_bitmap(position, bitmap, { xy, xy }, color);
     lcd.draw_bitmap(position, cache, { xy, xy }, gfx::Black);
-    lcd.draw_bitmap(position, bitmap, { xy, xy }, gfx::White);
 
     local_offset = { 0, 0 };
     reset();

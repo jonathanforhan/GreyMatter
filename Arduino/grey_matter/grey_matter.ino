@@ -7,16 +7,18 @@
 #define PREV 68
 #define NEXT 67
 
-#define IR_PIN      30
+#define IR_PIN      22
 #define DHT22_PIN   50
+#define PHOTO_PIN   A15
 
 gm::gui::GUI gui;
 DHT dht22(DHT22_PIN, DHT22);
 
 void dht22_humidity_callback(long, gm::gui::CallbackAction);
 void dht22_temperature_callback(long, gm::gui::CallbackAction);
+void photo_callback(long, gm::gui::CallbackAction);
 
-MAIN()
+void gm_main()
 {
     Serial.begin(9600);
     gui.begin();
@@ -25,6 +27,7 @@ MAIN()
 
     gui.callbacks.push_back(dht22_humidity_callback);
     gui.callbacks.push_back(dht22_temperature_callback);
+    gui.callbacks.push_back(photo_callback);
 
     auto now = millis();
     gui.loading_screen("initializing sensors...", [&]() -> bool {
@@ -40,7 +43,8 @@ MAIN()
 
     size_t index = 0;
     gui.call(index, gm::gui::CallbackAction::Redraw);
-    LOOP()
+
+    gm_loop()
     {
         for (size_t i = 0; i < gui.callbacks.size(); i++)
         {
@@ -54,7 +58,7 @@ MAIN()
             switch (IrReceiver.decodedIRData.command)
             {
             case PREV:
-                index = (index - 1) % gui.callbacks.size();
+                index = (index - 1 + gui.callbacks.size()) % gui.callbacks.size();
                 gui.call(index, gm::gui::CallbackAction::Redraw);
                 break;
             case NEXT:
@@ -69,17 +73,14 @@ MAIN()
 
 void dht22_humidity_callback(long ms, gm::gui::CallbackAction action)
 {
-    static gm::gui::Waveform waveform(gui.lcd, 2000, "DHT22 Humidity", 's', '%');
+    static gm::gui::Waveform waveform(gui.lcd, 2000, "DHT22 Humidity", "Seconds", "Relative Humidity", "%");
 
     if (action == gm::gui::CallbackAction::Redraw)
         waveform.redraw();
 
     if (waveform.should_update(ms))
     {
-        waveform.data.push_back(dht22.readHumidity());
-
-        if (waveform.data.size() > 100)
-            waveform.data.pop_front();
+        waveform.append(dht22.readHumidity());
 
         if (action != gm::gui::CallbackAction::Idle)
             waveform.draw();
@@ -88,17 +89,30 @@ void dht22_humidity_callback(long ms, gm::gui::CallbackAction action)
 
 void dht22_temperature_callback(long ms, gm::gui::CallbackAction action)
 {
-    static gm::gui::Waveform waveform(gui.lcd, 2000, "DHT22 Temperature", 's', 'C');
+    static gm::gui::Waveform waveform(gui.lcd, 2000, "DHT22 Temperature", "Seconds", "Fahrenheit", "F");
 
     if (action == gm::gui::CallbackAction::Redraw)
         waveform.redraw();
 
     if (waveform.should_update(ms))
     {
-        waveform.data.push_back(dht22.readTemperature());
+        waveform.append(dht22.readTemperature(true));
 
-        if (waveform.data.size() > 100)
-            waveform.data.pop_front();
+        if (action != gm::gui::CallbackAction::Idle)
+            waveform.draw();
+    }
+}
+
+void photo_callback(long ms, gm::gui::CallbackAction action)
+{
+    static gm::gui::Waveform waveform(gui.lcd, 80, "Photo Sensor", "Seconds", "Lux", "Lux");
+
+    if (action == gm::gui::CallbackAction::Redraw)
+        waveform.redraw();
+
+    if (waveform.should_update(ms))
+    {
+        waveform.append((static_cast<float>(analogRead(PHOTO_PIN)) / 1023.0f) * 100);
 
         if (action != gm::gui::CallbackAction::Idle)
             waveform.draw();
