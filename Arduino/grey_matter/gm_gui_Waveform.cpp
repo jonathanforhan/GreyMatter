@@ -3,7 +3,7 @@
 namespace gm::gui {
 using namespace gfx;
 
-void Waveform::draw() const
+void Waveform::draw(gfx::Size bounds) const
 {
     if (data.size() < 2)
         return;
@@ -17,10 +17,12 @@ void Waveform::draw() const
 
     for (size_t i = 0; i < data.size(); i++)
     {
-        if (!(data[i] >= 0 && data[i] < 100))
+        float y = this->loglog ? log(data[i]) : data[i];
+        if (!(y >= bounds.x && y < bounds.y))
             continue;
 
-        Pixel px = padding + Pixel{ i + 1, dimensions.y - data[i] - 1 };
+        y = (y / bounds.y) * 100;
+        Pixel px = padding + Pixel{ i + 1, dimensions.y - y - 1 };
         lcd.draw_px(px, Color::White);
 
         min_val = std::min(min_val, data[i]);
@@ -67,7 +69,7 @@ void Waveform::draw() const
     print_optimal(const_cast<String *>(&local_max));
 }
 
-void Waveform::redraw() const
+void Waveform::redraw(gfx::Size bounds) const
 {
     lcd.fill_screen(gfx::Black);
     lcd.draw_v_line(padding, dimensions.y, Green);
@@ -82,7 +84,7 @@ void Waveform::redraw() const
     stdev = "";
     local_max = "";
     local_min = "";
-    draw();
+    draw(bounds);
 }
 
 bool Waveform::should_update(long ms)

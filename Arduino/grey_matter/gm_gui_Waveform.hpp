@@ -8,19 +8,20 @@ namespace gm::gui {
 class Waveform
 {
 public:
-    Waveform(const gfx::LCD &lcd, long update_time, const char *title, const char *x_unit, const char *y_unit, const char *unit_symbol)
+    Waveform(const gfx::LCD &lcd, long update_time, const char *title, const char *x_unit, const char *y_unit, const char *unit_symbol, bool loglog = false)
           : lcd(lcd),
             title(title),
             x_unit(x_unit),
             y_unit(y_unit),
             unit_symbol(unit_symbol),
-            update_time(update_time)
+            update_time(update_time),
+            loglog(loglog)
     {
         last_read = millis();
     }
 
-    void draw() const;
-    void redraw() const;
+    void draw(gfx::Size bounds) const;
+    void redraw(gfx::Size bounds) const;
     bool should_update(long ms);
     // will slide data if data.size() >= 100
     void append(float x);  
@@ -31,6 +32,7 @@ public:
     const char *x_unit;
     const char *y_unit;
     const char *unit_symbol;
+    bool loglog;
 
     String current_read;
     String mean;

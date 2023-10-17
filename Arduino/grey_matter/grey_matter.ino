@@ -9,7 +9,8 @@
 
 #define IR_PIN      22
 #define DHT22_PIN   50
-#define PHOTO_PIN   A15
+#define PHOTO_PIN   A14
+#define UV_PIN      A15
 
 gm::gui::GUI gui;
 DHT dht22(DHT22_PIN, DHT22);
@@ -17,6 +18,7 @@ DHT dht22(DHT22_PIN, DHT22);
 void dht22_humidity_callback(long, gm::gui::CallbackAction);
 void dht22_temperature_callback(long, gm::gui::CallbackAction);
 void photo_callback(long, gm::gui::CallbackAction);
+void uv_callback(long, gm::gui::CallbackAction);
 
 void gm_main()
 {
@@ -28,6 +30,7 @@ void gm_main()
     gui.callbacks.push_back(dht22_humidity_callback);
     gui.callbacks.push_back(dht22_temperature_callback);
     gui.callbacks.push_back(photo_callback);
+    gui.callbacks.push_back(uv_callback);
 
     auto now = millis();
     gui.loading_screen("initializing sensors...", [&]() -> bool {
@@ -76,14 +79,14 @@ void dht22_humidity_callback(long ms, gm::gui::CallbackAction action)
     static gm::gui::Waveform waveform(gui.lcd, 2000, "DHT22 Humidity", "Seconds", "Relative Humidity", "%");
 
     if (action == gm::gui::CallbackAction::Redraw)
-        waveform.redraw();
+        waveform.redraw({ 0, 100 });
 
     if (waveform.should_update(ms))
     {
         waveform.append(dht22.readHumidity());
 
         if (action != gm::gui::CallbackAction::Idle)
-            waveform.draw();
+            waveform.draw({ 0, 100 });
     }
 }
 
@@ -92,29 +95,49 @@ void dht22_temperature_callback(long ms, gm::gui::CallbackAction action)
     static gm::gui::Waveform waveform(gui.lcd, 2000, "DHT22 Temperature", "Seconds", "Fahrenheit", "F");
 
     if (action == gm::gui::CallbackAction::Redraw)
-        waveform.redraw();
+        waveform.redraw({ 0, 100 });
 
     if (waveform.should_update(ms))
     {
         waveform.append(dht22.readTemperature(true));
 
         if (action != gm::gui::CallbackAction::Idle)
-            waveform.draw();
+            waveform.draw({ 0, 100 });
     }
 }
 
 void photo_callback(long ms, gm::gui::CallbackAction action)
 {
-    static gm::gui::Waveform waveform(gui.lcd, 80, "Photo Sensor", "Seconds", "Lux", "Lux");
+    static gm::gui::Waveform waveform(gui.lcd, 30, "Photo Sensor", "Seconds", "Lux", "Lux", true);
+
+    auto calc_lux = [](float x) -> float { return 28.71 * pow(M_E, (0.0075 * x)); };
 
     if (action == gm::gui::CallbackAction::Redraw)
-        waveform.redraw();
+        waveform.redraw({ 0, 12 });
 
     if (waveform.should_update(ms))
     {
-        waveform.append((static_cast<float>(analogRead(PHOTO_PIN)) / 1023.0f) * 100);
+        waveform.append(calc_lux(static_cast<float>(analogRead(PHOTO_PIN))));
 
         if (action != gm::gui::CallbackAction::Idle)
-            waveform.draw();
+            waveform.draw({ 0, 12 });
+    }
+}
+
+void uv_callback(long ms, gm::gui::CallbackAction action)
+{
+    static gm::gui::Waveform waveform(gui.lcd, 30, "UV Sensor", "Seconds", "Lux", "Lux");
+
+    auto calc_percent = [](float x) -> float { return (x / 1023.0f) * 100; };
+
+    if (action == gm::gui::CallbackAction::Redraw)
+        waveform.redraw({ 0, 100 });
+
+    if (waveform.should_update(ms))
+    {
+        waveform.append(calc_percent(static_cast<float>(analogRead(UV_PIN))));
+
+        if (action != gm::gui::CallbackAction::Idle)
+            waveform.draw({ 0, 100 });
     }
 }
