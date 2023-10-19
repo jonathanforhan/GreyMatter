@@ -126,7 +126,7 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
 
 void uv_callback(long ms, gm::gui::CallbackAction action)
 {
-    static gm::gui::Waveform waveform(gui.lcd, 30, "UV Sensor", "Seconds", "Lux", "Lux");
+    static gm::gui::Waveform waveform(gui.lcd, 30, "UV Sensor", "Seconds", "", "");
 
     auto calc_percent = [](float x) -> float { return (x / 1023.0f) * 100; };
 
