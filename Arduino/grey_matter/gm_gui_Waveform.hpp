@@ -22,6 +22,7 @@ public:
 
     void draw(gfx::Size bounds) const;
     void redraw(gfx::Size bounds) const;
+    void export_last(char *sensor) const;
     bool should_update(long ms);
     // will slide data if data.size() >= 100
     void append(float x);  

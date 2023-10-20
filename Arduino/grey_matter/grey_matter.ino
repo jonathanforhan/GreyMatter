@@ -84,6 +84,7 @@ void dht22_humidity_callback(long ms, gm::gui::CallbackAction action)
     if (waveform.should_update(ms))
     {
         waveform.append(dht22.readHumidity());
+        waveform.export_last("humidity");
 
         if (action != gm::gui::CallbackAction::Idle)
             waveform.draw({ 0, 100 });
@@ -100,6 +101,7 @@ void dht22_temperature_callback(long ms, gm::gui::CallbackAction action)
     if (waveform.should_update(ms))
     {
         waveform.append(dht22.readTemperature(true));
+        waveform.export_last("temperature");
 
         if (action != gm::gui::CallbackAction::Idle)
             waveform.draw({ 0, 100 });
@@ -118,6 +120,7 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
     if (waveform.should_update(ms))
     {
         waveform.append(calc_lux(static_cast<float>(analogRead(PHOTO_PIN))));
+        waveform.export_last("photo");
 
         if (action != gm::gui::CallbackAction::Idle)
             waveform.draw({ 0, 12 });
@@ -136,6 +139,7 @@ void uv_callback(long ms, gm::gui::CallbackAction action)
     if (waveform.should_update(ms))
     {
         waveform.append(calc_percent(static_cast<float>(analogRead(UV_PIN))));
+        waveform.export_last("uv");
 
         if (action != gm::gui::CallbackAction::Idle)
             waveform.draw({ 0, 100 });

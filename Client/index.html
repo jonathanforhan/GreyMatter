@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <link rel="stylesheet" href="style.css">
+    <title>Grey Matter</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Grey Matter</h1>
+      <div class="chart">
+        <canvas id="humidity-chart"></canvas>
+        <span id="humidity-read"></span>
+      </div>
+      <div class="chart">
+        <canvas id="temperature-chart"></canvas>
+        <span id="temperature-read"></span>
+      </div>
+      <div class="chart">
+        <canvas id="photo-chart"></canvas>
+        <span id="photo-read"></span>
+      </div>
+      <div class="chart">
+        <canvas id="uv-chart"></canvas>
+        <span id="uv-read"></span>
+      </div>
+    </div>
+
+    <!-- You can also require other files to run in this process -->
+    <script src="./dist/renderer.js"></script>
+  </body>
+</html>
