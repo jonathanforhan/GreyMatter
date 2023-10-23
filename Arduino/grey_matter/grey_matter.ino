@@ -87,7 +87,9 @@ void dht22_humidity_callback(long ms, gm::gui::CallbackAction action)
         waveform.export_last("humidity");
 
         if (action != gm::gui::CallbackAction::Idle)
-            waveform.draw({ 0, 100 });
+        {
+            waveform.draw({0, 100});
+        }
     }
 }
 
@@ -104,13 +106,15 @@ void dht22_temperature_callback(long ms, gm::gui::CallbackAction action)
         waveform.export_last("temperature");
 
         if (action != gm::gui::CallbackAction::Idle)
+        {
             waveform.draw({ 0, 100 });
+        }
     }
 }
 
 void photo_callback(long ms, gm::gui::CallbackAction action)
 {
-    static gm::gui::Waveform waveform(gui.lcd, 30, "Photo Sensor", "Seconds", "Lux", "Lux", true);
+    static gm::gui::Waveform waveform(gui.lcd, 1000, "Photo Sensor", "Seconds", "Lux", "Lux", true);
 
     auto calc_lux = [](float x) -> float { return 28.71 * pow(M_E, (0.0075 * x)); };
 
@@ -123,13 +127,15 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
         waveform.export_last("photo");
 
         if (action != gm::gui::CallbackAction::Idle)
+        {
             waveform.draw({ 0, 12 });
+        }
     }
 }
 
 void uv_callback(long ms, gm::gui::CallbackAction action)
 {
-    static gm::gui::Waveform waveform(gui.lcd, 30, "UV Sensor", "Seconds", "", "");
+    static gm::gui::Waveform waveform(gui.lcd, 1000, "UV Sensor", "Seconds", "", "");
 
     auto calc_percent = [](float x) -> float { return (x / 1023.0f) * 100; };
 
@@ -142,6 +148,8 @@ void uv_callback(long ms, gm::gui::CallbackAction action)
         waveform.export_last("uv");
 
         if (action != gm::gui::CallbackAction::Idle)
+        {
             waveform.draw({ 0, 100 });
+        }
     }
 }

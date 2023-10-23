@@ -17,21 +17,25 @@
   <body>
     <div id="app">
       <h1>Grey Matter</h1>
-      <div class="chart">
-        <canvas id="humidity-chart"></canvas>
-        <span id="humidity-read"></span>
+      <div style="display: flex;">
+        <div class="chart">
+          <canvas id="humidity-chart"></canvas>
+          <span id="humidity-read"></span>
+        </div>
+        <div class="chart">
+          <canvas id="temperature-chart"></canvas>
+          <span id="temperature-read"></span>
+        </div>
       </div>
-      <div class="chart">
-        <canvas id="temperature-chart"></canvas>
-        <span id="temperature-read"></span>
-      </div>
-      <div class="chart">
-        <canvas id="photo-chart"></canvas>
-        <span id="photo-read"></span>
-      </div>
-      <div class="chart">
-        <canvas id="uv-chart"></canvas>
-        <span id="uv-read"></span>
+      <div style="display: flex;">
+        <div class="chart">
+          <canvas id="photo-chart"></canvas>
+          <span id="photo-read"></span>
+        </div>
+        <div class="chart">
+          <canvas id="uv-chart"></canvas>
+          <span id="uv-read"></span>
+        </div>
       </div>
     </div>
 

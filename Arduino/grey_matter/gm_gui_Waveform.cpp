@@ -89,12 +89,11 @@ void Waveform::redraw(gfx::Size bounds) const
 
 void Waveform::export_last(char *sensor) const
 {
-    char buf[64];   // string buffer
-    char f[8];      // float buffer
-    const char *json = R"({ "sensor": "%s", "reading": "%s" })";
-    dtostrf(this->data.back(), 4, 2, f);
-    snprintf(buf, 64, json, sensor, f);
-    Serial.println(buf);
+    Serial.print(R"({"sensor":")");
+    Serial.print(sensor);
+    Serial.print(R"(","reading":")");
+    Serial.print(this->data.back());
+    Serial.println(R"("})");
 }
 
 bool Waveform::should_update(long ms)
