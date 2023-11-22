@@ -10,9 +10,9 @@
 
 namespace std {
 
-/* limited subset of std::vector for arduino */
-/* follows https://en.cppreference.com/w/cpp/container/vector */
-/* the functions are documented on the link, no documentation here */
+/// @brief Subset of std::vector for Arduino
+/// @private
+/// follows https://en.cppreference.com/w/cpp/container/vector
 template <class _Tp>
 class vector
 {

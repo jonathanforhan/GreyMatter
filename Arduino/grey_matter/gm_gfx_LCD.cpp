@@ -600,12 +600,6 @@ void LCD::setAddrWindow(int x1, int y1, int x2, int y2)
     CS_IDLE;
 }
 
-// Unlike the 932X drivers that set the address window to the full screen
-// by default (using the address counter for draw_px operations), the
-// 7575 needs the address window set on all graphics operations.  In order
-// to save a few register writes on each pixel drawn, the lower-right
-// corner of the address window is reset after most fill operations, so
-// that draw_px only needs to change the upper left each time.
 void LCD::setLR(void)
 {
     CS_ACTIVE;
@@ -614,9 +608,6 @@ void LCD::setLR(void)
     CS_IDLE;
 }
 
-// Fast block fill operation for fillScreen, fillRect, H/V line, etc.
-// Requires setAddrWindow() has previously been called to set the fill
-// bounds.  'len' is inclusive, MUST be >= 1.
 void LCD::flood(uint16_t color, uint32_t len)
 {
     uint16_t blocks;

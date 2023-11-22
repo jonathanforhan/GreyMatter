@@ -9,6 +9,8 @@
 
 #define IR_PIN      22
 #define DHT22_PIN   50
+#define WATER_PIN   A13
+#define WATER_POWER_PIN 48
 #define PHOTO_PIN   A14
 #define UV_PIN      A15
 
@@ -19,6 +21,7 @@ void dht22_humidity_callback(long, gm::gui::CallbackAction);
 void dht22_temperature_callback(long, gm::gui::CallbackAction);
 void photo_callback(long, gm::gui::CallbackAction);
 void uv_callback(long, gm::gui::CallbackAction);
+void water_callback(long, gm::gui::CallbackAction);
 
 void gm_main()
 {
@@ -27,10 +30,13 @@ void gm_main()
     dht22.begin();
     IrReceiver.begin(IR_PIN);
 
+    pinMode(WATER_POWER_PIN, OUTPUT);
+
     gui.callbacks.push_back(dht22_humidity_callback);
     gui.callbacks.push_back(dht22_temperature_callback);
     gui.callbacks.push_back(photo_callback);
     gui.callbacks.push_back(uv_callback);
+    gui.callbacks.push_back(water_callback);
 
     auto now = millis();
     gui.loading_screen("initializing sensors...", [&]() -> bool {
@@ -146,6 +152,29 @@ void uv_callback(long ms, gm::gui::CallbackAction action)
     {
         waveform.append(calc_percent(static_cast<float>(analogRead(UV_PIN))));
         waveform.export_last("uv");
+
+        if (action != gm::gui::CallbackAction::Idle)
+        {
+            waveform.draw({ 0, 100 });
+        }
+    }
+}
+
+void water_callback(long ms, gm::gui::CallbackAction action)
+{
+    static gm::gui::Waveform waveform(gui.lcd, 1000, "Water Sensor", "Seconds", "", "");
+
+    auto calc_percent = [](float x) -> float { return (x / 1023.0f) * 100; };
+
+    if (action == gm::gui::CallbackAction::Redraw)
+        waveform.redraw({ 0, 100 });
+
+    if (waveform.should_update(ms))
+    {
+        digitalWrite(WATER_POWER_PIN, HIGH);
+        waveform.append(calc_percent(static_cast<float>(analogRead(WATER_PIN))));
+        digitalWrite(WATER_POWER_PIN, LOW);
+        waveform.export_last("water");
 
         if (action != gm::gui::CallbackAction::Idle)
         {

@@ -52,7 +52,7 @@ void Cube::scale(gfx::Vec3<float> scale)
     }
 }
 
-void Cube::offset(Size offset)
+void Cube::offset(Position offset)
 {
     local_offset += offset;
 }

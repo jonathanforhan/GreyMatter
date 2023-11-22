@@ -8,6 +8,9 @@
 
 namespace std {
 
+/// @brief Subset of std::initializer_list for Arduino
+/// @private
+/// https://en.cppreference.com/w/cpp/utility/initializer_list
 template <class _Tp>
 class initializer_list
 {

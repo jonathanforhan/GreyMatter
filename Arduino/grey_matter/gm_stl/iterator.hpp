@@ -6,6 +6,9 @@
 
 namespace std {
 
+/// @brief Subset of std::iterator for Arduino
+/// @private
+/// https://en.cppreference.com/w/cpp/iterator/iterator
 template <class _Tp>
 class iterator
 {

@@ -6,6 +6,7 @@
 
 namespace gm::gui {
 
+/// @brief Action passed to a GUI callback it can respond accordinly
 enum class CallbackAction
 {
     Idle,
@@ -13,19 +14,34 @@ enum class CallbackAction
     Draw,
 };
 
-// has LCD components, helps with header conflicts and abstraction
+/// @brief has LCD component, helps with header conflicts and abstraction
+/// Higher level abstraction on LCD that contains callbacks to run
 class GUI
 {
 public:
+    /// @brief construct GUI
+    /// @note implicitly non-copyable due to LCD
     GUI();
+
+    /// @brief begin GUI, clears screen and sets rotation
     void begin();
 
+    /// @brief Loading screen callback
+    /// @tparam F C++ datatype of the callback
+    /// @param msg message to print
+    /// @param fn function to run on load
     template <class F>
     void loading_screen(const char *msg, F &&fn);
 
+    /// @brief Call a calback in list with specified action
+    /// @param i index of callback
+    /// @param action action to pass
     void call(size_t i, CallbackAction action);
 
+    /// @brief LCD
     gfx::LCD lcd;
+
+    /// @brief callbacks list
     std::vector<void(*)(long, CallbackAction)> callbacks;
 };
     
