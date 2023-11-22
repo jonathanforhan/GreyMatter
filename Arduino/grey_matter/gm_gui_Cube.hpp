@@ -13,15 +13,15 @@ public:
     /// @param lcd global LCD
     Cube(const gfx::LCD &lcd) : lcd(lcd) { reset(); }
 
-    /// @brief Rotate the Cube along X azis
+    /// @brief Rotate the Cube along X axis
     /// @param theta angle
     void rotate_x(float theta);
 
-    /// @brief Rotate the Cube along Y azis
+    /// @brief Rotate the Cube along Y axis
     /// @param theta angle
 
     void rotate_y(float theta);
-    /// @brief Rotate the Cube along Z azis
+    /// @brief Rotate the Cube along Z axis
     /// @param theta angle
     void rotate_z(float theta);
 

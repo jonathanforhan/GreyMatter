@@ -1,4 +1,13 @@
 #pragma once
+
+/// @file gm_gfx_LCD.hpp
+/// @brief Provides LCD class for writing to TFT_LCD
+///
+/// Abstraction upon the low level bit flipping of registers to produce pixel on the TFT_LCD
+/// The Aruino having limited RAM does not store the pixel data natively, instead all the state is kept on the screen
+/// this is nice but greatly increases the complexity of working with it
+/// All font and mask data is store in PROG_MEM the arduino flash
+
 #include "Arduino.h"
 #include "Print.h"
 #include "gm_gfx_Font.hpp"

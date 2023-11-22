@@ -76,7 +76,8 @@ $(function() {
 <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <p>Example: </p><div class="fragment"><div class="line"><span class="preprocessor">#define GML_STL 1</span></div>
 <div class="line"><span class="preprocessor">#include &quot;gm_stl/gm_stl.hpp&quot;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;gm_gui_GUI.hpp&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="gm__gui___g_u_i_8hpp.html">gm_gui_GUI.hpp</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="gm__io___i_rcodes_8hpp.html">gm_io_IRcodes.hpp</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;IRremote.hpp&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#define PREV 68</span></div>
@@ -84,7 +85,7 @@ $(function() {
 <div class="line"> </div>
 <div class="line"><a class="code hl_class" href="classgm_1_1gui_1_1_g_u_i.html">gm::gui::GUI</a> gui;</div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> any_callback(<span class="keywordtype">long</span>, gm::gui::CallbackAction);</div>
+<div class="line"><span class="keywordtype">void</span> any_callback(<span class="keywordtype">long</span>, <a class="code hl_enumeration" href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">gm::gui::CallbackAction</a>);</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">void</span> gm_main()</div>
 <div class="line">{</div>
@@ -122,11 +123,11 @@ $(function() {
 <div class="line">        {</div>
 <div class="line">            <span class="keywordflow">switch</span> (IrReceiver.decodedIRData.command)</div>
 <div class="line">            {</div>
-<div class="line">            <span class="keywordflow">case</span> PREV:</div>
+<div class="line">            <span class="keywordflow">case</span> gm::io::BACK:</div>
 <div class="line">                index = (index - 1 + gui.<a class="code hl_variable" href="classgm_1_1gui_1_1_g_u_i.html#a51595837c4c1d5ee90155357b4558bd2">callbacks</a>.size()) % gui.<a class="code hl_variable" href="classgm_1_1gui_1_1_g_u_i.html#a51595837c4c1d5ee90155357b4558bd2">callbacks</a>.size();</div>
 <div class="line">                gui.<a class="code hl_function" href="classgm_1_1gui_1_1_g_u_i.html#abb0ff8edc5de02c7911b8c39020583ca">call</a>(index, gm::gui::CallbackAction::Redraw);</div>
 <div class="line">                <span class="keywordflow">break</span>;</div>
-<div class="line">            <span class="keywordflow">case</span> NEXT:</div>
+<div class="line">            <span class="keywordflow">case</span> gm::io::NEXT:</div>
 <div class="line">                index = (index + 1) % gui.<a class="code hl_variable" href="classgm_1_1gui_1_1_g_u_i.html#a51595837c4c1d5ee90155357b4558bd2">callbacks</a>.size();</div>
 <div class="line">                gui.<a class="code hl_function" href="classgm_1_1gui_1_1_g_u_i.html#abb0ff8edc5de02c7911b8c39020583ca">call</a>(index, gm::gui::CallbackAction::Redraw);</div>
 <div class="line">                <span class="keywordflow">break</span>;</div>
@@ -136,7 +137,7 @@ $(function() {
 <div class="line">    }</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> any_callback(<span class="keywordtype">long</span> ms, gm::gui::CallbackAction action)</div>
+<div class="line"><span class="keywordtype">void</span> any_callback(<span class="keywordtype">long</span> ms, <a class="code hl_enumeration" href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">gm::gui::CallbackAction</a> action)</div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">static</span> <a class="code hl_class" href="classgm_1_1gui_1_1_waveform.html">gm::gui::Waveform</a> waveform(gui.<a class="code hl_variable" href="classgm_1_1gui_1_1_g_u_i.html#a8682b09dbe803be6295321b9fc7b96a8">lcd</a>, 2000, <span class="stringliteral">&quot;Title&quot;</span>, <span class="stringliteral">&quot;X Unit&quot;</span>, <span class="stringliteral">&quot;Y Unit&quot;</span>, <span class="stringliteral">&quot;Sym&quot;</span>);</div>
 <div class="line"> </div>
@@ -154,13 +155,16 @@ $(function() {
 <div class="line">        }</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html">gm::gui::GUI</a></div><div class="ttdoc">has LCD component, helps with header conflicts and abstraction Higher level abstraction on LCD that c...</div><div class="ttdef"><b>Definition</b> gm_gui_GUI.hpp:20</div></div>
-<div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html_a51595837c4c1d5ee90155357b4558bd2"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html#a51595837c4c1d5ee90155357b4558bd2">gm::gui::GUI::callbacks</a></div><div class="ttdeci">std::vector&lt; void(*)(long, CallbackAction)&gt; callbacks</div><div class="ttdoc">callbacks list</div><div class="ttdef"><b>Definition</b> gm_gui_GUI.hpp:45</div></div>
-<div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html_a8682b09dbe803be6295321b9fc7b96a8"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html#a8682b09dbe803be6295321b9fc7b96a8">gm::gui::GUI::lcd</a></div><div class="ttdeci">gfx::LCD lcd</div><div class="ttdoc">LCD.</div><div class="ttdef"><b>Definition</b> gm_gui_GUI.hpp:42</div></div>
-<div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html_a87b840fc6769d9116c35da97a1a3a7ca"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html#a87b840fc6769d9116c35da97a1a3a7ca">gm::gui::GUI::loading_screen</a></div><div class="ttdeci">void loading_screen(const char *msg, F &amp;&amp;fn)</div><div class="ttdoc">Loading screen callback.</div><div class="ttdef"><b>Definition</b> gm_gui_GUI.hpp:49</div></div>
+<div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html">gm::gui::GUI</a></div><div class="ttdoc">has LCD component, helps with header conflicts and abstraction Higher level abstraction on LCD that c...</div><div class="ttdef"><b>Definition</b> gm_gui_GUI.hpp:26</div></div>
+<div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html_a51595837c4c1d5ee90155357b4558bd2"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html#a51595837c4c1d5ee90155357b4558bd2">gm::gui::GUI::callbacks</a></div><div class="ttdeci">std::vector&lt; void(*)(long, CallbackAction)&gt; callbacks</div><div class="ttdoc">callbacks list</div><div class="ttdef"><b>Definition</b> gm_gui_GUI.hpp:51</div></div>
+<div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html_a8682b09dbe803be6295321b9fc7b96a8"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html#a8682b09dbe803be6295321b9fc7b96a8">gm::gui::GUI::lcd</a></div><div class="ttdeci">gfx::LCD lcd</div><div class="ttdoc">LCD.</div><div class="ttdef"><b>Definition</b> gm_gui_GUI.hpp:48</div></div>
+<div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html_a87b840fc6769d9116c35da97a1a3a7ca"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html#a87b840fc6769d9116c35da97a1a3a7ca">gm::gui::GUI::loading_screen</a></div><div class="ttdeci">void loading_screen(const char *msg, F &amp;&amp;fn)</div><div class="ttdoc">Loading screen callback.</div><div class="ttdef"><b>Definition</b> gm_gui_GUI.hpp:55</div></div>
 <div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html_ab19e492f5e87d66dc5a8fa0d06c8b1ee"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html#ab19e492f5e87d66dc5a8fa0d06c8b1ee">gm::gui::GUI::begin</a></div><div class="ttdeci">void begin()</div><div class="ttdoc">begin GUI, clears screen and sets rotation</div></div>
 <div class="ttc" id="aclassgm_1_1gui_1_1_g_u_i_html_abb0ff8edc5de02c7911b8c39020583ca"><div class="ttname"><a href="classgm_1_1gui_1_1_g_u_i.html#abb0ff8edc5de02c7911b8c39020583ca">gm::gui::GUI::call</a></div><div class="ttdeci">void call(size_t i, CallbackAction action)</div><div class="ttdoc">Call a calback in list with specified action.</div></div>
 <div class="ttc" id="aclassgm_1_1gui_1_1_waveform_html"><div class="ttname"><a href="classgm_1_1gui_1_1_waveform.html">gm::gui::Waveform</a></div><div class="ttdoc">Wavefor graph implementation.</div><div class="ttdef"><b>Definition</b> gm_gui_Waveform.hpp:10</div></div>
+<div class="ttc" id="agm__gui___g_u_i_8hpp_html"><div class="ttname"><a href="gm__gui___g_u_i_8hpp.html">gm_gui_GUI.hpp</a></div><div class="ttdoc">high-level Graphical abstraction for customer to make a nice UI</div></div>
+<div class="ttc" id="agm__gui___g_u_i_8hpp_html_a910b89412eee7c238569db44de88915c"><div class="ttname"><a href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">gm::gui::CallbackAction</a></div><div class="ttdeci">CallbackAction</div><div class="ttdoc">Action passed to a GUI callback it can respond accordinly.</div><div class="ttdef"><b>Definition</b> gm_gui_GUI.hpp:17</div></div>
+<div class="ttc" id="agm__io___i_rcodes_8hpp_html"><div class="ttname"><a href="gm__io___i_rcodes_8hpp.html">gm_io_IRcodes.hpp</a></div><div class="ttdoc">supply IRremote codes as constexpr vars</div></div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->

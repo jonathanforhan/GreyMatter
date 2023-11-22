@@ -1,16 +1,20 @@
+/// @file grey_matter.ino
+/// @brief main entry into Grey Matter Embedded
+///
+/// @warning A WARNING TO THE CUSTOMER the Arduino Compiler DOES NOT enforce const correctness
+/// However Grey Matter API DOES respect const correctness so any methods called you will not have to worry about mutating const state
+/// Documentation can be found at `docs/GM_Docs.html` Powered by Doxygen
+
 #define GML_STL 1
 #include "gm_stl/gm_stl.hpp"
 #include "gm_gui_GUI.hpp"
+#include "gm_io_IRcodes.hpp"
 #include <DHT.h>
 #include <IRremote.hpp>
-
-#define PREV 68
-#define NEXT 67
 
 #define IR_PIN      22
 #define DHT22_PIN   50
 #define WATER_PIN   A13
-#define WATER_POWER_PIN 48
 #define PHOTO_PIN   A14
 #define UV_PIN      A15
 
@@ -29,8 +33,6 @@ void gm_main()
     gui.begin();
     dht22.begin();
     IrReceiver.begin(IR_PIN);
-
-    pinMode(WATER_POWER_PIN, OUTPUT);
 
     gui.callbacks.push_back(dht22_humidity_callback);
     gui.callbacks.push_back(dht22_temperature_callback);
@@ -64,15 +66,18 @@ void gm_main()
 
         if (IrReceiver.decode())
         {
-            switch (IrReceiver.decodedIRData.command)
+            switch (uint16_t command = IrReceiver.decodedIRData.command)
             {
-            case PREV:
+            case gm::io::IR_BACK:
                 index = (index - 1 + gui.callbacks.size()) % gui.callbacks.size();
                 gui.call(index, gm::gui::CallbackAction::Redraw);
                 break;
-            case NEXT:
+            case gm::io::IR_NEXT:
                 index = (index + 1) % gui.callbacks.size();
                 gui.call(index, gm::gui::CallbackAction::Redraw);
+                break;
+            case gm::io::IR_PLAY:
+                gui.call(index, gm::gui::CallbackAction::Calibrate);
                 break;
             }
             IrReceiver.resume();
@@ -171,9 +176,7 @@ void water_callback(long ms, gm::gui::CallbackAction action)
 
     if (waveform.should_update(ms))
     {
-        digitalWrite(WATER_POWER_PIN, HIGH);
         waveform.append(calc_percent(static_cast<float>(analogRead(WATER_PIN))));
-        digitalWrite(WATER_POWER_PIN, LOW);
         waveform.export_last("water");
 
         if (action != gm::gui::CallbackAction::Idle)

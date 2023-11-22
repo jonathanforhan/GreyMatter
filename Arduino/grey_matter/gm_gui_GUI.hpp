@@ -1,4 +1,10 @@
 #pragma once
+
+/// @file gm_gui_GUI.hpp
+/// @brief high-level Graphical abstraction for customer to make a nice UI
+
+/// @def GM_USE_9341 
+/// @brief An optimization to bypass driver checks on this model
 #define GM_USE_9341 1
 #include "gm_gfx_LCD.hpp"
 #include "gm_gui_Cube.hpp"
@@ -12,6 +18,7 @@ enum class CallbackAction
     Idle,
     Redraw,
     Draw,
+    Calibrate,
 };
 
 /// @brief has LCD component, helps with header conflicts and abstraction

@@ -20,6 +20,7 @@
 /// #define GML_STL 1
 /// #include "gm_stl/gm_stl.hpp"
 /// #include "gm_gui_GUI.hpp"
+/// #include "gm_io_IRcodes.hpp"
 /// #include <IRremote.hpp>
 /// 
 /// #define PREV 68
@@ -65,11 +66,11 @@
 ///         {
 ///             switch (IrReceiver.decodedIRData.command)
 ///             {
-///             case PREV:
+///             case gm::io::BACK:
 ///                 index = (index - 1 + gui.callbacks.size()) % gui.callbacks.size();
 ///                 gui.call(index, gm::gui::CallbackAction::Redraw);
 ///                 break;
-///             case NEXT:
+///             case gm::io::NEXT:
 ///                 index = (index + 1) % gui.callbacks.size();
 ///                 gui.call(index, gm::gui::CallbackAction::Redraw);
 ///                 break;

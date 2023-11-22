@@ -18,7 +18,7 @@ public:
     /// @param unit_symbol unit symbol
     /// @param loglog should display loglog?
     /// @warning in a callback passed to GUI it is recommended to create this class as *static* so it call live in the binary memory of the executable
-    Waveform(const gfx::LCD &lcd, long update_time, const char *title, const char *x_unit, const char *y_unit, const char *unit_symbol, bool loglog = false)
+    Waveform(gfx::LCD &lcd, long update_time, const char *title, const char *x_unit, const char *y_unit, const char *unit_symbol, bool loglog = false)
           : lcd(lcd),
             title(title),
             x_unit(x_unit),
@@ -32,11 +32,11 @@ public:
 
     /// @brief Draw the waveform to screen
     /// @param bounds bounds of waveform
-    void draw(gfx::Size bounds) const;
+    void draw(gfx::Size bounds);
 
     /// @brief Redraw the waveform this is much faster than draw but requires that it was drawn initially
     /// @param bounds bounds of waveform
-    void redraw(gfx::Size bounds) const;
+    void redraw(gfx::Size bounds);
 
     /// @brief Export the last waveform value as JSON over Serial
     /// @param sensor name of sensor in JSON
@@ -71,7 +71,7 @@ private:
     long update_time;
     long last_read;
 
-    const gfx::LCD &lcd;
+    gfx::LCD &lcd;
 };
 
 } // namespace gm::gui

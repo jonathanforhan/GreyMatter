@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['title_0',['title',['../classgm_1_1gui_1_1_waveform.html#a17dd9bb06200444e8dbec5cbe20014b8',1,'gm::gui::Waveform']]]
+  ['stdev_0',['stdev',['../classgm_1_1gui_1_1_waveform.html#a206272a67ded118f3afd319cffd66dff',1,'gm::gui::Waveform']]]
 ];

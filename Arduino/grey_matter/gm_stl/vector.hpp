@@ -204,7 +204,8 @@ public:
     {
         if (m_capacity >= __n) return;
         if (!m_capacity) m_capacity = 1;
-        while (m_capacity < __n) m_capacity <<= 1;
+        // while (m_capacity < __n) m_capacity <<= 1;
+        while (m_capacity < __n) m_capacity += 1; // An Arduino optimization for constrained memory
         pointer __new_data = new value_type[m_capacity];
 
         for (size_type i = 0; i < m_size; i++)

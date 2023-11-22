@@ -1,7 +1,7 @@
 var searchData=
 [
   ['dimensions_0',['dimensions',['../classgm_1_1gfx_1_1_l_c_d.html#a65c7b2acecd8f2f3bf2578c5ce47a1e8',1,'gm::gfx::LCD']]],
-  ['draw_1',['draw',['../classgm_1_1gui_1_1_cube.html#acfaeecb9d8523b8617d230f04c4e4f16',1,'gm::gui::Cube::draw()'],['../classgm_1_1gui_1_1_waveform.html#a65920a264f3f0d0305fd051e6e9af8e9',1,'gm::gui::Waveform::draw()']]],
+  ['draw_1',['draw',['../classgm_1_1gui_1_1_cube.html#acfaeecb9d8523b8617d230f04c4e4f16',1,'gm::gui::Cube::draw()'],['../classgm_1_1gui_1_1_waveform.html#acc7c984aa35e4ba45c3904254033b258',1,'gm::gui::Waveform::draw()']]],
   ['draw_5fbitmap_2',['draw_bitmap',['../classgm_1_1gfx_1_1_l_c_d.html#aa024d1c06cea95773a864e3d8af50db7',1,'gm::gfx::LCD::draw_bitmap(int16_t x, int16_t y, uint8_t *bitmap, int16_t w, int16_t h, color_t color)'],['../classgm_1_1gfx_1_1_l_c_d.html#a94f9672545d0ce915e064fce7bf03e3f',1,'gm::gfx::LCD::draw_bitmap(Pixel px, uint8_t *bitmap, Size size, color_t color)']]],
   ['draw_5fchar_3',['draw_char',['../classgm_1_1gfx_1_1_l_c_d.html#a73985fd276364f6c4156a400d04dbc04',1,'gm::gfx::LCD::draw_char(int16_t x, int16_t y, unsigned char c, color_t color, uint16_t bg, uint8_t size)'],['../classgm_1_1gfx_1_1_l_c_d.html#af3261f42028c322796e1e4eac6adba37',1,'gm::gfx::LCD::draw_char(int16_t x, int16_t y, unsigned char c, color_t color, uint16_t bg, uint8_t size_x, uint8_t size_y)']]],
   ['draw_5fh_5fline_4',['draw_h_line',['../classgm_1_1gfx_1_1_l_c_d.html#a124c07966b258442f2f4a9f2a908ea1e',1,'gm::gfx::LCD::draw_h_line(int16_t x, int16_t y, int16_t w, color_t color)'],['../classgm_1_1gfx_1_1_l_c_d.html#acdc258922a9c822ca8d959be54fd1a08',1,'gm::gfx::LCD::draw_h_line(Pixel px, int16_t w, color_t color)']]],

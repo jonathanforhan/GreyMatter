@@ -1,13 +1,11 @@
 var searchData=
 [
-  ['scale_0',['scale',['../classgm_1_1gui_1_1_cube.html#a1f33e129c0ecc9c8f31c681f63f99ffc',1,'gm::gui::Cube']]],
-  ['set_5fcursor_1',['set_cursor',['../classgm_1_1gfx_1_1_l_c_d.html#a3573cc44c8dfc07469df67339e6fe692',1,'gm::gfx::LCD::set_cursor(int16_t x, int16_t y)'],['../classgm_1_1gfx_1_1_l_c_d.html#a12baa726991d3dd991c06fb5ea88a943',1,'gm::gfx::LCD::set_cursor(Position pos)']]],
-  ['set_5frotation_2',['set_rotation',['../classgm_1_1gfx_1_1_l_c_d.html#a70368f684c3aa74a84287d7254d1fe48',1,'gm::gfx::LCD']]],
-  ['set_5ftext_5fcolor_3',['set_text_color',['../classgm_1_1gfx_1_1_l_c_d.html#a62bfdfb61730cf5f7e1725ce7c7df4bd',1,'gm::gfx::LCD::set_text_color(color_t c)'],['../classgm_1_1gfx_1_1_l_c_d.html#a55f51def8bfc2d4a75659867aba8ee5d',1,'gm::gfx::LCD::set_text_color(color_t c, color_t bg)']]],
-  ['set_5ftext_5fsize_4',['set_text_size',['../classgm_1_1gfx_1_1_l_c_d.html#ab0ed2bb769240fed67081dd8a0e8c884',1,'gm::gfx::LCD::set_text_size(uint8_t s)'],['../classgm_1_1gfx_1_1_l_c_d.html#a669faac53140e114918a19d63109c0cc',1,'gm::gfx::LCD::set_text_size(uint8_t sx, uint8_t sy)']]],
-  ['set_5ftext_5fwrap_5',['set_text_wrap',['../classgm_1_1gfx_1_1_l_c_d.html#acb65b17bc40ca418e46efdf3be8992dc',1,'gm::gfx::LCD']]],
-  ['setaddrwindow_6',['setAddrWindow',['../classgm_1_1gfx_1_1_l_c_d.html#a3361b6820ff9c60a801249a1cabd6933',1,'gm::gfx::LCD']]],
-  ['setlr_7',['setLR',['../classgm_1_1gfx_1_1_l_c_d.html#abf9f598eab36616618639cd0b8721435',1,'gm::gfx::LCD']]],
-  ['should_5fupdate_8',['should_update',['../classgm_1_1gui_1_1_waveform.html#a0d8807dd11560d264c83fc1cfb151582',1,'gm::gui::Waveform']]],
-  ['stdev_9',['stdev',['../classgm_1_1gui_1_1_waveform.html#a206272a67ded118f3afd319cffd66dff',1,'gm::gui::Waveform']]]
+  ['redraw_0',['redraw',['../classgm_1_1gui_1_1_waveform.html#a01032013ea963c19aebaffc558319163',1,'gm::gui::Waveform']]],
+  ['reset_1',['reset',['../classgm_1_1gfx_1_1_l_c_d.html#aadb0b7c7eadecc7a42bf527b4d3852d5',1,'gm::gfx::LCD::reset()'],['../classgm_1_1gui_1_1_cube.html#a79f6445b75eb21e7df134f739af58c47',1,'gm::gui::Cube::reset()']]],
+  ['rotate_5fx_2',['rotate_x',['../classgm_1_1gui_1_1_cube.html#accc53c4ee7cf36ea0c41740cf6345dbe',1,'gm::gui::Cube']]],
+  ['rotate_5fy_3',['rotate_y',['../classgm_1_1gui_1_1_cube.html#aa12f366df383bda3d521841d793cd786',1,'gm::gui::Cube']]],
+  ['rotate_5fz_4',['rotate_z',['../classgm_1_1gui_1_1_cube.html#a73a7d93f53a832a6e88fd833808ee329',1,'gm::gui::Cube']]],
+  ['rotation_5',['rotation',['../classgm_1_1gfx_1_1_l_c_d.html#a81792706ea68a59f047b6257967615a5',1,'gm::gfx::LCD']]],
+  ['rotation_6',['Rotation',['../gm__gfx___l_c_d_8hpp.html#a15983e2d68d7178b3fdfaa413f713f47',1,'gm::gfx']]],
+  ['rotation_5ft_7',['rotation_t',['../gm__gfx___l_c_d_8hpp.html#a283f5ce3c1e0f5bd786a3f68c8c639e5',1,'gm::gfx']]]
 ];

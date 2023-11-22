@@ -3,7 +3,7 @@
 namespace gm::gui {
 using namespace gfx;
 
-void Waveform::draw(gfx::Size bounds) const
+void Waveform::draw(gfx::Size bounds)
 {
     if (data.size() < 2)
         return;
@@ -69,7 +69,7 @@ void Waveform::draw(gfx::Size bounds) const
     print_optimal(const_cast<String *>(&local_max));
 }
 
-void Waveform::redraw(gfx::Size bounds) const
+void Waveform::redraw(gfx::Size bounds)
 {
     lcd.fill_screen(gfx::Black);
     lcd.draw_v_line(padding, dimensions.y, Green);
