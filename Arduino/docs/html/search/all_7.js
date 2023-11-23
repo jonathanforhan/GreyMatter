@@ -10,5 +10,6 @@ var searchData=
   ['gm_5fio_5fircodes_2ehpp_7',['gm_io_IRcodes.hpp',['../gm__io___i_rcodes_8hpp.html',1,'']]],
   ['gm_5fuse_5f9341_8',['GM_USE_9341',['../gm__gui___g_u_i_8hpp.html#a1a6110d5db217c363ace9fc53928e002',1,'gm_gui_GUI.hpp']]],
   ['grey_20matter_20embedded_20api_9',['Grey Matter Embedded API',['../index.html',1,'']]],
-  ['gui_10',['GUI',['../classgm_1_1gui_1_1_g_u_i.html',1,'gm::gui::GUI'],['../classgm_1_1gui_1_1_g_u_i.html#ab719270e76ad59742741f18945cfca69',1,'gm::gui::GUI::GUI()']]]
+  ['gui_10',['GUI',['../classgm_1_1gui_1_1_g_u_i.html',1,'gm::gui::GUI'],['../classgm_1_1gui_1_1_g_u_i.html#ab719270e76ad59742741f18945cfca69',1,'gm::gui::GUI::GUI()']]],
+  ['gui_5fvalue_11',['GUI_VALUE',['../gm__gui___g_u_i_8hpp.html#aad41d403074a0fcfee9f66b23c09fd99',1,'gm::gui']]]
 ];

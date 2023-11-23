@@ -12,6 +12,9 @@
 
 namespace gm::gui {
 
+/// @brief Queriable value representing any info
+extern int GUI_VALUE;
+
 /// @brief Action passed to a GUI callback it can respond accordinly
 enum class CallbackAction
 {
@@ -19,6 +22,13 @@ enum class CallbackAction
     Redraw,
     Draw,
     Calibrate,
+    Next,
+    Back,
+    Up,
+    Down,
+    Increment,
+    Decrement,
+    ValueQuery,
 };
 
 /// @brief has LCD component, helps with header conflicts and abstraction
@@ -45,11 +55,24 @@ public:
     /// @param action action to pass
     void call(size_t i, CallbackAction action);
 
+    /// @brief Upsate callbacks
+    void update();
+
+    /// @brief On external IR input
+    /// @param code IRcode
+    void on_input(uint16_t code);
+
     /// @brief LCD
     gfx::LCD lcd;
 
     /// @brief callbacks list
     std::vector<void(*)(long, CallbackAction)> callbacks;
+
+    /// @brief Index of waveform
+    int index = 0;
+
+    /// @brief is the GUI calibrating
+    bool calibrating = false;
 };
     
 template <class F>
@@ -73,7 +96,7 @@ void GUI::loading_screen(const char *msg, F &&fn)
 
         if (fn()) break;
     }
-    lcd.fill_screen(gfx::Black);
+    call(index, gm::gui::CallbackAction::Redraw);
 }
 
 } // namespace gm::gui

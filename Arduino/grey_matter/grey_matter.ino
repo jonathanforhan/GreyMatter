@@ -8,7 +8,7 @@
 #define GML_STL 1
 #include "gm_stl/gm_stl.hpp"
 #include "gm_gui_GUI.hpp"
-#include "gm_io_IRcodes.hpp"
+#include "gm_gui_Calibration.hpp"
 #include <DHT.h>
 #include <IRremote.hpp>
 
@@ -52,34 +52,13 @@ void gm_main()
         return false;
     });
 
-    size_t index = 0;
-    gui.call(index, gm::gui::CallbackAction::Redraw);
-
     gm_loop()
     {
-        for (size_t i = 0; i < gui.callbacks.size(); i++)
-        {
-            i == index
-                ? gui.call(i, gm::gui::CallbackAction::Draw)
-                : gui.call(i, gm::gui::CallbackAction::Idle);
-        }
+        gui.update();
 
         if (IrReceiver.decode())
         {
-            switch (uint16_t command = IrReceiver.decodedIRData.command)
-            {
-            case gm::io::IR_BACK:
-                index = (index - 1 + gui.callbacks.size()) % gui.callbacks.size();
-                gui.call(index, gm::gui::CallbackAction::Redraw);
-                break;
-            case gm::io::IR_NEXT:
-                index = (index + 1) % gui.callbacks.size();
-                gui.call(index, gm::gui::CallbackAction::Redraw);
-                break;
-            case gm::io::IR_PLAY:
-                gui.call(index, gm::gui::CallbackAction::Calibrate);
-                break;
-            }
+            gui.on_input(IrReceiver.decodedIRData.command);
             IrReceiver.resume();
         }
     }
@@ -127,10 +106,38 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
 {
     static gm::gui::Waveform waveform(gui.lcd, 1000, "Photo Sensor", "Seconds", "Lux", "Lux", true);
 
-    auto calc_lux = [](float x) -> float { return 28.71 * pow(M_E, (0.0075 * x)); };
+    static float coef = 28.71;
+    static float exp = 0.0075;
 
-    if (action == gm::gui::CallbackAction::Redraw)
-        waveform.redraw({ 0, 12 });
+    static gm::gui::Calibration calibration(gui.lcd, {
+        {
+            .title = "Coefficient",
+            .value = &coef,
+        },
+        {
+            .title = "Exponent",
+            .value = &exp,
+            .precision = 4,
+        }
+    });
+
+    auto calc_lux = [](float x) -> float { return coef * pow(M_E, (exp * x)); };
+
+    switch (action)
+    {
+        case gm::gui::CallbackAction::Redraw:
+            calibration.set_active(false);
+            waveform.redraw({0, 12});
+            break;
+        case gm::gui::CallbackAction::Calibrate:
+            calibration.set_active(true);
+            calibration.redraw();
+            break;
+        default:
+            if (calibration.is_active())
+                calibration.handle_ir_action(action);
+            break;
+    }
 
     if (waveform.should_update(ms))
     {
@@ -139,7 +146,9 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
 
         if (action != gm::gui::CallbackAction::Idle)
         {
-            waveform.draw({ 0, 12 });
+            if (!calibration.is_active()) {
+                waveform.draw({0, 12});
+            }
         }
     }
 }

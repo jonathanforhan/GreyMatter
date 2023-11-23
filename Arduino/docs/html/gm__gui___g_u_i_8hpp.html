@@ -76,7 +76,8 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">gm_gui_GUI.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -104,12 +105,31 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a910b89412eee7c238569db44de88915c"><td class="memItemLeft" align="right" valign="top"><a id="a910b89412eee7c238569db44de88915c" name="a910b89412eee7c238569db44de88915c"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">gm::gui::CallbackAction</a> { <b>Idle</b>
+<tr class="memitem:a910b89412eee7c238569db44de88915c"><td class="memItemLeft" align="right" valign="top"><a id="a910b89412eee7c238569db44de88915c" name="a910b89412eee7c238569db44de88915c"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">gm::gui::CallbackAction</a> { <br />
+&#160;&#160;<b>Idle</b>
 , <b>Redraw</b>
 , <b>Draw</b>
+, <b>Calibrate</b>
+, <br />
+&#160;&#160;<b>Next</b>
+, <b>Back</b>
+, <b>Up</b>
+, <b>Down</b>
+, <br />
+&#160;&#160;<b>Increment</b>
+, <b>Decrement</b>
+, <b>ValueQuery</b>
+<br />
  }</td></tr>
 <tr class="memdesc:a910b89412eee7c238569db44de88915c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Action passed to a GUI callback it can respond accordinly. <br /></td></tr>
 <tr class="separator:a910b89412eee7c238569db44de88915c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aad41d403074a0fcfee9f66b23c09fd99"><td class="memItemLeft" align="right" valign="top"><a id="aad41d403074a0fcfee9f66b23c09fd99" name="aad41d403074a0fcfee9f66b23c09fd99"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>gm::gui::GUI_VALUE</b></td></tr>
+<tr class="memdesc:aad41d403074a0fcfee9f66b23c09fd99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queriable value representing any info. <br /></td></tr>
+<tr class="separator:aad41d403074a0fcfee9f66b23c09fd99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>high-level Graphical abstraction for customer to make a nice UI </p>

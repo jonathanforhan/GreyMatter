@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['x_0',['x',['../structgm_1_1gfx_1_1_vec2.html#ad7491eadb8dcc9df4aa81e7cc43e9919',1,'gm::gfx::Vec2::x'],['../structgm_1_1gfx_1_1_vec3.html#a1bd396cf62f664e0238d99ae744a474e',1,'gm::gfx::Vec3::x']]],
-  ['x_5fadvance_1',['x_advance',['../structgm_1_1gfx_1_1_glyph.html#ab573cd4d9d21aae00d38be6dff7f8a6d',1,'gm::gfx::Glyph']]],
-  ['x_5foffset_2',['x_offset',['../structgm_1_1gfx_1_1_glyph.html#a1426269f5cdaadc7da84a58b208466fa',1,'gm::gfx::Glyph']]],
-  ['x_5funit_3',['x_unit',['../classgm_1_1gui_1_1_waveform.html#a326b2519c8a10b9cddc0c128266c9191',1,'gm::gui::Waveform']]]
+  ['waveform_0',['Waveform',['../classgm_1_1gui_1_1_waveform.html',1,'gm::gui::Waveform'],['../classgm_1_1gui_1_1_waveform.html#af1f5eee28d296e1f1d6bd4ee4a183ef7',1,'gm::gui::Waveform::Waveform()']]],
+  ['width_1',['width',['../structgm_1_1gfx_1_1_glyph.html#a7a561c9db1a2ede422d1e839c398aeee',1,'gm::gfx::Glyph::width'],['../classgm_1_1gfx_1_1_l_c_d.html#a343585e0c80b625f287c3713ff69eb3b',1,'gm::gfx::LCD::width() const']]],
+  ['width_2',['WIDTH',['../classgm_1_1gfx_1_1_l_c_d.html#aa2516c1c0b64743b45a6f528e1f8d6b0',1,'gm::gfx::LCD']]],
+  ['write_3',['write',['../classgm_1_1gfx_1_1_l_c_d.html#adabfcb3e3e309572d4bf8373c7414979',1,'gm::gfx::LCD']]]
 ];

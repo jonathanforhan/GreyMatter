@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['offset_0',['offset',['../classgm_1_1gui_1_1_cube.html#aee6fd4504f1fb863179d7516680cba99',1,'gm::gui::Cube']]],
-  ['operator_3d_1',['operator=',['../classgm_1_1gfx_1_1_l_c_d.html#ae14a23d7bcd420cd981f35467428f1e8',1,'gm::gfx::LCD::operator=(const LCD &amp;)=delete'],['../classgm_1_1gfx_1_1_l_c_d.html#a9a813bb4af54ba3d892e8789f46ed9f5',1,'gm::gfx::LCD::operator=(LCD &amp;&amp;)=default']]]
+  ['lcd_0',['LCD',['../classgm_1_1gfx_1_1_l_c_d.html#af1dda3529245fc70f4bcb04887577e54',1,'gm::gfx::LCD::LCD(const LCD &amp;)=delete'],['../classgm_1_1gfx_1_1_l_c_d.html#acba5b8705d9107cf0d3dbe73c3d03519',1,'gm::gfx::LCD::LCD(LCD &amp;&amp;)=default']]],
+  ['loading_5fscreen_1',['loading_screen',['../classgm_1_1gui_1_1_g_u_i.html#a87b840fc6769d9116c35da97a1a3a7ca',1,'gm::gui::GUI']]]
 ];

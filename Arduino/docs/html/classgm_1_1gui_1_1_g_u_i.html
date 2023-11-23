@@ -102,6 +102,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> ()</td></tr
 <tr class="memitem:abb0ff8edc5de02c7911b8c39020583ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_g_u_i.html#abb0ff8edc5de02c7911b8c39020583ca">call</a> (size_t i, <a class="el" href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">CallbackAction</a> action)</td></tr>
 <tr class="memdesc:abb0ff8edc5de02c7911b8c39020583ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call a calback in list with specified action.  <br /></td></tr>
 <tr class="separator:abb0ff8edc5de02c7911b8c39020583ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c6e4044cec90ff3e1713e247d91769d"><td class="memItemLeft" align="right" valign="top"><a id="a3c6e4044cec90ff3e1713e247d91769d" name="a3c6e4044cec90ff3e1713e247d91769d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>update</b> ()</td></tr>
+<tr class="memdesc:a3c6e4044cec90ff3e1713e247d91769d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Upsate callbacks. <br /></td></tr>
+<tr class="separator:a3c6e4044cec90ff3e1713e247d91769d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b4a2f1b01f32332607e79b8d2a2eaf0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_g_u_i.html#a7b4a2f1b01f32332607e79b8d2a2eaf0">on_input</a> (uint16_t code)</td></tr>
+<tr class="memdesc:a7b4a2f1b01f32332607e79b8d2a2eaf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">On external IR input.  <br /></td></tr>
+<tr class="separator:a7b4a2f1b01f32332607e79b8d2a2eaf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -113,6 +120,14 @@ Public Attributes</h2></td></tr>
 std::vector&lt; void(*)(long, <a class="el" href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">CallbackAction</a>)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>callbacks</b></td></tr>
 <tr class="memdesc:a51595837c4c1d5ee90155357b4558bd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">callbacks list <br /></td></tr>
 <tr class="separator:a51595837c4c1d5ee90155357b4558bd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a694caecc4572f54ac91d58d3051eab56"><td class="memItemLeft" align="right" valign="top"><a id="a694caecc4572f54ac91d58d3051eab56" name="a694caecc4572f54ac91d58d3051eab56"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>index</b> = 0</td></tr>
+<tr class="memdesc:a694caecc4572f54ac91d58d3051eab56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index of waveform. <br /></td></tr>
+<tr class="separator:a694caecc4572f54ac91d58d3051eab56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3091b87ffcc6b469be72d7cd3b19c58a"><td class="memItemLeft" align="right" valign="top"><a id="a3091b87ffcc6b469be72d7cd3b19c58a" name="a3091b87ffcc6b469be72d7cd3b19c58a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>calibrating</b> = false</td></tr>
+<tr class="memdesc:a3091b87ffcc6b469be72d7cd3b19c58a"><td class="mdescLeft">&#160;</td><td class="mdescRight">is the <a class="el" href="classgm_1_1gui_1_1_g_u_i.html" title="has LCD component, helps with header conflicts and abstraction Higher level abstraction on LCD that c...">GUI</a> calibrating <br /></td></tr>
+<tr class="separator:a3091b87ffcc6b469be72d7cd3b19c58a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>has LCD component, helps with header conflicts and abstraction Higher level abstraction on LCD that contains callbacks to run </p>
@@ -214,6 +229,32 @@ template&lt;class F &gt; </div>
   <table class="params">
     <tr><td class="paramname">msg</td><td>message to print </td></tr>
     <tr><td class="paramname">fn</td><td>function to run on load </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7b4a2f1b01f32332607e79b8d2a2eaf0" name="a7b4a2f1b01f32332607e79b8d2a2eaf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b4a2f1b01f32332607e79b8d2a2eaf0">&#9670;&#160;</a></span>on_input()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gm::gui::GUI::on_input </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>On external IR input. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">code</td><td>IRcode </td></tr>
   </table>
   </dd>
 </dl>

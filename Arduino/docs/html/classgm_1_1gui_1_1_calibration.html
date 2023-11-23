@@ -74,10 +74,260 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classgm_1_1gui_1_1_calibration-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">gm::gui::Calibration Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="classgm_1_1gui_1_1_calibration.html" title="Calibration class, work in junction with Waveform to provide user calibration.">Calibration</a> class, work in junction with <a class="el" href="classgm_1_1gui_1_1_waveform.html" title="Wavefor graph implementation.">Waveform</a> to provide user calibration.  
+ <a href="classgm_1_1gui_1_1_calibration.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="gm__gui___calibration_8hpp_source.html">gm_gui_Calibration.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a3e09f4322cd4fce9e31a28714a666b6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_calibration.html#a3e09f4322cd4fce9e31a28714a666b6d">Calibration</a> (<a class="el" href="classgm_1_1gfx_1_1_l_c_d.html">gm::gfx::LCD</a> &amp;lcd, std::initializer_list&lt; <a class="el" href="structgm_1_1gui_1_1_calibration_info.html">CalibrationInfo</a> &gt; &amp;&amp;values)</td></tr>
+<tr class="memdesc:a3e09f4322cd4fce9e31a28714a666b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="classgm_1_1gui_1_1_calibration.html" title="Calibration class, work in junction with Waveform to provide user calibration.">Calibration</a> object.  <br /></td></tr>
+<tr class="separator:a3e09f4322cd4fce9e31a28714a666b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfc110196210363577e4c618125ca521"><td class="memItemLeft" align="right" valign="top"><a id="abfc110196210363577e4c618125ca521" name="abfc110196210363577e4c618125ca521"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>draw</b> ()</td></tr>
+<tr class="memdesc:abfc110196210363577e4c618125ca521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw the waveform to screen. <br /></td></tr>
+<tr class="separator:abfc110196210363577e4c618125ca521"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae40f1c062e1f55af3acff2cdb80663f3"><td class="memItemLeft" align="right" valign="top"><a id="ae40f1c062e1f55af3acff2cdb80663f3" name="ae40f1c062e1f55af3acff2cdb80663f3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>redraw</b> ()</td></tr>
+<tr class="memdesc:ae40f1c062e1f55af3acff2cdb80663f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Redraw the waveform this is much faster than draw but requires that it was drawn initially. <br /></td></tr>
+<tr class="separator:ae40f1c062e1f55af3acff2cdb80663f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a628a170cba9831600b5ee4956348e8fa"><td class="memItemLeft" align="right" valign="top"><a id="a628a170cba9831600b5ee4956348e8fa" name="a628a170cba9831600b5ee4956348e8fa"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>redraw_on_update</b> ()</td></tr>
+<tr class="memdesc:a628a170cba9831600b5ee4956348e8fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">limited redraw to fix any scaling issues with decimal places <br /></td></tr>
+<tr class="separator:a628a170cba9831600b5ee4956348e8fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fbeaba78fa72f7de7b7fe2919106b71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_calibration.html#a7fbeaba78fa72f7de7b7fe2919106b71">handle_ir_action</a> (<a class="el" href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">gm::gui::CallbackAction</a> action)</td></tr>
+<tr class="memdesc:a7fbeaba78fa72f7de7b7fe2919106b71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper to more ergonomically handle IR actions.  <br /></td></tr>
+<tr class="separator:a7fbeaba78fa72f7de7b7fe2919106b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e0c9d9dfd4923c7fb83275e475c7316"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_calibration.html#a3e0c9d9dfd4923c7fb83275e475c7316">modify_value</a> (int16_t v)</td></tr>
+<tr class="memdesc:a3e0c9d9dfd4923c7fb83275e475c7316"><td class="mdescLeft">&#160;</td><td class="mdescRight">modify value at this-&gt;position  <br /></td></tr>
+<tr class="separator:a3e0c9d9dfd4923c7fb83275e475c7316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a709092e40e0050b01aa2b12868fa07d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_calibration.html#a709092e40e0050b01aa2b12868fa07d7">set_value</a> (int16_t v)</td></tr>
+<tr class="memdesc:a709092e40e0050b01aa2b12868fa07d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">modify value at this-&gt;position  <br /></td></tr>
+<tr class="separator:a709092e40e0050b01aa2b12868fa07d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b7343c0d9003d7939a20619ebccdfd0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_calibration.html#a5b7343c0d9003d7939a20619ebccdfd0">is_active</a> () const</td></tr>
+<tr class="memdesc:a5b7343c0d9003d7939a20619ebccdfd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query active state.  <br /></td></tr>
+<tr class="separator:a5b7343c0d9003d7939a20619ebccdfd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28b5c6efc7c1f66e94b2dbd41ccf5597"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_calibration.html#a28b5c6efc7c1f66e94b2dbd41ccf5597">set_active</a> (bool b)</td></tr>
+<tr class="memdesc:a28b5c6efc7c1f66e94b2dbd41ccf5597"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set calibration active.  <br /></td></tr>
+<tr class="separator:a28b5c6efc7c1f66e94b2dbd41ccf5597"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ab6641152fc9df3569a188f4aa1db07af"><td class="memItemLeft" align="right" valign="top"><a id="ab6641152fc9df3569a188f4aa1db07af" name="ab6641152fc9df3569a188f4aa1db07af"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>next_decimal_place</b> ()</td></tr>
+<tr class="memdesc:ab6641152fc9df3569a188f4aa1db07af"><td class="mdescLeft">&#160;</td><td class="mdescRight">modify position <br /></td></tr>
+<tr class="separator:ab6641152fc9df3569a188f4aa1db07af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae861a683027fea9b39d02ca0fc01df02"><td class="memItemLeft" align="right" valign="top"><a id="ae861a683027fea9b39d02ca0fc01df02" name="ae861a683027fea9b39d02ca0fc01df02"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>prev_decimal_place</b> ()</td></tr>
+<tr class="memdesc:ae861a683027fea9b39d02ca0fc01df02"><td class="mdescLeft">&#160;</td><td class="mdescRight">modify position <br /></td></tr>
+<tr class="separator:ae861a683027fea9b39d02ca0fc01df02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a591d43267e4a0682b65ea6dd539d87d3"><td class="memItemLeft" align="right" valign="top"><a id="a591d43267e4a0682b65ea6dd539d87d3" name="a591d43267e4a0682b65ea6dd539d87d3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>next_value</b> ()</td></tr>
+<tr class="memdesc:a591d43267e4a0682b65ea6dd539d87d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">next value in position list <br /></td></tr>
+<tr class="separator:a591d43267e4a0682b65ea6dd539d87d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d25c06f91e2fd0e452416df2da734d4"><td class="memItemLeft" align="right" valign="top"><a id="a9d25c06f91e2fd0e452416df2da734d4" name="a9d25c06f91e2fd0e452416df2da734d4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>prev_value</b> ()</td></tr>
+<tr class="memdesc:a9d25c06f91e2fd0e452416df2da734d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">previous value in position list <br /></td></tr>
+<tr class="separator:a9d25c06f91e2fd0e452416df2da734d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classgm_1_1gui_1_1_calibration.html" title="Calibration class, work in junction with Waveform to provide user calibration.">Calibration</a> class, work in junction with <a class="el" href="classgm_1_1gui_1_1_waveform.html" title="Wavefor graph implementation.">Waveform</a> to provide user calibration. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a3e09f4322cd4fce9e31a28714a666b6d" name="a3e09f4322cd4fce9e31a28714a666b6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e09f4322cd4fce9e31a28714a666b6d">&#9670;&#160;</a></span>Calibration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">gm::gui::Calibration::Calibration </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classgm_1_1gfx_1_1_l_c_d.html">gm::gfx::LCD</a> &amp;&#160;</td>
+          <td class="paramname"><em>lcd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="structgm_1_1gui_1_1_calibration_info.html">CalibrationInfo</a> &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a <a class="el" href="classgm_1_1gui_1_1_calibration.html" title="Calibration class, work in junction with Waveform to provide user calibration.">Calibration</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lcd</td><td>LCD ref </td></tr>
+    <tr><td class="paramname">values</td><td>List of values required to modify </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>recommended to create this as <em>static</em> if used in a gui callback </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7fbeaba78fa72f7de7b7fe2919106b71" name="a7fbeaba78fa72f7de7b7fe2919106b71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fbeaba78fa72f7de7b7fe2919106b71">&#9670;&#160;</a></span>handle_ir_action()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gm::gui::Calibration::handle_ir_action </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">gm::gui::CallbackAction</a>&#160;</td>
+          <td class="paramname"><em>action</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Helper to more ergonomically handle IR actions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">action</td><td>action to handle </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5b7343c0d9003d7939a20619ebccdfd0" name="a5b7343c0d9003d7939a20619ebccdfd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b7343c0d9003d7939a20619ebccdfd0">&#9670;&#160;</a></span>is_active()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gm::gui::Calibration::is_active </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Query active state. </p>
+<dl class="section return"><dt>Returns</dt><dd>yes/no </dd></dl>
+
+</div>
+</div>
+<a id="a3e0c9d9dfd4923c7fb83275e475c7316" name="a3e0c9d9dfd4923c7fb83275e475c7316"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e0c9d9dfd4923c7fb83275e475c7316">&#9670;&#160;</a></span>modify_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gm::gui::Calibration::modify_value </td>
+          <td>(</td>
+          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>modify value at this-&gt;position </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the amount to modify </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a28b5c6efc7c1f66e94b2dbd41ccf5597" name="a28b5c6efc7c1f66e94b2dbd41ccf5597"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28b5c6efc7c1f66e94b2dbd41ccf5597">&#9670;&#160;</a></span>set_active()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gm::gui::Calibration::set_active </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set calibration active. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>true/false </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a709092e40e0050b01aa2b12868fa07d7" name="a709092e40e0050b01aa2b12868fa07d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a709092e40e0050b01aa2b12868fa07d7">&#9670;&#160;</a></span>set_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gm::gui::Calibration::set_value </td>
+          <td>(</td>
+          <td class="paramtype">int16_t&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>modify value at this-&gt;position </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>the new value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>grey_matter/<a class="el" href="gm__gui___calibration_8hpp_source.html">gm_gui_Calibration.hpp</a></li>
 </ul>
