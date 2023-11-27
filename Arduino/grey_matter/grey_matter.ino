@@ -68,18 +68,39 @@ void dht22_humidity_callback(long ms, gm::gui::CallbackAction action)
 {
     static gm::gui::Waveform waveform(gui.lcd, 2000, "DHT22 Humidity", "Seconds", "Relative Humidity", "%");
 
-    if (action == gm::gui::CallbackAction::Redraw)
-        waveform.redraw({ 0, 100 });
+    static float standoff = 0.0f;
+
+    static gm::gui::Calibration calibration(gui.lcd, {
+        {
+            .title = "Standoff",
+            .value = &standoff,
+        }
+    });
+
+    auto calc_humidity = [](float x) { return x + standoff; };
+
+    switch (action)
+    {
+        case gm::gui::CallbackAction::Redraw:
+            calibration.set_active(false);
+            waveform.redraw({ 0, 100 });
+            break;
+        case gm::gui::CallbackAction::Calibrate:
+            calibration.set_active(true);
+            calibration.redraw();
+            break;
+        default:
+            if (calibration.is_active())
+                calibration.handle_ir_action(action);
+    }
 
     if (waveform.should_update(ms))
     {
-        waveform.append(dht22.readHumidity());
+        waveform.append(calc_humidity(dht22.readHumidity()));
         waveform.export_last("humidity");
 
-        if (action != gm::gui::CallbackAction::Idle)
-        {
+        if (action != gm::gui::CallbackAction::Idle && !calibration.is_active())
             waveform.draw({0, 100});
-        }
     }
 }
 
@@ -87,27 +108,48 @@ void dht22_temperature_callback(long ms, gm::gui::CallbackAction action)
 {
     static gm::gui::Waveform waveform(gui.lcd, 2000, "DHT22 Temperature", "Seconds", "Fahrenheit", "F");
 
-    if (action == gm::gui::CallbackAction::Redraw)
-        waveform.redraw({ 0, 100 });
+    static float standoff = 0.0f;
+
+    static gm::gui::Calibration calibration(gui.lcd, {
+        {
+            .title = "Standoff",
+            .value = &standoff,
+        }
+    });
+
+    auto calc_temp = [](float x) { return x + standoff; };
+
+    switch (action)
+    {
+        case gm::gui::CallbackAction::Redraw:
+            calibration.set_active(false);
+            waveform.redraw({ 0, 100 });
+            break;
+        case gm::gui::CallbackAction::Calibrate:
+            calibration.set_active(true);
+            calibration.redraw();
+            break;
+        default:
+            if (calibration.is_active())
+                calibration.handle_ir_action(action);
+    }
 
     if (waveform.should_update(ms))
     {
-        waveform.append(dht22.readTemperature(true));
+        waveform.append(calc_temp(dht22.readTemperature(true)));
         waveform.export_last("temperature");
 
-        if (action != gm::gui::CallbackAction::Idle)
-        {
+        if (action != gm::gui::CallbackAction::Idle && !calibration.is_active())
             waveform.draw({ 0, 100 });
-        }
     }
 }
 
 void photo_callback(long ms, gm::gui::CallbackAction action)
 {
-    static gm::gui::Waveform waveform(gui.lcd, 1000, "Photo Sensor", "Seconds", "Lux", "Lux", true);
+    static gm::gui::Waveform waveform = gm::gui::Waveform(gui.lcd, 1000, "Photo Sensor", "Seconds", "Lux", "Lux", true);
 
-    static float coef = 28.71;
-    static float exp = 0.0075;
+    static float coef = 28.71f;
+    static float exp = 0.0075f;
 
     static gm::gui::Calibration calibration(gui.lcd, {
         {
@@ -136,7 +178,6 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
         default:
             if (calibration.is_active())
                 calibration.handle_ir_action(action);
-            break;
     }
 
     if (waveform.should_update(ms))
@@ -144,12 +185,8 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
         waveform.append(calc_lux(static_cast<float>(analogRead(PHOTO_PIN))));
         waveform.export_last("photo");
 
-        if (action != gm::gui::CallbackAction::Idle)
-        {
-            if (!calibration.is_active()) {
-                waveform.draw({0, 12});
-            }
-        }
+        if (action != gm::gui::CallbackAction::Idle && !calibration.is_active())
+            waveform.draw({0, 12});
     }
 }
 
@@ -157,20 +194,39 @@ void uv_callback(long ms, gm::gui::CallbackAction action)
 {
     static gm::gui::Waveform waveform(gui.lcd, 1000, "UV Sensor", "Seconds", "", "");
 
-    auto calc_percent = [](float x) -> float { return (x / 1023.0f) * 100; };
+    static float standoff = 0.0f;
 
-    if (action == gm::gui::CallbackAction::Redraw)
-        waveform.redraw({ 0, 100 });
+    static gm::gui::Calibration calibration(gui.lcd, {
+        {
+            .title = "Standoff",
+            .value = &standoff,
+        }
+    });
+
+    auto calc_percent = [](float x) -> float { return (x / 1023.0f) * 100 + standoff; };
+
+    switch (action)
+    {
+        case gm::gui::CallbackAction::Redraw:
+            calibration.set_active(false);
+            waveform.redraw({ 0, 100 });
+            break;
+        case gm::gui::CallbackAction::Calibrate:
+            calibration.set_active(true);
+            calibration.redraw();
+            break;
+        default:
+            if (calibration.is_active())
+                calibration.handle_ir_action(action);
+    }
 
     if (waveform.should_update(ms))
     {
         waveform.append(calc_percent(static_cast<float>(analogRead(UV_PIN))));
         waveform.export_last("uv");
 
-        if (action != gm::gui::CallbackAction::Idle)
-        {
+        if (action != gm::gui::CallbackAction::Idle && !calibration.is_active())
             waveform.draw({ 0, 100 });
-        }
     }
 }
 
@@ -178,19 +234,45 @@ void water_callback(long ms, gm::gui::CallbackAction action)
 {
     static gm::gui::Waveform waveform(gui.lcd, 1000, "Water Sensor", "Seconds", "", "");
 
-    auto calc_percent = [](float x) -> float { return (x / 1023.0f) * 100; };
+    static float coef = 0.0012f;
+    static float exp = 0.0294f;
 
-    if (action == gm::gui::CallbackAction::Redraw)
-        waveform.redraw({ 0, 100 });
+    static gm::gui::Calibration calibration(gui.lcd, {
+        {
+            .title = "Coefficient",
+            .value = &coef,
+        },
+        {
+            .title = "Exponent",
+            .value = &exp,
+            .precision = 4,
+        }
+    });
+
+    // y = 0.0012e^{0.0294x}
+    auto calc_water = [](float x) -> float { return coef * pow(M_E, (exp * x)); };
+
+    switch (action)
+    {
+        case gm::gui::CallbackAction::Redraw:
+            calibration.set_active(false);
+            waveform.redraw({ 0, 10 });
+            break;
+        case gm::gui::CallbackAction::Calibrate:
+            calibration.set_active(true);
+            calibration.redraw();
+            break;
+        default:
+            if (calibration.is_active())
+                calibration.handle_ir_action(action);
+    }
 
     if (waveform.should_update(ms))
     {
-        waveform.append(calc_percent(static_cast<float>(analogRead(WATER_PIN))));
+        waveform.append(calc_water(static_cast<float>(analogRead(WATER_PIN))));
         waveform.export_last("water");
 
-        if (action != gm::gui::CallbackAction::Idle)
-        {
-            waveform.draw({ 0, 100 });
-        }
+        if (action != gm::gui::CallbackAction::Idle && !calibration.is_active())
+            waveform.draw({ 0, 12 });
     }
 }
