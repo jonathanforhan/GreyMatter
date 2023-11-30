@@ -10,9 +10,10 @@ namespace gm::gui {
 /// @brief Calibration Packet sent to calibrator
 struct CalibrationInfo
 {
-    const char *title; ///< @brief display title for value
-    float *value;      ///< @brief value ref for mutating value
-    uint8_t precision; ///< @brief decimal place precision of value 2 by default
+    const char *title;   ///< @brief display title for value
+    float *value;        ///< @brief value ref for mutating value. Will get overridden with EEPROM data from last session
+    float default_value; ///< @brief deafult value used on reset
+    uint8_t precision;   ///< @brief decimal place precision of value 2 by default
 };
 
 /// @brief Calibration class, work in junction with Waveform to provide user calibration
@@ -23,7 +24,7 @@ public:
     /// @param lcd LCD ref
     /// @param values List of values required to modify
     /// @note recommended to create this as *static* if used in a gui callback
-    Calibration(gm::gfx::LCD &lcd, std::initializer_list<CalibrationInfo> &&values) : lcd(lcd), values(values) {}
+    Calibration(gm::gfx::LCD &lcd, std::initializer_list<CalibrationInfo> &&values);
 
     /// @brief Draw the waveform to screen
     void draw();
@@ -37,6 +38,12 @@ public:
     /// @brief Helper to more ergonomically handle IR actions
     /// @param action action to handle
     void handle_ir_action(gm::gui::CallbackAction action);
+
+    /// @brief reset the value to default at given position (position state stored in class)
+    void reset();
+
+    /// @brief reset all values to default at given position (position state stored in class)
+    void reset_all();
 
     /// @brief modify value at this->position
     /// @param v the amount to modify
@@ -55,6 +62,12 @@ public:
     void set_active(bool b) { active = b; }
 
 protected:
+    /// @brief store values in EEPROM
+    void store_values();
+
+    /// @brief store values in EEPROM
+    void read_store_values();
+
     /// @brief modify position
     void next_decimal_place()
     {
@@ -120,6 +133,7 @@ protected:
 private:
     gm::gfx::LCD& lcd;
     std::vector<CalibrationInfo> values;
+    std::vector<uint16_t> value_positions; // position of EEPROM store offset
     bool active = false;
     gm::gfx::Position position{0, 0};
     gm::gfx::Position last_position{-1, -1};

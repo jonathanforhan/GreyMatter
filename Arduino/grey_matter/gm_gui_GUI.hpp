@@ -29,6 +29,8 @@ enum class CallbackAction
     Increment,
     Decrement,
     ValueQuery,
+    Reset,
+    ResetAll,
 };
 
 /// @brief has LCD component, helps with header conflicts and abstraction

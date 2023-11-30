@@ -1,9 +1,31 @@
 #include "gm_gui_Calibration.hpp"
 #include "gm_io_IRcodes.hpp"
 #include "gm_gfx_Vec2.hpp"
+#include <EEPROM.h>
+
+#define EEPROM_STORE_OFFSET 128
 
 namespace gm::gui {
-    
+
+Calibration::Calibration(gm::gfx::LCD &lcd, std::initializer_list<CalibrationInfo> &&values)
+    : lcd(lcd), values(values)
+{
+    static int eIndex = 0;
+
+    for (auto &value : this->values)
+    {
+        uint8_t *default_val = (uint8_t*)&value.default_value;
+        EEPROM.write(eIndex * sizeof(float) + 0, default_val[0]);
+        EEPROM.write(eIndex * sizeof(float) + 1, default_val[1]);
+        EEPROM.write(eIndex * sizeof(float) + 2, default_val[2]);
+        EEPROM.write(eIndex * sizeof(float) + 3, default_val[3]);
+        value_positions.push_back(eIndex);
+        eIndex++;
+    }
+
+    read_store_values();
+}
+
 void Calibration::draw()
 {
     lcd.set_text_size(2);
@@ -126,6 +148,11 @@ void Calibration::redraw_on_update()
 
 void Calibration::handle_ir_action(gm::gui::CallbackAction action)
 {
+    if (!is_active() && action == gm::gui::CallbackAction::ResetAll)
+        return reset_all();
+    else if (!is_active())
+        return;
+
     switch(action)
     {
         case gm::gui::CallbackAction::Next:
@@ -148,10 +175,47 @@ void Calibration::handle_ir_action(gm::gui::CallbackAction action)
             break;
         case gm::gui::CallbackAction::ValueQuery:
             set_value(GUI_VALUE);
+            break;
+        case gm::gui::CallbackAction::Reset:
+            reset();
+            break;
+        case gm::gui::CallbackAction::ResetAll:
+            reset_all();
+            break;
         default:
             return;
     }
     draw();
+}
+
+void Calibration::reset()
+{
+    uint8_t val[4];
+    val[0] = EEPROM.read(value_positions[position.x] * sizeof(float) + 0);
+    val[1] = EEPROM.read(value_positions[position.x] * sizeof(float) + 1);
+    val[2] = EEPROM.read(value_positions[position.x] * sizeof(float) + 2);
+    val[3] = EEPROM.read(value_positions[position.x] * sizeof(float) + 3);
+
+    *values[position.x].value = *(float*)val;
+
+    store_values();
+    redraw_on_update();
+}
+
+void Calibration::reset_all()
+{
+    int i = 0;
+    for (auto value_pos : value_positions) {
+        uint8_t val[4];
+        val[0] = EEPROM.read(value_pos * sizeof(float) + 0);
+        val[1] = EEPROM.read(value_pos * sizeof(float) + 1);
+        val[2] = EEPROM.read(value_pos * sizeof(float) + 2);
+        val[3] = EEPROM.read(value_pos * sizeof(float) + 3);
+
+        *values[i++].value = *(float*)val;
+    }
+
+    store_values();
 }
 
 void Calibration::modify_value(int16_t v)
@@ -168,6 +232,7 @@ void Calibration::modify_value(int16_t v)
 
     *values[position.x].value += (val * v);
 
+    store_values();
     redraw_on_update();
 }
 
@@ -187,7 +252,37 @@ void Calibration::set_value(int16_t v)
     *values[position.x].value -= (val * diff);
     *values[position.x].value += (val * v);
 
+    store_values();
     redraw_on_update();
+}
+
+void Calibration::store_values()
+{
+    int i = 0;
+    for (auto value_pos : value_positions)
+    {
+        uint8_t *val = (uint8_t *)values[i].value;
+        EEPROM.write(value_pos * sizeof(float) + 0 + EEPROM_STORE_OFFSET, val[0]);
+        EEPROM.write(value_pos * sizeof(float) + 1 + EEPROM_STORE_OFFSET, val[1]);
+        EEPROM.write(value_pos * sizeof(float) + 2 + EEPROM_STORE_OFFSET, val[2]);
+        EEPROM.write(value_pos * sizeof(float) + 3 + EEPROM_STORE_OFFSET, val[3]);
+        i++;
+    }
+}
+
+void Calibration::read_store_values()
+{
+    int i = 0;
+    for (auto value_pos : value_positions)
+    {
+        uint8_t val[4];
+        val[0] = EEPROM.read(value_pos * sizeof(float) + 0 + EEPROM_STORE_OFFSET);
+        val[1] = EEPROM.read(value_pos * sizeof(float) + 1 + EEPROM_STORE_OFFSET);
+        val[2] = EEPROM.read(value_pos * sizeof(float) + 2 + EEPROM_STORE_OFFSET);
+        val[3] = EEPROM.read(value_pos * sizeof(float) + 3 + EEPROM_STORE_OFFSET);
+        *values[i].value = *(float*)val;
+        i++;
+    }
 }
 
 } // namespace gm::gui

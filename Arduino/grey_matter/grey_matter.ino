@@ -74,6 +74,7 @@ void dht22_humidity_callback(long ms, gm::gui::CallbackAction action)
         {
             .title = "Standoff",
             .value = &standoff,
+            .default_value = standoff,
         }
     });
 
@@ -90,8 +91,8 @@ void dht22_humidity_callback(long ms, gm::gui::CallbackAction action)
             calibration.redraw();
             break;
         default:
-            if (calibration.is_active())
-                calibration.handle_ir_action(action);
+            calibration.handle_ir_action(action);
+            break;
     }
 
     if (waveform.should_update(ms))
@@ -114,6 +115,7 @@ void dht22_temperature_callback(long ms, gm::gui::CallbackAction action)
         {
             .title = "Standoff",
             .value = &standoff,
+            .default_value = standoff,
         }
     });
 
@@ -130,8 +132,8 @@ void dht22_temperature_callback(long ms, gm::gui::CallbackAction action)
             calibration.redraw();
             break;
         default:
-            if (calibration.is_active())
-                calibration.handle_ir_action(action);
+            calibration.handle_ir_action(action);
+            break;
     }
 
     if (waveform.should_update(ms))
@@ -155,10 +157,12 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
         {
             .title = "Coefficient",
             .value = &coef,
+            .default_value = coef,
         },
         {
             .title = "Exponent",
             .value = &exp,
+            .default_value = exp,
             .precision = 4,
         }
     });
@@ -176,8 +180,8 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
             calibration.redraw();
             break;
         default:
-            if (calibration.is_active())
-                calibration.handle_ir_action(action);
+            calibration.handle_ir_action(action);
+            break;
     }
 
     if (waveform.should_update(ms))
@@ -200,6 +204,7 @@ void uv_callback(long ms, gm::gui::CallbackAction action)
         {
             .title = "Standoff",
             .value = &standoff,
+            .default_value = standoff,
         }
     });
 
@@ -216,8 +221,8 @@ void uv_callback(long ms, gm::gui::CallbackAction action)
             calibration.redraw();
             break;
         default:
-            if (calibration.is_active())
-                calibration.handle_ir_action(action);
+            calibration.handle_ir_action(action);
+            break;
     }
 
     if (waveform.should_update(ms))
@@ -241,10 +246,12 @@ void water_callback(long ms, gm::gui::CallbackAction action)
         {
             .title = "Coefficient",
             .value = &coef,
+            .default_value = coef,
         },
         {
             .title = "Exponent",
             .value = &exp,
+            .default_value = exp,
             .precision = 4,
         }
     });
@@ -263,8 +270,8 @@ void water_callback(long ms, gm::gui::CallbackAction action)
             calibration.redraw();
             break;
         default:
-            if (calibration.is_active())
-                calibration.handle_ir_action(action);
+            calibration.handle_ir_action(action);
+            break;
     }
 
     if (waveform.should_update(ms))

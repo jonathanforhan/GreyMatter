@@ -67,6 +67,13 @@ void GUI::on_input(uint16_t code)
             call(index, gm::gui::CallbackAction::Redraw);
         }
         break;
+    case gm::io::IR_EQ:
+        call(index, gm::gui::CallbackAction::Reset);
+        break;
+    case gm::io::IR_ST:
+        for (int i = 0; i < callbacks.size(); i++)
+            call(i, gm::gui::CallbackAction::ResetAll);
+        break;
     case gm::io::IR_UP:
         call(index, gm::gui::CallbackAction::Up);
         break;
