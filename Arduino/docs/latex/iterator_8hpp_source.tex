@@ -1,0 +1,95 @@
+\doxysection{iterator.\+hpp}
+\hypertarget{iterator_8hpp_source}{}\label{iterator_8hpp_source}\index{grey\_matter/gm\_stl/iterator.hpp@{grey\_matter/gm\_stl/iterator.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#if\ GML\_STL}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ GCC\ system\_header}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }std\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }iterator}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{using\ }iterator\_type\ =\ \textcolor{keyword}{const}\ \_Tp\ *;}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{using\ }size\_type\ \ \ \ \ =\ size\_t;}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator(\_Tp\ *\_\_ptr)\ noexcept\ :\ m\_internal(\_\_ptr)\ \{\}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator(\textcolor{keyword}{const}\ \_Tp\ *\_\_ptr)\ noexcept\ :\ m\_internal(\_\_ptr)\ \{\}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ iterator\ \&operator++()\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ ++m\_internal;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00020\ \ \ \ \ iterator\ \&operator-\/-\/()\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ -\/-\/m\_internal;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00021\ \ \ \ \ iterator\ \&operator+=(size\_type\ \_\_n)\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ m\_internal\ +=\ \_\_n;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00022\ \ \ \ \ iterator\ \&operator-\/=(size\_type\ \_\_n)\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ m\_internal\ -\/=\ \_\_n;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator\ operator++(\textcolor{keywordtype}{int})\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keyword}{auto}\ \_\_cpy\ =\ *\textcolor{keyword}{this};\ ++m\_internal;\ \textcolor{keywordflow}{return}\ \_\_cpy;\ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator\ operator-\/-\/(\textcolor{keywordtype}{int})\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keyword}{auto}\ \_\_cpy\ =\ *\textcolor{keyword}{this};\ -\/-\/m\_internal;\ \textcolor{keywordflow}{return}\ \_\_cpy;\ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator\ operator+(size\_type\ \_\_n)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ m\_internal\ +\ \_\_n\ \};\ \}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator\ operator-\/(size\_type\ \_\_n)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ m\_internal\ -\/\ \_\_n\ \};\ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator>(iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \ \{\ \textcolor{keywordflow}{return}\ m\_internal\ >\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator<(iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \ \{\ \textcolor{keywordflow}{return}\ m\_internal\ <\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator>=(iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ m\_internal\ >=\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator<=(iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ m\_internal\ <=\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator==(iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ m\_internal\ ==\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator!=(iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ !(m\_internal\ ==\ \_\_it.m\_internal);\ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \_Tp\ \&operator*()\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ *m\_internal;\ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \_Tp\ \&operator*()\ const\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ *m\_internal;\ \}}
+\DoxyCodeLine{00038\ \ \ \ \ \_Tp\ *operator-\/>()\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ m\_internal;\ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \_Tp\ *operator-\/>()\ const\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ m\_internal;\ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\_Tp\ *\ \_\_ptr)\ \{\ \textcolor{keywordflow}{return}\ \_\_ptr\ ==\ m\_internal;\ \}}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \_Tp\ *\ \_\_ptr)\ \{\ \textcolor{keywordflow}{return}\ \_\_ptr\ ==\ m\_internal;\ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00045\ \ \ \ \ iterator\_type\ m\_internal;}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00049\ \textcolor{keyword}{class\ }reverse\_iterator}
+\DoxyCodeLine{00050\ \{}
+\DoxyCodeLine{00051\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{using\ }reverse\_iterator\_type\ =\ \textcolor{keyword}{const}\ \_Tp\ *;}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{using\ }size\_type\ \ \ \ \ \ \ \ \ \ \ \ \ =\ size\_t;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{explicit}\ \textcolor{keyword}{constexpr}\ reverse\_iterator(\_Tp\ *\_\_ptr)\ noexcept\ :\ m\_internal(\_\_ptr)\ \{\}}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{explicit}\ \textcolor{keyword}{constexpr}\ reverse\_iterator(\textcolor{keyword}{const}\ \_Tp\ *\_\_ptr)\ noexcept\ :\ m\_internal(\_\_ptr)\ \{\}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ reverse\_iterator\ \&operator++()\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ -\/-\/m\_internal;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00059\ \ \ \ \ reverse\_iterator\ \&operator-\/-\/()\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ ++m\_internal;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00060\ \ \ \ \ reverse\_iterator\ \&operator+=(size\_type\ \_\_n)\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ m\_internal\ -\/=\ \_\_n;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00061\ \ \ \ \ reverse\_iterator\ \&operator-\/=(size\_type\ \_\_n)\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ m\_internal\ +=\ \_\_n;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{constexpr}\ reverse\_iterator\ operator++(\textcolor{keywordtype}{int})\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keyword}{auto}\ \_\_cpy\ =\ *\textcolor{keyword}{this};\ -\/-\/m\_internal;\ \textcolor{keywordflow}{return}\ \_\_cpy;\ \}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{constexpr}\ reverse\_iterator\ operator-\/-\/(\textcolor{keywordtype}{int})\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keyword}{auto}\ \_\_cpy\ =\ *\textcolor{keyword}{this};\ -\/-\/m\_internal;\ \textcolor{keywordflow}{return}\ \_\_cpy;\ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{constexpr}\ reverse\_iterator\ operator+(size\_type\ \_\_n)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ m\_internal\ -\/\ \_\_n\ \};\ \}}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{constexpr}\ reverse\_iterator\ operator-\/(size\_type\ \_\_n)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ m\_internal\ +\ \_\_n\ \};\ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator>(reverse\_iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \ \{\ \textcolor{keywordflow}{return}\ m\_internal\ >\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator<(reverse\_iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \ \{\ \textcolor{keywordflow}{return}\ m\_internal\ <\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator>=(reverse\_iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ m\_internal\ >=\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator<=(reverse\_iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ m\_internal\ <=\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator==(reverse\_iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ m\_internal\ ==\ \_\_it.m\_internal;\ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator!=(reverse\_iterator<\_Tp>\ \_\_it)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ !(m\_internal\ ==\ \_\_it.m\_internal);\ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \_Tp\ \&operator*()\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ *m\_internal;\ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \_Tp\ \&operator*()\ const\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ *m\_internal;\ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \_Tp\ *operator-\/>()\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ m\_internal;\ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \_Tp\ *operator-\/>()\ const\ noexcept\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ m\_internal;\ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\_Tp\ *\ \_\_ptr)\ \{\ \textcolor{keywordflow}{return}\ \_\_ptr\ ==\ m\_internal;\ \}}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \_Tp\ *\ \_\_ptr)\ \{\ \textcolor{keywordflow}{return}\ \_\_ptr\ ==\ m\_internal;\ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00084\ \ \ \ \ reverse\_iterator\_type\ m\_internal;}
+\DoxyCodeLine{00085\ \};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \}\ \textcolor{comment}{//\ namespace\ std}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GML\_S\_TpL}}
+
+\end{DoxyCode}

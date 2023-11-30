@@ -106,6 +106,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>redraw_on_update</b> 
 <tr class="memitem:a7fbeaba78fa72f7de7b7fe2919106b71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_calibration.html#a7fbeaba78fa72f7de7b7fe2919106b71">handle_ir_action</a> (<a class="el" href="gm__gui___g_u_i_8hpp.html#a910b89412eee7c238569db44de88915c">gm::gui::CallbackAction</a> action)</td></tr>
 <tr class="memdesc:a7fbeaba78fa72f7de7b7fe2919106b71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper to more ergonomically handle IR actions.  <br /></td></tr>
 <tr class="separator:a7fbeaba78fa72f7de7b7fe2919106b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a740900d52e070ff48ea7d0d14b8f5d6a"><td class="memItemLeft" align="right" valign="top"><a id="a740900d52e070ff48ea7d0d14b8f5d6a" name="a740900d52e070ff48ea7d0d14b8f5d6a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>reset</b> ()</td></tr>
+<tr class="memdesc:a740900d52e070ff48ea7d0d14b8f5d6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">reset the value to default at given position (position state stored in class) <br /></td></tr>
+<tr class="separator:a740900d52e070ff48ea7d0d14b8f5d6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72c3830434a01d448c145db8edf9b318"><td class="memItemLeft" align="right" valign="top"><a id="a72c3830434a01d448c145db8edf9b318" name="a72c3830434a01d448c145db8edf9b318"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_all</b> ()</td></tr>
+<tr class="memdesc:a72c3830434a01d448c145db8edf9b318"><td class="mdescLeft">&#160;</td><td class="mdescRight">reset all values to default at given position (position state stored in class) <br /></td></tr>
+<tr class="separator:a72c3830434a01d448c145db8edf9b318"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e0c9d9dfd4923c7fb83275e475c7316"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgm_1_1gui_1_1_calibration.html#a3e0c9d9dfd4923c7fb83275e475c7316">modify_value</a> (int16_t v)</td></tr>
 <tr class="memdesc:a3e0c9d9dfd4923c7fb83275e475c7316"><td class="mdescLeft">&#160;</td><td class="mdescRight">modify value at this-&gt;position  <br /></td></tr>
 <tr class="separator:a3e0c9d9dfd4923c7fb83275e475c7316"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,6 +129,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>redraw_on_update</b> 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a1554e9280a50b5a50c4ab22909cd8d8b"><td class="memItemLeft" align="right" valign="top"><a id="a1554e9280a50b5a50c4ab22909cd8d8b" name="a1554e9280a50b5a50c4ab22909cd8d8b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>store_values</b> ()</td></tr>
+<tr class="memdesc:a1554e9280a50b5a50c4ab22909cd8d8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">store values in EEPROM <br /></td></tr>
+<tr class="separator:a1554e9280a50b5a50c4ab22909cd8d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65ea5ac459bb526ffc5f0b6cfec0e777"><td class="memItemLeft" align="right" valign="top"><a id="a65ea5ac459bb526ffc5f0b6cfec0e777" name="a65ea5ac459bb526ffc5f0b6cfec0e777"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>read_store_values</b> ()</td></tr>
+<tr class="memdesc:a65ea5ac459bb526ffc5f0b6cfec0e777"><td class="mdescLeft">&#160;</td><td class="mdescRight">store values in EEPROM <br /></td></tr>
+<tr class="separator:a65ea5ac459bb526ffc5f0b6cfec0e777"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6641152fc9df3569a188f4aa1db07af"><td class="memItemLeft" align="right" valign="top"><a id="ab6641152fc9df3569a188f4aa1db07af" name="ab6641152fc9df3569a188f4aa1db07af"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>next_decimal_place</b> ()</td></tr>
 <tr class="memdesc:ab6641152fc9df3569a188f4aa1db07af"><td class="mdescLeft">&#160;</td><td class="mdescRight">modify position <br /></td></tr>
@@ -146,9 +162,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>prev_value</b> ()</td
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">gm::gui::Calibration::Calibration </td>
@@ -168,11 +181,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>prev_value</b> ()</td
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Construct a <a class="el" href="classgm_1_1gui_1_1_calibration.html" title="Calibration class, work in junction with Waveform to provide user calibration.">Calibration</a> object. </p>

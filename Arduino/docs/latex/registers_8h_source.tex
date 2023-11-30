@@ -1,0 +1,178 @@
+\doxysection{registers.\+h}
+\hypertarget{registers_8h_source}{}\label{registers_8h_source}\index{grey\_matter/detail/registers.h@{grey\_matter/detail/registers.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ Register\ names\ from\ Peter\ Barrett's\ Microtouch\ code}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ILI932X\_START\_OSC\ \ \ \ \ \ \ \ \ \ 0x00}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ ILI932X\_DRIV\_OUT\_CTRL\ \ \ \ \ \ 0x01}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ ILI932X\_DRIV\_WAV\_CTRL\ \ \ \ \ \ 0x02}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#define\ ILI932X\_ENTRY\_MOD\ \ \ \ \ \ \ \ \ \ 0x03}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ ILI932X\_RESIZE\_CTRL\ \ \ \ \ \ \ \ 0x04}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ ILI932X\_DISP\_CTRL1\ \ \ \ \ \ \ \ \ 0x07}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ ILI932X\_DISP\_CTRL2\ \ \ \ \ \ \ \ \ 0x08}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ ILI932X\_DISP\_CTRL3\ \ \ \ \ \ \ \ \ 0x09}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ ILI932X\_DISP\_CTRL4\ \ \ \ \ \ \ \ \ 0x0A}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ ILI932X\_RGB\_DISP\_IF\_CTRL1\ \ 0x0C}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ ILI932X\_FRM\_MARKER\_POS\ \ \ \ \ 0x0D}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ ILI932X\_RGB\_DISP\_IF\_CTRL2\ \ 0x0F}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ ILI932X\_POW\_CTRL1\ \ \ \ \ \ \ \ \ \ 0x10}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ ILI932X\_POW\_CTRL2\ \ \ \ \ \ \ \ \ \ 0x11}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ ILI932X\_POW\_CTRL3\ \ \ \ \ \ \ \ \ \ 0x12}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ ILI932X\_POW\_CTRL4\ \ \ \ \ \ \ \ \ \ 0x13}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ ILI932X\_GRAM\_HOR\_AD\ \ \ \ \ \ \ \ 0x20}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ ILI932X\_GRAM\_VER\_AD\ \ \ \ \ \ \ \ 0x21}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ ILI932X\_RW\_GRAM\ \ \ \ \ \ \ \ \ \ \ \ 0x22}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ ILI932X\_POW\_CTRL7\ \ \ \ \ \ \ \ \ \ 0x29}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ ILI932X\_FRM\_RATE\_COL\_CTRL\ \ 0x2B}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL1\ \ \ \ \ \ \ \ 0x30}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL2\ \ \ \ \ \ \ \ 0x31}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL3\ \ \ \ \ \ \ \ 0x32}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL4\ \ \ \ \ \ \ \ 0x35}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL5\ \ \ \ \ \ \ \ 0x36}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL6\ \ \ \ \ \ \ \ 0x37}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL7\ \ \ \ \ \ \ \ 0x38}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL8\ \ \ \ \ \ \ \ 0x39}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL9\ \ \ \ \ \ \ \ 0x3C}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ ILI932X\_GAMMA\_CTRL10\ \ \ \ \ \ \ 0x3D}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ ILI932X\_HOR\_START\_AD\ \ \ \ \ \ \ 0x50}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ ILI932X\_HOR\_END\_AD\ \ \ \ \ \ \ \ \ 0x51}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ ILI932X\_VER\_START\_AD\ \ \ \ \ \ \ 0x52}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ ILI932X\_VER\_END\_AD\ \ \ \ \ \ \ \ \ 0x53}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ ILI932X\_GATE\_SCAN\_CTRL1\ \ \ \ 0x60}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ ILI932X\_GATE\_SCAN\_CTRL2\ \ \ \ 0x61}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ ILI932X\_GATE\_SCAN\_CTRL3\ \ \ \ 0x6A}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ ILI932X\_PART\_IMG1\_DISP\_POS\ 0x80}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ ILI932X\_PART\_IMG1\_START\_AD\ 0x81}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ ILI932X\_PART\_IMG1\_END\_AD\ \ \ 0x82}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ ILI932X\_PART\_IMG2\_DISP\_POS\ 0x83}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ ILI932X\_PART\_IMG2\_START\_AD\ 0x84}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ ILI932X\_PART\_IMG2\_END\_AD\ \ \ 0x85}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ ILI932X\_PANEL\_IF\_CTRL1\ \ \ \ \ 0x90}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ ILI932X\_PANEL\_IF\_CTRL2\ \ \ \ \ 0x92}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ ILI932X\_PANEL\_IF\_CTRL3\ \ \ \ \ 0x93}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ ILI932X\_PANEL\_IF\_CTRL4\ \ \ \ \ 0x95}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ ILI932X\_PANEL\_IF\_CTRL5\ \ \ \ \ 0x97}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ ILI932X\_PANEL\_IF\_CTRL6\ \ \ \ \ 0x98}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ HX8347G\_COLADDRSTART\_HI\ \ \ \ 0x02}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ HX8347G\_COLADDRSTART\_LO\ \ \ \ 0x03}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ HX8347G\_COLADDREND\_HI\ \ \ \ \ \ 0x04}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ HX8347G\_COLADDREND\_LO\ \ \ \ \ \ 0x05}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ HX8347G\_ROWADDRSTART\_HI\ \ \ \ 0x06}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ HX8347G\_ROWADDRSTART\_LO\ \ \ \ 0x07}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ HX8347G\_ROWADDREND\_HI\ \ \ \ \ \ 0x08}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ HX8347G\_ROWADDREND\_LO\ \ \ \ \ \ 0x09}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ HX8347G\_MEMACCESS\ \ \ \ \ \ \ \ \ \ 0x16}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ ILI9341\_SOFTRESET\ \ \ \ \ \ \ \ \ \ 0x01}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ ILI9341\_SLEEPIN\ \ \ \ \ \ \ \ \ \ \ \ 0x10}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ ILI9341\_SLEEPOUT\ \ \ \ \ \ \ \ \ \ \ 0x11}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ ILI9341\_NORMALDISP\ \ \ \ \ \ \ \ \ 0x13}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ ILI9341\_INVERTOFF\ \ \ \ \ \ \ \ \ \ 0x20}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ ILI9341\_INVERTON\ \ \ \ \ \ \ \ \ \ \ 0x21}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ ILI9341\_GAMMASET\ \ \ \ \ \ \ \ \ \ \ 0x26}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ ILI9341\_DISPLAYOFF\ \ \ \ \ \ \ \ \ 0x28}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ ILI9341\_DISPLAYON\ \ \ \ \ \ \ \ \ \ 0x29}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ ILI9341\_COLADDRSET\ \ \ \ \ \ \ \ \ 0x2A}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ ILI9341\_PAGEADDRSET\ \ \ \ \ \ \ \ 0x2B}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ ILI9341\_MEMORYWRITE\ \ \ \ \ \ \ \ 0x2C}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ ILI9341\_PIXELFORMAT\ \ \ \ \ \ \ \ 0x3A}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ ILI9341\_FRAMECONTROL\ \ \ \ \ \ \ 0xB1}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ ILI9341\_DISPLAYFUNC\ \ \ \ \ \ \ \ 0xB6}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ ILI9341\_ENTRYMODE\ \ \ \ \ \ \ \ \ \ 0xB7}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ ILI9341\_POWERCONTROL1\ \ \ \ \ \ 0xC0}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ ILI9341\_POWERCONTROL2\ \ \ \ \ \ 0xC1}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ ILI9341\_VCOMCONTROL1\ \ \ \ \ \ 0xC5}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ ILI9341\_VCOMCONTROL2\ \ \ \ \ \ 0xC7}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ ILI9341\_MEMCONTROL\ \ \ \ \ \ 0x36}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ ILI9341\_MADCTL\ \ 0x36}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ ILI9341\_MADCTL\_MY\ \ 0x80}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ ILI9341\_MADCTL\_MX\ \ 0x40}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ ILI9341\_MADCTL\_MV\ \ 0x20}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ ILI9341\_MADCTL\_ML\ \ 0x10}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ ILI9341\_MADCTL\_RGB\ 0x00}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ ILI9341\_MADCTL\_BGR\ 0x08}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ ILI9341\_MADCTL\_MH\ \ 0x04}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ HX8357\_NOP\ \ \ \ \ 0x00}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ HX8357\_SWRESET\ 0x01}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ HX8357\_RDDID\ \ \ 0x04}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ HX8357\_RDDST\ \ \ 0x09}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ HX8357B\_RDPOWMODE\ \ 0x0A}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ HX8357B\_RDMADCTL\ \ 0x0B}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ HX8357B\_RDCOLMOD\ \ 0x0C}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ HX8357B\_RDDIM\ \ 0x0D}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ HX8357B\_RDDSDR\ \ 0x0F}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ HX8357\_SLPIN\ \ \ 0x10}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ HX8357\_SLPOUT\ \ 0x11}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ HX8357B\_PTLON\ \ \ 0x12}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ HX8357B\_NORON\ \ \ 0x13}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ HX8357\_INVOFF\ \ 0x20}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ HX8357\_INVON\ \ \ 0x21}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ HX8357\_DISPOFF\ 0x28}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ HX8357\_DISPON\ \ 0x29}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ HX8357\_CASET\ \ \ 0x2A}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ HX8357\_PASET\ \ \ 0x2B}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ HX8357\_RAMWR\ \ \ 0x2C}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ HX8357\_RAMRD\ \ \ 0x2E}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ HX8357B\_PTLAR\ \ \ 0x30}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#define\ HX8357\_TEON\ \ 0x35}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ HX8357\_TEARLINE\ \ 0x44}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ HX8357\_MADCTL\ \ 0x36}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ HX8357\_COLMOD\ \ 0x3A}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ HX8357\_SETOSC\ 0xB0}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ HX8357\_SETPWR1\ 0xB1}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ HX8357B\_SETDISPLAY\ 0xB2}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ HX8357\_SETRGB\ 0xB3}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#define\ HX8357D\_SETCOM\ \ 0xB6}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ HX8357B\_SETDISPMODE\ \ 0xB4}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ HX8357D\_SETCYC\ \ 0xB4}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ HX8357B\_SETOTP\ 0xB7}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ HX8357D\_SETC\ 0xB9}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ HX8357B\_SET\_PANEL\_DRIVING\ 0xC0}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ HX8357D\_SETSTBA\ 0xC0}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ HX8357B\_SETDGC\ \ 0xC1}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ HX8357B\_SETID\ \ 0xC3}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ HX8357B\_SETDDB\ \ 0xC4}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ HX8357B\_SETDISPLAYFRAME\ 0xC5}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ HX8357B\_GAMMASET\ 0xC8}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ HX8357B\_SETCABC\ \ 0xC9}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#define\ HX8357\_SETPANEL\ \ 0xCC}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#define\ HX8357B\_SETPOWER\ 0xD0}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ HX8357B\_SETVCOM\ 0xD1}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#define\ HX8357B\_SETPWRNORMAL\ 0xD2}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ HX8357B\_RDID1\ \ \ 0xDA}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#define\ HX8357B\_RDID2\ \ \ 0xDB}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#define\ HX8357B\_RDID3\ \ \ 0xDC}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#define\ HX8357B\_RDID4\ \ \ 0xDD}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#define\ HX8357D\_SETGAMMA\ 0xE0}}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ HX8357B\_SETGAMMA\ 0xC8}}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#define\ HX8357B\_SETPANELRELATED\ \ 0xE9}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#define\ HX8357B\_MADCTL\_MY\ \ 0x80}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ HX8357B\_MADCTL\_MX\ \ 0x40}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#define\ HX8357B\_MADCTL\_MV\ \ 0x20}}
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ HX8357B\_MADCTL\_ML\ \ 0x10}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#define\ HX8357B\_MADCTL\_RGB\ 0x00}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ HX8357B\_MADCTL\_BGR\ 0x08}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ HX8357B\_MADCTL\_MH\ \ 0x04}}
+
+\end{DoxyCode}

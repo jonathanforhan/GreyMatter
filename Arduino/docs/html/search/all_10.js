@@ -11,5 +11,6 @@ var searchData=
   ['setaddrwindow_8',['setAddrWindow',['../classgm_1_1gfx_1_1_l_c_d.html#a3361b6820ff9c60a801249a1cabd6933',1,'gm::gfx::LCD']]],
   ['setlr_9',['setLR',['../classgm_1_1gfx_1_1_l_c_d.html#abf9f598eab36616618639cd0b8721435',1,'gm::gfx::LCD']]],
   ['should_5fupdate_10',['should_update',['../classgm_1_1gui_1_1_waveform.html#a0d8807dd11560d264c83fc1cfb151582',1,'gm::gui::Waveform']]],
-  ['stdev_11',['stdev',['../classgm_1_1gui_1_1_waveform.html#a206272a67ded118f3afd319cffd66dff',1,'gm::gui::Waveform']]]
+  ['stdev_11',['stdev',['../classgm_1_1gui_1_1_waveform.html#a206272a67ded118f3afd319cffd66dff',1,'gm::gui::Waveform']]],
+  ['store_5fvalues_12',['store_values',['../classgm_1_1gui_1_1_calibration.html#a1554e9280a50b5a50c4ab22909cd8d8b',1,'gm::gui::Calibration']]]
 ];

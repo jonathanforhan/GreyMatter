@@ -1,0 +1,62 @@
+\doxysection{gm\+\_\+gui\+\_\+\+GUI.\+hpp}
+\hypertarget{gm__gui___g_u_i_8hpp_source}{}\label{gm__gui___g_u_i_8hpp_source}\index{grey\_matter/gm\_gui\_GUI.hpp@{grey\_matter/gm\_gui\_GUI.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GM\_USE\_9341\ 1}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}gm\_gfx\_LCD.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}gm\_gui\_Cube.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}gm\_gui\_Waveform.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }gm::gui\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{enum\ class}\ CallbackAction}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ Idle,}
+\DoxyCodeLine{00012\ \ \ \ \ Redraw,}
+\DoxyCodeLine{00013\ \ \ \ \ Draw,}
+\DoxyCodeLine{00014\ \};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ has\ LCD\ components,\ helps\ with\ header\ conflicts\ and\ abstraction}}
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classgm_1_1gui_1_1_g_u_i}{GUI}}}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{classgm_1_1gui_1_1_g_u_i}{GUI}}();}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ begin();}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ F>}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ loading\_screen(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *msg,\ F\ \&\&fn);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ call(\textcolor{keywordtype}{size\_t}\ i,\ CallbackAction\ action);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{classgm_1_1gfx_1_1_l_c_d}{gfx::LCD}}\ lcd;}
+\DoxyCodeLine{00029\ \ \ \ \ std::vector<void(*)(long,\ CallbackAction)>\ callbacks;}
+\DoxyCodeLine{00030\ \};}
+\DoxyCodeLine{00031\ \ \ \ \ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ F>}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{void}\ GUI::loading\_screen(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *msg,\ F\ \&\&fn)}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ lcd.set\_text\_size(2);}
+\DoxyCodeLine{00036\ \ \ \ \ lcd.print\_centered(\textcolor{stringliteral}{"{}Grey\ Matter"{}},\ 60);}
+\DoxyCodeLine{00037\ \ \ \ \ lcd.set\_text\_size(1);}
+\DoxyCodeLine{00038\ \ \ \ \ lcd.print\_centered(msg,\ 160);}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{classgm_1_1gui_1_1_cube}{Cube}}\ cube(lcd);}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{float}\ theta\ =\ 0.0f;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ tilt\ =\ 0.25f;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordflow}{for}\ (;;)}
+\DoxyCodeLine{00043\ \ \ \ \ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ theta\ +=\ 0.1f;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ cube.rotate\_y(theta);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ cube.rotate\_x(tilt);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ cube.scale(\{\ 12,\ 12,\ 12\ \});}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ cube.offset(lcd.dimensions()\ /\ 2);}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ cube.draw(gfx::White);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fn())\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ lcd.fill\_screen(gfx::Black);}
+\DoxyCodeLine{00054\ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \}\ \textcolor{comment}{//\ namespace\ gm::gui}}
+
+\end{DoxyCode}

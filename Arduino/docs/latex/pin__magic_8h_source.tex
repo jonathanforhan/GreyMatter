@@ -1,0 +1,570 @@
+\doxysection{pin\+\_\+magic.\+h}
+\hypertarget{pin__magic_8h_source}{}\label{pin__magic_8h_source}\index{grey\_matter/detail/pin\_magic.h@{grey\_matter/detail/pin\_magic.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ \_pin\_magic\_}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ \_pin\_magic\_}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ This\ header\ file\ serves\ two\ purposes:}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ 1)\ Isolate\ non-\/portable\ MCU\ port-\/\ and\ pin-\/specific\ identifiers\ and}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \ \ \ operations\ so\ the\ library\ code\ itself\ remains\ somewhat\ agnostic}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ \ \ (PORTs\ and\ pin\ numbers\ are\ always\ referenced\ through\ macros).}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ 2)\ GCC\ doesn't\ always\ respect\ the\ "{}inline"{}\ keyword,\ so\ this\ is\ a}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ \ \ ham-\/fisted\ manner\ of\ forcing\ the\ issue\ to\ minimize\ function\ calls.}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ This\ sometimes\ makes\ the\ library\ a\ bit\ bigger\ than\ before,\ but\ fast++.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ \ \ However,\ because\ they're\ macros,\ we\ need\ to\ be\ SUPER\ CAREFUL\ about}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ parameters\ -\/-\/\ for\ example,\ write8(x)\ may\ expand\ to\ multiple\ PORT}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ writes\ that\ all\ refer\ to\ x,\ so\ it\ needs\ to\ be\ a\ constant\ or\ fixed}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ variable\ and\ not\ something\ like\ *ptr++\ (which,\ after\ macro}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ expansion,\ may\ increment\ the\ pointer\ repeatedly\ and\ run\ off\ into}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ \ \ la-\/la\ land).\ \ Macros\ also\ give\ us\ fine-\/grained\ control\ over\ which}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ operations\ are\ inlined\ on\ which\ boards\ (balancing\ speed\ against}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ \ \ \ available\ program\ space).}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ When\ using\ the\ TFT\ shield,\ control\ and\ data\ pins\ exist\ in\ set\ physical}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ locations,\ but\ the\ ports\ and\ bitmasks\ corresponding\ to\ each\ vary\ among}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ boards.\ \ A\ separate\ set\ of\ pin\ definitions\ is\ given\ for\ each\ supported}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ board\ type.}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ When\ using\ the\ TFT\ breakout\ board,\ control\ pins\ are\ configurable\ but}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ the\ data\ pins\ are\ still\ fixed\ -\/-\/\ making\ every\ data\ pin\ configurable}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ would\ be\ much\ too\ slow.\ \ The\ data\ pin\ layouts\ are\ not\ the\ same\ between}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ the\ shield\ and\ breakout\ configurations\ -\/-\/\ for\ the\ latter,\ pins\ were}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ chosen\ to\ keep\ the\ tutorial\ wiring\ manageable\ more\ than\ making\ optimal}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ use\ of\ ports\ and\ bitmasks.\ \ So\ there's\ a\ second\ set\ of\ pin\ definitions}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ given\ for\ each\ supported\ board.}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ Shield\ pin\ usage:}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ LCD\ Data\ Bit\ :\ \ \ \ 7\ \ \ \ 6\ \ \ \ 5\ \ \ \ 4\ \ \ \ 3\ \ \ \ 2\ \ \ \ 1\ \ \ \ 0}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ Digital\ pin\ \#:\ \ \ \ 7\ \ \ \ 6\ \ \ 13\ \ \ \ 4\ \ \ 11\ \ \ 10\ \ \ \ 9\ \ \ \ 8}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ Uno\ port/pin\ :\ \ PD7\ \ PD6\ \ PB5\ \ PD4\ \ PB3\ \ PB2\ \ PB1\ \ PB0}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ Mega\ port/pin:\ \ PH4\ \ PH3\ \ PB7\ \ PG5\ \ PB5\ \ PB4\ \ PH6\ \ PH5}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ Leo\ port/pin\ :\ \ PE6\ \ PD7\ \ PC7\ \ PD4\ \ PB7\ \ PB6\ \ PB5\ \ PB4}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ Due\ port/pin\ :\ PC23\ PC24\ PB27\ PC26\ \ PD7\ PC29\ PC21\ PC22}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ Breakout\ pin\ usage:}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ LCD\ Data\ Bit\ :\ \ \ 7\ \ \ 6\ \ \ 5\ \ \ 4\ \ \ 3\ \ \ 2\ \ \ 1\ \ \ 0}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ Uno\ dig.\ pin\ :\ \ \ 7\ \ \ 6\ \ \ 5\ \ \ 4\ \ \ 3\ \ \ 2\ \ \ 9\ \ \ 8}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ Uno\ port/pin\ :\ PD7\ PD6\ PD5\ PD4\ PD3\ PD2\ PB1\ PB0}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ Mega\ dig.\ pin:\ \ 29\ \ 28\ \ 27\ \ 26\ \ 25\ \ 24\ \ 23\ \ 22}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ Mega\ port/pin:\ PA7\ PA6\ PA5\ PA4\ PA3\ PA2\ PA1\ PA0\ (one\ contiguous\ PORT)}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ Leo\ dig.\ pin\ :\ \ \ 7\ \ \ 6\ \ \ 5\ \ \ 4\ \ \ 3\ \ \ 2\ \ \ 9\ \ \ 8}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ Leo\ port/pin\ :\ PE6\ PD7\ PC6\ PD4\ PD0\ PD1\ PB5\ PB4}}
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ Due\ dig.\ pin\ :\ \ 40\ \ 39\ \ 38\ \ 37\ \ 36\ \ 35\ \ 34\ \ 33}}
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ Due\ port/pin\ :\ PC8\ PC7\ PC6\ PC5\ PC4\ PC3\ PC2\ PC1\ (one\ contiguous\ PORT.\ -\/ish…)}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ Pixel\ read\ operations\ require\ a\ minimum\ 400\ nS\ delay\ from\ RD\_ACTIVE}}
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ to\ polling\ the\ input\ pins.\ \ At\ 16\ MHz,\ one\ machine\ cycle\ is\ 62.5\ nS.}}
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ This\ code\ burns\ 7\ cycles\ (437.5\ nS)\ doing\ nothing;\ the\ RJMPs\ are}}
+\DoxyCodeLine{00057\ \textcolor{comment}{//\ equivalent\ to\ two\ NOPs\ each,\ final\ NOP\ burns\ the\ 7th\ cycle,\ and\ the}}
+\DoxyCodeLine{00058\ \textcolor{comment}{//\ last\ line\ is\ a\ radioactive\ mutant\ emoticon.}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ DELAY7\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ asm\ volatile(\ \ \(\backslash\)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}rjmp\ .+0"{}}\ \(\backslash\)}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ "{}\(\backslash\)n\(\backslash\)t"{}\ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ "{}rjmp\ .+0"{}\ \(\backslash\)}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ "{}\(\backslash\)n\(\backslash\)t"{}\ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ "{}rjmp\ .+0"{}\ \(\backslash\)}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ "{}\(\backslash\)n\(\backslash\)t"{}\ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ "{}nop"{}\ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ "{}\(\backslash\)n"{}\ ::);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#if\ defined(\_\_AVR\_ATmega168\_\_)\ ||\ defined(\_\_AVR\_ATmega328P\_\_)\ ||\ defined(\_\_AVR\_ATmega328\_\_)\ ||\ defined(\_\_AVR\_ATmega8\_\_)}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{comment}{//\ Arduino\ Uno,\ Duemilanove,\ etc.}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#ifdef\ USE\_ADAFRUIT\_SHIELD\_PINOUT}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{comment}{//\ LCD\ control\ lines:}}
+\DoxyCodeLine{00077\ \textcolor{comment}{//\ RD\ (read),\ WR\ (write),\ CD\ (command/data),\ CS\ (chip\ select)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ RD\_PORT\ PORTC\ }\textcolor{comment}{/*pin\ A0\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ WR\_PORT\ PORTC\ }\textcolor{comment}{/*pin\ A1\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ CD\_PORT\ PORTC\ }\textcolor{comment}{/*pin\ A2\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ CS\_PORT\ PORTC\ }\textcolor{comment}{/*pin\ A3\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ RD\_MASK\ B00000001}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ WR\_MASK\ B00000010}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ CD\_MASK\ B00000100}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ CS\_MASK\ B00001000}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{comment}{//\ These\ are\ macros\ for\ I/O\ operations...}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{comment}{//\ Write\ 8-\/bit\ value\ to\ LCD\ data\ lines}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ write8inline(d)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTD\ =\ (PORTD\ \&\ B00101111)\ |\ ((d)\&B11010000);\ \(\backslash\)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTB\ =\ (PORTB\ \&\ B11010000)\ |\ ((d)\&B00101111);\ \(\backslash\)}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ WR\_STROBE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\ \ \ \ \}\ }\textcolor{comment}{//\ STROBEs\ are\ defined\ later}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{comment}{//\ Read\ 8-\/bit\ value\ from\ LCD\ data\ lines.\ \ The\ signle\ argument}}
+\DoxyCodeLine{00098\ \textcolor{comment}{//\ is\ a\ destination\ variable;\ this\ isn't\ a\ function\ and\ doesn't}}
+\DoxyCodeLine{00099\ \textcolor{comment}{//\ return\ a\ value\ in\ the\ conventional\ sense.}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ read8inline(result)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_ACTIVE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DELAY7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ =\ (PIND\ \&\ B11010000)\ |\ (PINB\ \&\ B00101111);\ \(\backslash\)}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_IDLE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{comment}{//\ These\ set\ the\ PORT\ directions\ as\ required\ before\ the\ write\ and\ read}}
+\DoxyCodeLine{00109\ \textcolor{comment}{//\ operations.\ \ Because\ write\ operations\ are\ much\ more\ common\ than\ reads,}}
+\DoxyCodeLine{00110\ \textcolor{comment}{//\ the\ data-\/reading\ functions\ in\ the\ library\ code\ set\ the\ PORT(s)\ to}}
+\DoxyCodeLine{00111\ \textcolor{comment}{//\ input\ before\ a\ read,\ and\ restore\ them\ back\ to\ the\ write\ state\ before}}
+\DoxyCodeLine{00112\ \textcolor{comment}{//\ returning.\ \ This\ avoids\ having\ to\ set\ it\ for\ output\ inside\ every}}
+\DoxyCodeLine{00113\ \textcolor{comment}{//\ drawing\ method.\ \ The\ default\ state\ has\ them\ initialized\ for\ writes.}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ setWriteDirInline()\ \(\backslash\)}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRD\ |=\ B11010000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ |=\ B00101111;\ \ \(\backslash\)}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ setReadDirInline()\ \ \(\backslash\)}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRD\ \&=\ \string~B11010000;\ \(\backslash\)}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ \&=\ \string~B00101111;\ \(\backslash\)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ Uno\ w/Breakout\ board}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ write8inline(d)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTD\ =\ (PORTD\ \&\ B00000011)\ |\ ((d)\&B11111100);\ \(\backslash\)}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTB\ =\ (PORTB\ \&\ B11111100)\ |\ ((d)\&B00000011);\ \(\backslash\)}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ WR\_STROBE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ read8inline(result)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_ACTIVE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DELAY7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ =\ (PIND\ \&\ B11111100)\ |\ (PINB\ \&\ B00000011);\ \(\backslash\)}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_IDLE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ setWriteDirInline()\ \(\backslash\)}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRD\ |=\ B11111100;\ \ \(\backslash\)}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ |=\ B00000011;\ \ \(\backslash\)}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ setReadDirInline()\ \ \(\backslash\)}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRD\ \&=\ \string~B11111100;\ \(\backslash\)}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ \&=\ \string~B00000011;\ \(\backslash\)}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{comment}{//\ As\ part\ of\ the\ inline\ control,\ macros\ reference\ other\ macros...if\ any}}
+\DoxyCodeLine{00154\ \textcolor{comment}{//\ of\ these\ are\ left\ undefined,\ an\ equivalent\ function\ version\ (non-\/inline)}}
+\DoxyCodeLine{00155\ \textcolor{comment}{//\ is\ declared\ later.\ \ The\ Uno\ has\ a\ moderate\ amount\ of\ program\ space,\ so}}
+\DoxyCodeLine{00156\ \textcolor{comment}{//\ only\ write8()\ is\ inlined\ -\/-\/\ that\ one\ provides\ the\ most\ performance}}
+\DoxyCodeLine{00157\ \textcolor{comment}{//\ benefit,\ but\ unfortunately\ also\ generates\ the\ most\ bloat.\ \ This\ is}}
+\DoxyCodeLine{00158\ \textcolor{comment}{//\ why\ only\ certain\ cases\ are\ inlined\ for\ each\ board.}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#define\ write8\ write8inline}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#elif\ defined(\_\_AVR\_ATmega1281\_\_)\ ||\ defined(\_\_AVR\_ATmega2561\_\_)\ ||\ defined(\_\_AVR\_ATmega2560\_\_)\ ||\ defined(\_\_AVR\_ATmega1280\_\_)}}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \textcolor{comment}{//\ Arduino\ Mega,\ ADK,\ etc.}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#ifdef\ USE\_ADAFRUIT\_SHIELD\_PINOUT}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ RD\_PORT\ PORTF}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#define\ WR\_PORT\ PORTF}}
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ CD\_PORT\ PORTF}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#define\ CS\_PORT\ PORTF}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ RD\_MASK\ B00000001}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ WR\_MASK\ B00000010}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ CD\_MASK\ B00000100}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ CS\_MASK\ B00001000}}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ write8inline(d)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTH\ =\ (PORTH\ \&\ B10000111)\ |\ (((d)\&B11000000)\ >>\ 3)\ |\ (((d)\&B00000011)\ <<\ 5);\ \(\backslash\)}}
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTB\ =\ (PORTB\ \&\ B01001111)\ |\ (((d)\&B00101100)\ <<\ 2);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTG\ =\ (PORTG\ \&\ B11011111)\ |\ (((d)\&B00010000)\ <<\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ WR\_STROBE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ read8inline(result)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_ACTIVE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DELAY7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ =\ ((PINH\ \&\ B00011000)\ <<\ 3)\ |\ ((PINB\ \&\ B10110000)\ >>\ 2)\ |\ \(\backslash\)}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((PING\ \&\ B00100000)\ >>\ 1)\ |\ ((PINH\ \&\ B01100000)\ >>\ 5);\ \ \(\backslash\)}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_IDLE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ setWriteDirInline()\ \(\backslash\)}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRH\ |=\ B01111000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ |=\ B10110000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRG\ |=\ B00100000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\#define\ setReadDirInline()\ \ \(\backslash\)}}
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRH\ \&=\ \string~B01111000;\ \(\backslash\)}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ \&=\ \string~B10110000;\ \(\backslash\)}}
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRG\ \&=\ \string~B00100000;\ \(\backslash\)}}
+\DoxyCodeLine{00202\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ Mega\ w/Breakout\ board}}
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\#define\ write8inline(d)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \(\backslash\)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ PORTH\ \&=\ \string~(0x78);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ PORTH\ |=\ ((d\ \&\ 0xC0)\ >>\ 3)\ |\ ((d\ \&\ 0x3)\ <<\ 5);\ \(\backslash\)}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ PORTE\ \&=\ \string~(0x38);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ PORTE\ |=\ ((d\ \&\ 0xC)\ <<\ 2)\ |\ ((d\ \&\ 0x20)\ >>\ 2);\ \(\backslash\)}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ PORTG\ \&=\ \string~(0x20);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ PORTG\ |=\ (d\ \&\ 0x10)\ <<\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \(\backslash\)\ }
+\DoxyCodeLine{00215\ \ \ \ \ WR\_STROBE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00216\ \ \ \ \ \}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\#define\ read8inline(result)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_ACTIVE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DELAY7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ =\ (PINH\ \&\ 0x60)\ >>\ 5;\ \ \(\backslash\)}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ |=\ (PINH\ \&\ 0x18)\ <<\ 3;\ \(\backslash\)}}
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ |=\ (PINE\ \&\ 0x8)\ <<\ 2;\ \ \(\backslash\)}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ |=\ (PINE\ \&\ 0x30)\ >>\ 2;\ \(\backslash\)}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ |=\ (PING\ \&\ 0x20)\ >>\ 1;\ \(\backslash\)}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_IDLE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#define\ setWriteDirInline()\ \(\backslash\)}}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRH\ |=\ 0x78;\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00231\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRE\ |=\ 0x38;\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRG\ |=\ 0x20;\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#define\ setReadDirInline()\ \(\backslash\)}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRH\ \&=\ \string~0x78;\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRE\ \&=\ \string~0x38;\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRG\ \&=\ \string~(0x20);\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \textcolor{comment}{//\ All\ of\ the\ functions\ are\ inlined\ on\ the\ Arduino\ Mega.\ \ When\ using\ the}}
+\DoxyCodeLine{00244\ \textcolor{comment}{//\ breakout\ board,\ the\ macro\ versions\ aren't\ appreciably\ larger\ than\ the}}
+\DoxyCodeLine{00245\ \textcolor{comment}{//\ function\ equivalents,\ and\ they're\ super\ simple\ and\ fast.\ \ When\ using}}
+\DoxyCodeLine{00246\ \textcolor{comment}{//\ the\ shield,\ the\ macros\ become\ pretty\ complicated...but\ this\ board\ has}}
+\DoxyCodeLine{00247\ \textcolor{comment}{//\ so\ much\ code\ space,\ the\ macros\ are\ used\ anyway.\ \ If\ you\ need\ to\ free}}
+\DoxyCodeLine{00248\ \textcolor{comment}{//\ up\ program\ space,\ some\ macros\ can\ be\ removed,\ at\ a\ minor\ cost\ in\ speed.}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\#define\ write8\ write8inline}}
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\#define\ read8\ read8inline}}
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\#define\ setWriteDir\ setWriteDirInline}}
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\#define\ setReadDir\ setReadDirInline}}
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\#define\ writeRegister8\ writeRegister8inline}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#define\ writeRegister16\ writeRegister16inline}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\#define\ writeRegisterPair\ writeRegisterPairInline}}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#elif\ defined(\_\_AVR\_ATmega32U4\_\_)}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \textcolor{comment}{//\ Arduino\ Leonardo}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\#ifdef\ USE\_ADAFRUIT\_SHIELD\_PINOUT}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\#define\ RD\_PORT\ PORTF}}
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#define\ WR\_PORT\ PORTF}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\#define\ CD\_PORT\ PORTF}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#define\ CS\_PORT\ PORTF}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ RD\_MASK\ B10000000}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#define\ WR\_MASK\ B01000000}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#define\ CD\_MASK\ B00100000}}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\#define\ CS\_MASK\ B00010000}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#define\ write8inline(d)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTE\ =\ (PORTE\ \&\ B10111111)\ |\ (((d)\&B10000000)\ >>\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00275\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTD\ =\ (PORTD\ \&\ B01101111)\ |\ (((d)\&B01000000)\ <<\ 1)\ |\ ((d)\&B00010000);\ \(\backslash\)}}
+\DoxyCodeLine{00276\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTC\ =\ (PORTC\ \&\ B01111111)\ |\ (((d)\&B00100000)\ <<\ 2);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00277\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTB\ =\ (PORTB\ \&\ B00001111)\ |\ (((d)\&B00001111)\ <<\ 4);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ WR\_STROBE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\#define\ read8inline(result)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_ACTIVE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DELAY7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ =\ ((PINE\ \&\ B01000000)\ <<\ 1)\ |\ ((PIND\ \&\ B10000000)\ >>\ 1)\ |\ \(\backslash\)}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((PINC\ \&\ B10000000)\ >>\ 2)\ |\ ((PINB\ \&\ B11110000)\ >>\ 4)\ |\ \(\backslash\)}}
+\DoxyCodeLine{00286\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (PIND\ \&\ B00010000);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_IDLE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00288\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#define\ setWriteDirInline()\ \(\backslash\)}}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRE\ |=\ B01000000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRD\ |=\ B10010000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRC\ |=\ B10000000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ |=\ B11110000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#define\ setReadDirInline()\ \ \(\backslash\)}}
+\DoxyCodeLine{00297\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00298\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRE\ \&=\ \string~B01000000;\ \(\backslash\)}}
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRD\ \&=\ \string~B10010000;\ \(\backslash\)}}
+\DoxyCodeLine{00300\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRC\ \&=\ \string~B10000000;\ \(\backslash\)}}
+\DoxyCodeLine{00301\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ \&=\ \string~B11110000;\ \(\backslash\)}}
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ Leonardo\ w/Breakout\ board}}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00306\ \textcolor{preprocessor}{\#define\ write8inline(d)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00307\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00308\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ uint8\_t\ dr1\ =\ (d)\ >>\ 1,\ dl1\ =\ (d)\ <<\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTE\ =\ (PORTE\ \&\ B10111111)\ |\ (dr1\ \&\ B01000000);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00310\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTD\ =\ (PORTD\ \&\ B01101100)\ |\ (dl1\ \&\ B10000000)\ |\ (((d)\&B00001000)\ >>\ 3)\ |\ \(\backslash\)}}
+\DoxyCodeLine{00311\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (dr1\ \&\ B00000010)\ |\ ((d)\&B00010000);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00312\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTC\ =\ (PORTC\ \&\ B10111111)\ |\ (dl1\ \&\ B01000000);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00313\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PORTB\ =\ (PORTB\ \&\ B11001111)\ |\ (((d)\&B00000011)\ <<\ 4);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00314\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ WR\_STROBE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00315\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00316\ \textcolor{preprocessor}{\#define\ read8inline(result)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00317\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00318\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_ACTIVE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00319\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DELAY7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00320\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ =\ (((PINE\ \&\ B01000000)\ |\ (PIND\ \&\ B00000010))\ <<\ 1)\ |\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00321\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (((PINC\ \&\ B01000000)\ |\ (PIND\ \&\ B10000000))\ >>\ 1)\ |\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00322\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((PIND\ \&\ B00000001)\ <<\ 3)\ |\ ((PINB\ \&\ B00110000)\ >>\ 4)\ |\ \(\backslash\)}}
+\DoxyCodeLine{00323\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (PIND\ \&\ B00010000);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00324\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_IDLE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00325\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00326\ \textcolor{preprocessor}{\#define\ setWriteDirInline()\ \(\backslash\)}}
+\DoxyCodeLine{00327\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00328\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRE\ |=\ B01000000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00329\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRD\ |=\ B10010011;\ \ \(\backslash\)}}
+\DoxyCodeLine{00330\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRC\ |=\ B01000000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00331\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ |=\ B00110000;\ \ \(\backslash\)}}
+\DoxyCodeLine{00332\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00333\ \textcolor{preprocessor}{\#define\ setReadDirInline()\ \ \(\backslash\)}}
+\DoxyCodeLine{00334\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00335\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRE\ \&=\ \string~B01000000;\ \(\backslash\)}}
+\DoxyCodeLine{00336\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRD\ \&=\ \string~B10010011;\ \(\backslash\)}}
+\DoxyCodeLine{00337\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRC\ \&=\ \string~B01000000;\ \(\backslash\)}}
+\DoxyCodeLine{00338\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ DDRB\ \&=\ \string~B00110000;\ \(\backslash\)}}
+\DoxyCodeLine{00339\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00343\ \textcolor{comment}{//\ On\ the\ Leonardo,\ only\ the\ write8()\ macro\ is\ used\ -\/-\/\ though\ even\ that}}
+\DoxyCodeLine{00344\ \textcolor{comment}{//\ might\ be\ excessive\ given\ the\ code\ size\ and\ available\ program\ space}}
+\DoxyCodeLine{00345\ \textcolor{comment}{//\ on\ this\ board.\ \ You\ may\ need\ to\ disable\ this\ to\ get\ any\ sizable}}
+\DoxyCodeLine{00346\ \textcolor{comment}{//\ program\ to\ compile.}}
+\DoxyCodeLine{00347\ \textcolor{preprocessor}{\#define\ write8\ write8inline}}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \textcolor{preprocessor}{\#elif\ defined(\_\_SAM3X8E\_\_)}}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \textcolor{comment}{//\ Arduino\ Due}}
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00353\ \textcolor{preprocessor}{\#ifdef\ USE\_ADAFRUIT\_SHIELD\_PINOUT}}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ \textcolor{preprocessor}{\#define\ RD\_PORT\ PIOA\ }\textcolor{comment}{/*pin\ A0\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00356\ \textcolor{preprocessor}{\#define\ WR\_PORT\ PIOA\ }\textcolor{comment}{/*pin\ A1\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00357\ \textcolor{preprocessor}{\#define\ CD\_PORT\ PIOA\ }\textcolor{comment}{/*pin\ A2\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00358\ \textcolor{preprocessor}{\#define\ CS\_PORT\ PIOA\ }\textcolor{comment}{/*pin\ A3\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00359\ \textcolor{preprocessor}{\#define\ RD\_MASK\ 0x00010000}}
+\DoxyCodeLine{00360\ \textcolor{preprocessor}{\#define\ WR\_MASK\ 0x01000000}}
+\DoxyCodeLine{00361\ \textcolor{preprocessor}{\#define\ CD\_MASK\ 0x00800000}}
+\DoxyCodeLine{00362\ \textcolor{preprocessor}{\#define\ CS\_MASK\ 0x00400000}}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \textcolor{preprocessor}{\#define\ write8inline(d)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00365\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00366\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIO\_Set(PIOD,\ (((d)\&0x08)\ <<\ (7\ -\/\ 3)));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00367\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIO\_Clear(PIOD,\ (((\string~d)\ \&\ 0x08)\ <<\ (7\ -\/\ 3)));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00368\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIO\_Set(PIOC,\ (((d)\&0x01)\ <<\ (22\ -\/\ 0))\ |\ (((d)\&0x02)\ <<\ (21\ -\/\ 1))\ |\ (((d)\&0x04)\ <<\ (29\ -\/\ 2))\ |\ (((d)\&0x10)\ <<\ (26\ -\/\ 4))\ |\ (((d)\&0x40)\ <<\ (24\ -\/\ 6))\ |\ (((d)\&0x80)\ <<\ (23\ -\/\ 7)));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00369\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIO\_Clear(PIOC,\ (((\string~d)\ \&\ 0x01)\ <<\ (22\ -\/\ 0))\ |\ (((\string~d)\ \&\ 0x02)\ <<\ (21\ -\/\ 1))\ |\ (((\string~d)\ \&\ 0x04)\ <<\ (29\ -\/\ 2))\ |\ (((\string~d)\ \&\ 0x10)\ <<\ (26\ -\/\ 4))\ |\ (((\string~d)\ \&\ 0x40)\ <<\ (24\ -\/\ 6))\ |\ (((\string~d)\ \&\ 0x80)\ <<\ (23\ -\/\ 7)));\ \(\backslash\)}}
+\DoxyCodeLine{00370\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIO\_Set(PIOB,\ (((d)\&0x20)\ <<\ (27\ -\/\ 5)));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00371\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIO\_Clear(PIOB,\ (((\string~d)\ \&\ 0x20)\ <<\ (27\ -\/\ 5)));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00372\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ WR\_STROBE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00373\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00374\ }
+\DoxyCodeLine{00375\ \textcolor{preprocessor}{\#define\ read8inline(result)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00376\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00377\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \(\backslash\)\ \ \ \ }}
+\DoxyCodeLine{00378\ \ \ \ RD\_ACTIVE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ delayMicroseconds(1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ result\ =\ (((PIOC-\/>PIO\_PDSR\ \&\ (1\ <<\ 23))\ >>\ (23\ -\/\ 7))\ |\ ((PIOC-\/>PIO\_PDSR\ \&\ (1\ <<\ 24))\ >>\ (24\ -\/\ 6))\ |\ \(\backslash\)}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((PIOB-\/>PIO\_PDSR\ \&\ (1\ <<\ 27))\ >>\ (27\ -\/\ 5))\ |\ ((PIOC-\/>PIO\_PDSR\ \&\ (1\ <<\ 26))\ >>\ (26\ -\/\ 4))\ |\ \(\backslash\)}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((PIOD-\/>PIO\_PDSR\ \&\ (1\ <<\ 7))\ >>\ (7\ -\/\ 3))\ |\ ((PIOC-\/>PIO\_PDSR\ \&\ (1\ <<\ 29))\ >>\ (29\ -\/\ 2))\ |\ \ \ \(\backslash\)}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((PIOC-\/>PIO\_PDSR\ \&\ (1\ <<\ 21))\ >>\ (21\ -\/\ 1))\ |\ ((PIOC-\/>PIO\_PDSR\ \&\ (1\ <<\ 22))\ >>\ (22\ -\/\ 0)));\ \(\backslash\)}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ RD\_IDLE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00385\ \ \ \ \ \}}
+\DoxyCodeLine{00386\ }
+\DoxyCodeLine{00387\ \textcolor{preprocessor}{\#define\ setWriteDirInline()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00388\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00389\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOD-\/>PIO\_MDDR\ |=\ 0x00000080;\ }\textcolor{comment}{/*PIOD-\/>PIO\_SODR\ =\ \ 0x00000080;*/}\textcolor{preprocessor}{\ \(\backslash\)}}
+\DoxyCodeLine{00390\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOD-\/>PIO\_OER\ |=\ 0x00000080;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00391\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOD-\/>PIO\_PER\ |=\ 0x00000080;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00392\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_MDDR\ |=\ 0x25E00000;\ }\textcolor{comment}{/*PIOC-\/>PIO\_SODR\ =\ \ 0x25E00000;*/}\textcolor{preprocessor}{\ \(\backslash\)}}
+\DoxyCodeLine{00393\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_OER\ |=\ 0x25E00000;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00394\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_PER\ |=\ 0x25E00000;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00395\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOB-\/>PIO\_MDDR\ |=\ 0x08000000;\ }\textcolor{comment}{/*PIOB-\/>PIO\_SODR\ =\ \ 0x08000000;*/}\textcolor{preprocessor}{\ \(\backslash\)}}
+\DoxyCodeLine{00396\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOB-\/>PIO\_OER\ |=\ 0x08000000;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00397\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOB-\/>PIO\_PER\ |=\ 0x08000000;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00398\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00400\ \textcolor{preprocessor}{\#define\ setReadDirInline()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00401\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00402\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ pmc\_enable\_periph\_clk(ID\_PIOD);\ \(\backslash\)}}
+\DoxyCodeLine{00403\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ pmc\_enable\_periph\_clk(ID\_PIOC);\ \(\backslash\)}}
+\DoxyCodeLine{00404\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ pmc\_enable\_periph\_clk(ID\_PIOB);\ \(\backslash\)}}
+\DoxyCodeLine{00405\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOD-\/>PIO\_PUDR\ |=\ 0x00000080;\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00406\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOD-\/>PIO\_IFDR\ |=\ 0x00000080;\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00407\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOD-\/>PIO\_ODR\ |=\ 0x00000080;\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00408\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOD-\/>PIO\_PER\ |=\ 0x00000080;\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00409\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_PUDR\ |=\ 0x25E00000;\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00410\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_IFDR\ |=\ 0x25E00000;\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00411\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_ODR\ |=\ 0x25E00000;\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00412\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_PER\ |=\ 0x25E00000;\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00413\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOB-\/>PIO\_PUDR\ |=\ 0x08000000;\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00414\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOB-\/>PIO\_IFDR\ |=\ 0x08000000;\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00415\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOB-\/>PIO\_ODR\ |=\ 0x08000000;\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00416\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOB-\/>PIO\_PER\ |=\ 0x08000000;\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00417\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \textcolor{comment}{//\ Control\ signals\ are\ ACTIVE\ LOW\ (idle\ is\ HIGH)}}
+\DoxyCodeLine{00420\ \textcolor{comment}{//\ Command/Data:\ LOW\ =\ command,\ HIGH\ =\ data}}
+\DoxyCodeLine{00421\ \textcolor{comment}{//\ These\ are\ single-\/instruction\ operations\ and\ always\ inline}}
+\DoxyCodeLine{00422\ \textcolor{preprocessor}{\#define\ RD\_ACTIVE\ RD\_PORT-\/>PIO\_CODR\ |=\ RD\_MASK}}
+\DoxyCodeLine{00423\ \textcolor{preprocessor}{\#define\ RD\_IDLE\ RD\_PORT-\/>PIO\_SODR\ |=\ RD\_MASK}}
+\DoxyCodeLine{00424\ \textcolor{preprocessor}{\#define\ WR\_ACTIVE\ WR\_PORT-\/>PIO\_CODR\ |=\ WR\_MASK}}
+\DoxyCodeLine{00425\ \textcolor{preprocessor}{\#define\ WR\_IDLE\ WR\_PORT-\/>PIO\_SODR\ |=\ WR\_MASK}}
+\DoxyCodeLine{00426\ \textcolor{preprocessor}{\#define\ CD\_COMMAND\ CD\_PORT-\/>PIO\_CODR\ |=\ CD\_MASK}}
+\DoxyCodeLine{00427\ \textcolor{preprocessor}{\#define\ CD\_DATA\ CD\_PORT-\/>PIO\_SODR\ |=\ CD\_MASK}}
+\DoxyCodeLine{00428\ \textcolor{preprocessor}{\#define\ CS\_ACTIVE\ CS\_PORT-\/>PIO\_CODR\ |=\ CS\_MASK}}
+\DoxyCodeLine{00429\ \textcolor{preprocessor}{\#define\ CS\_IDLE\ CS\_PORT-\/>PIO\_SODR\ |=\ CS\_MASK}}
+\DoxyCodeLine{00430\ }
+\DoxyCodeLine{00431\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ Due\ w/Breakout\ board}}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \textcolor{preprocessor}{\#define\ write8inline(d)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00434\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00435\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIO\_Set(PIOC,\ (((d)\&0xFF)\ <<\ 1));\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00436\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIO\_Clear(PIOC,\ (((\string~d)\ \&\ 0xFF)\ <<\ 1));\ \(\backslash\)}}
+\DoxyCodeLine{00437\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ WR\_STROBE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00438\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \textcolor{preprocessor}{\#define\ read8inline(result)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00441\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00442\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_ACTIVE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00443\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ delayMicroseconds(1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00444\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ result\ =\ ((PIOC-\/>PIO\_PDSR\ \&\ 0x1FE)\ >>\ 1);\ \(\backslash\)}}
+\DoxyCodeLine{00445\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ RD\_IDLE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00446\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00448\ \textcolor{preprocessor}{\#define\ setWriteDirInline()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00449\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00450\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_MDDR\ |=\ 0x000001FE;\ }\textcolor{comment}{/*PIOC-\/>PIO\_SODR\ |=\ \ 0x000001FE;*/}\textcolor{preprocessor}{\ \(\backslash\)}}
+\DoxyCodeLine{00451\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_OER\ |=\ 0x000001FE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00452\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_PER\ |=\ 0x000001FE;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00453\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00454\ }
+\DoxyCodeLine{00455\ \textcolor{preprocessor}{\#define\ setReadDirInline()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00456\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00457\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ pmc\_enable\_periph\_clk(ID\_PIOC);\ \(\backslash\)}}
+\DoxyCodeLine{00458\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_PUDR\ |=\ 0x000001FE;\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00459\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_IFDR\ |=\ 0x000001FE;\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00460\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_ODR\ |=\ 0x000001FE;\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00461\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ PIOC-\/>PIO\_PER\ |=\ 0x000001FE;\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00462\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00463\ }
+\DoxyCodeLine{00464\ \textcolor{comment}{//\ When\ using\ the\ TFT\ breakout\ board,\ control\ pins\ are\ configurable.}}
+\DoxyCodeLine{00465\ \textcolor{preprocessor}{\#define\ RD\_ACTIVE\ rdPort-\/>PIO\_CODR\ |=\ rdPinSet\ \ }\textcolor{comment}{//\ PIO\_Clear(rdPort,\ rdPinSet)}}
+\DoxyCodeLine{00466\ \textcolor{preprocessor}{\#define\ RD\_IDLE\ rdPort-\/>PIO\_SODR\ |=\ rdPinSet\ \ \ \ }\textcolor{comment}{//\ PIO\_Set(rdPort,\ rdPinSet)}}
+\DoxyCodeLine{00467\ \textcolor{preprocessor}{\#define\ WR\_ACTIVE\ wrPort-\/>PIO\_CODR\ |=\ wrPinSet\ \ }\textcolor{comment}{//\ PIO\_Clear(wrPort,\ wrPinSet)}}
+\DoxyCodeLine{00468\ \textcolor{preprocessor}{\#define\ WR\_IDLE\ wrPort-\/>PIO\_SODR\ |=\ wrPinSet\ \ \ \ }\textcolor{comment}{//\ PIO\_Set(wrPort,\ wrPinSet)}}
+\DoxyCodeLine{00469\ \textcolor{preprocessor}{\#define\ CD\_COMMAND\ cdPort-\/>PIO\_CODR\ |=\ cdPinSet\ }\textcolor{comment}{//\ PIO\_Clear(cdPort,\ cdPinSet)}}
+\DoxyCodeLine{00470\ \textcolor{preprocessor}{\#define\ CD\_DATA\ cdPort-\/>PIO\_SODR\ |=\ cdPinSet\ \ \ \ }\textcolor{comment}{//\ PIO\_Set(cdPort,\ cdPinSet)}}
+\DoxyCodeLine{00471\ \textcolor{preprocessor}{\#define\ CS\_ACTIVE\ csPort-\/>PIO\_CODR\ |=\ csPinSet\ \ }\textcolor{comment}{//\ PIO\_Clear(csPort,\ csPinSet)}}
+\DoxyCodeLine{00472\ \textcolor{preprocessor}{\#define\ CS\_IDLE\ csPort-\/>PIO\_SODR\ |=\ csPinSet\ \ \ \ }\textcolor{comment}{//\ PIO\_Set(csPort,\ csPinSet)}}
+\DoxyCodeLine{00473\ }
+\DoxyCodeLine{00474\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00475\ }
+\DoxyCodeLine{00476\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ \textcolor{preprocessor}{\#error\ "{}Board\ type\ unsupported\ /\ not\ recognized"{}}}
+\DoxyCodeLine{00479\ }
+\DoxyCodeLine{00480\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00481\ }
+\DoxyCodeLine{00482\ \textcolor{preprocessor}{\#if\ !defined(\_\_SAM3X8E\_\_)}}
+\DoxyCodeLine{00483\ \textcolor{comment}{//\ Stuff\ common\ to\ all\ Arduino\ AVR\ board\ types:}}
+\DoxyCodeLine{00484\ }
+\DoxyCodeLine{00485\ \textcolor{preprocessor}{\#ifdef\ USE\_ADAFRUIT\_SHIELD\_PINOUT}}
+\DoxyCodeLine{00486\ }
+\DoxyCodeLine{00487\ \textcolor{comment}{//\ Control\ signals\ are\ ACTIVE\ LOW\ (idle\ is\ HIGH)}}
+\DoxyCodeLine{00488\ \textcolor{comment}{//\ Command/Data:\ LOW\ =\ command,\ HIGH\ =\ data}}
+\DoxyCodeLine{00489\ \textcolor{comment}{//\ These\ are\ single-\/instruction\ operations\ and\ always\ inline}}
+\DoxyCodeLine{00490\ \textcolor{preprocessor}{\#define\ RD\_ACTIVE\ RD\_PORT\ \&=\ \string~RD\_MASK}}
+\DoxyCodeLine{00491\ \textcolor{preprocessor}{\#define\ RD\_IDLE\ RD\_PORT\ |=\ RD\_MASK}}
+\DoxyCodeLine{00492\ \textcolor{preprocessor}{\#define\ WR\_ACTIVE\ WR\_PORT\ \&=\ \string~WR\_MASK}}
+\DoxyCodeLine{00493\ \textcolor{preprocessor}{\#define\ WR\_IDLE\ WR\_PORT\ |=\ WR\_MASK}}
+\DoxyCodeLine{00494\ \textcolor{preprocessor}{\#define\ CD\_COMMAND\ CD\_PORT\ \&=\ \string~CD\_MASK}}
+\DoxyCodeLine{00495\ \textcolor{preprocessor}{\#define\ CD\_DATA\ CD\_PORT\ |=\ CD\_MASK}}
+\DoxyCodeLine{00496\ \textcolor{preprocessor}{\#define\ CS\_ACTIVE\ CS\_PORT\ \&=\ \string~CS\_MASK}}
+\DoxyCodeLine{00497\ \textcolor{preprocessor}{\#define\ CS\_IDLE\ CS\_PORT\ |=\ CS\_MASK}}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00499\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ Breakout\ board}}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \textcolor{comment}{//\ When\ using\ the\ TFT\ breakout\ board,\ control\ pins\ are\ configurable.}}
+\DoxyCodeLine{00502\ \textcolor{preprocessor}{\#define\ RD\_ACTIVE\ *rdPort\ \&=\ rdPinUnset}}
+\DoxyCodeLine{00503\ \textcolor{preprocessor}{\#define\ RD\_IDLE\ *rdPort\ |=\ rdPinSet}}
+\DoxyCodeLine{00504\ \textcolor{preprocessor}{\#define\ WR\_ACTIVE\ *wrPort\ \&=\ wrPinUnset}}
+\DoxyCodeLine{00505\ \textcolor{preprocessor}{\#define\ WR\_IDLE\ *wrPort\ |=\ wrPinSet}}
+\DoxyCodeLine{00506\ \textcolor{preprocessor}{\#define\ CD\_COMMAND\ *cdPort\ \&=\ cdPinUnset}}
+\DoxyCodeLine{00507\ \textcolor{preprocessor}{\#define\ CD\_DATA\ *cdPort\ |=\ cdPinSet}}
+\DoxyCodeLine{00508\ \textcolor{preprocessor}{\#define\ CS\_ACTIVE\ *csPort\ \&=\ csPinUnset}}
+\DoxyCodeLine{00509\ \textcolor{preprocessor}{\#define\ CS\_IDLE\ *csPort\ |=\ csPinSet}}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00511\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00512\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00513\ }
+\DoxyCodeLine{00514\ \textcolor{comment}{//\ Data\ write\ strobe,\ \string~2\ instructions\ and\ always\ inline}}
+\DoxyCodeLine{00515\ \textcolor{preprocessor}{\#define\ WR\_STROBE\ \ \(\backslash\)}}
+\DoxyCodeLine{00516\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00517\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ WR\_ACTIVE;\ \(\backslash\)}}
+\DoxyCodeLine{00518\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ WR\_IDLE;\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00519\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00520\ }
+\DoxyCodeLine{00521\ \textcolor{comment}{//\ These\ higher-\/level\ operations\ are\ usually\ functionalized,}}
+\DoxyCodeLine{00522\ \textcolor{comment}{//\ except\ on\ Mega\ where's\ there's\ gobs\ and\ gobs\ of\ program\ space.}}
+\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00524\ \textcolor{comment}{//\ Set\ value\ of\ TFT\ register:\ 8-\/bit\ address,\ 8-\/bit\ value}}
+\DoxyCodeLine{00525\ \textcolor{preprocessor}{\#define\ writeRegister8inline(a,\ d)\ \(\backslash\)}}
+\DoxyCodeLine{00526\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00527\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ CD\_COMMAND;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00528\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(a);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00529\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ CD\_DATA;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00530\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(d);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00531\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00532\ }
+\DoxyCodeLine{00533\ \textcolor{comment}{//\ Set\ value\ of\ TFT\ register:\ 16-\/bit\ address,\ 16-\/bit\ value}}
+\DoxyCodeLine{00534\ \textcolor{comment}{//\ See\ notes\ at\ top\ about\ macro\ expansion,\ hence\ hi\ \&\ lo\ temp\ vars}}
+\DoxyCodeLine{00535\ \textcolor{preprocessor}{\#define\ writeRegister16inline(a,\ d)\ \(\backslash\)}}
+\DoxyCodeLine{00536\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00537\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ uint8\_t\ hi,\ lo;\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00538\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ hi\ =\ (a)\ >>\ 8;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00539\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ lo\ =\ (a);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00540\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ CD\_COMMAND;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00541\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(hi);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00542\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(lo);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00543\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ hi\ =\ (d)\ >>\ 8;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00544\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ lo\ =\ (d);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00545\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ CD\_DATA;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00546\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(hi);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00547\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(lo);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00548\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00549\ }
+\DoxyCodeLine{00550\ \textcolor{comment}{//\ Set\ value\ of\ 2\ TFT\ registers:\ Two\ 8-\/bit\ addresses\ (hi\ \&\ lo),\ 16-\/bit\ value}}
+\DoxyCodeLine{00551\ \textcolor{preprocessor}{\#define\ writeRegisterPairInline(aH,\ aL,\ d)\ \(\backslash\)}}
+\DoxyCodeLine{00552\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00553\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ uint8\_t\ hi\ =\ (d)\ >>\ 8,\ lo\ =\ (d);\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00554\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ CD\_COMMAND;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00555\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(aH);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00556\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ CD\_DATA;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00557\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(hi);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00558\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ CD\_COMMAND;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00559\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(aL);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00560\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ CD\_DATA;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00561\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ write8(lo);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00562\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00563\ }
+\DoxyCodeLine{00564\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_pin\_magic\_}}
+
+\end{DoxyCode}

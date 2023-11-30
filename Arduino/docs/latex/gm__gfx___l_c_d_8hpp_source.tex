@@ -1,0 +1,152 @@
+\doxysection{gm\+\_\+gfx\+\_\+\+LCD.\+hpp}
+\hypertarget{gm__gfx___l_c_d_8hpp_source}{}\label{gm__gfx___l_c_d_8hpp_source}\index{grey\_matter/gm\_gfx\_LCD.hpp@{grey\_matter/gm\_gfx\_LCD.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}Arduino.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Print.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}gm\_gfx\_Font.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}gm\_gfx\_Vec2.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }gm::gfx\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{using\ }color\_t\ =\ uint16\_t;}
+\DoxyCodeLine{00010\ \textcolor{keyword}{enum}\ Color\ :\ color\_t}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ Black\ \ \ =\ 0x0000,}
+\DoxyCodeLine{00013\ \ \ \ \ Blue\ \ \ \ =\ 0x001F,}
+\DoxyCodeLine{00014\ \ \ \ \ Red\ \ \ \ \ =\ 0xF800,}
+\DoxyCodeLine{00015\ \ \ \ \ Green\ \ \ =\ 0x07E0,}
+\DoxyCodeLine{00016\ \ \ \ \ Cyan\ \ \ \ =\ 0x07FF,}
+\DoxyCodeLine{00017\ \ \ \ \ Magenta\ =\ 0xF81F,}
+\DoxyCodeLine{00018\ \ \ \ \ Yellow\ \ =\ 0xFFE0,}
+\DoxyCodeLine{00019\ \ \ \ \ White\ \ \ =\ 0xFFFF,}
+\DoxyCodeLine{00020\ \};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{using\ }rotation\_t\ =\ uint8\_t;}
+\DoxyCodeLine{00023\ \textcolor{keyword}{enum}\ Rotation\ :\ rotation\_t}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ r0\ \ \ \ \ \ =\ 0,}
+\DoxyCodeLine{00026\ \ \ \ \ r90\ \ \ \ \ =\ 1,}
+\DoxyCodeLine{00027\ \ \ \ \ r180\ \ \ \ =\ 2,}
+\DoxyCodeLine{00028\ \ \ \ \ r270\ \ \ \ =\ 3,}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classgm_1_1gfx_1_1_l_c_d}{LCD}}\ :\ \textcolor{keyword}{public}\ Print}
+\DoxyCodeLine{00032\ \{}
+\DoxyCodeLine{00033\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{classgm_1_1gfx_1_1_l_c_d}{LCD}}(uint8\_t\ cs\ =\ A3,\ uint8\_t\ cd\ =\ A2,\ uint8\_t\ wr\ =\ A1,\ uint8\_t\ rd\ =\ A0,\ uint8\_t\ rst\ =\ A4);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ begin(uint16\_t\ \textcolor{keywordtype}{id}\ =\ 0x9341);}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ reset();}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ setAddrWindow(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2);}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ setLR();}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ flood(uint16\_t\ color,\ uint32\_t\ len);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_px(int16\_t\ x,\ int16\_t\ y,\ color\_t\ color);}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_h\_line(int16\_t\ x,\ int16\_t\ y,\ int16\_t\ w,\ color\_t\ color);}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_v\_line(int16\_t\ x,\ int16\_t\ y,\ int16\_t\ h,\ color\_t\ color);}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_line(int16\_t\ x0,\ int16\_t\ y0,\ int16\_t\ x1,\ int16\_t\ y1,\ color\_t\ color);}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_bitmap(int16\_t\ x,\ int16\_t\ y,\ uint8\_t\ *bitmap,\ int16\_t\ w,\ int16\_t\ h,\ color\_t\ color);}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ fill\_rect(int16\_t\ x,\ int16\_t\ y,\ int16\_t\ w,\ int16\_t\ h,\ color\_t\ color);}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_line\_to\_bitmap(int16\_t\ x0,\ int16\_t\ y0,\ int16\_t\ x1,\ int16\_t\ y1,\ uint8\_t\ *bitmap,\ int16\_t\ w,\ int16\_t\ h);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_px(\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Pixel}}\ px,\ color\_t\ color)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ draw\_px(px.x,\ px.y,\ color);\ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_h\_line(\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Pixel}}\ px,\ int16\_t\ w,\ color\_t\ color)\ \ \ \{\ draw\_h\_line(px.x,\ px.y,\ w,\ color);\ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_v\_line(\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Pixel}}\ px,\ int16\_t\ h,\ color\_t\ color)\ \ \ \{\ draw\_v\_line(px.x,\ px.y,\ h,\ color);\ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_line(\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Pixel}}\ src,\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Pixel}}\ dst,\ color\_t\ color)\ \ \ \ \{\ draw\_line(src.x,\ src.y,\ dst.x,\ dst.y,\ color);\ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ fill\_rect(\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Pixel}}\ px,\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Size}}\ size,\ color\_t\ color)\ \ \ \ \ \{\ fill\_rect(px.x,\ px.y,\ size.x,\ size.y,\ color);\ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_bitmap(\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Pixel}}\ px,\ uint8\_t\ *bitmap,\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Size}}\ size,\ color\_t\ color)}
+\DoxyCodeLine{00056\ \ \ \ \ \{\ draw\_bitmap(px.x,\ px.y,\ bitmap,\ size.x,\ size.y,\ color);\ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_line\_to\_bitmap(\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Pixel}}\ src,\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Pixel}}\ dst,\ uint8\_t\ *bitmap,\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Size}}\ size)}
+\DoxyCodeLine{00058\ \ \ \ \ \{\ draw\_line\_to\_bitmap(src.x,\ src.y,\ dst.x,\ dst.y,\ bitmap,\ size.x,\ size.y);\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ fill\_screen(color\_t\ color);}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_rotation(rotation\_t\ rotation);}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_char(int16\_t\ x,\ int16\_t\ y,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c,\ color\_t\ color,\ uint16\_t\ bg,\ uint8\_t\ size);}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_char(int16\_t\ x,\ int16\_t\ y,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c,\ color\_t\ color,\ uint16\_t\ bg,\ uint8\_t\ size\_x,\ uint8\_t\ size\_y);}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ print\_centered(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str,\ int16\_t\ h);}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ print\_centered(\textcolor{keyword}{const}\ String\ \&str,\ int16\_t\ h);}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ get\_text\_bounds(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str,\ int16\_t\ x,\ int16\_t\ y,\ int16\_t\ *x1,\ int16\_t\ *y1,\ uint16\_t\ *w,\ uint16\_t\ *h);}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ get\_text\_bounds(\textcolor{keyword}{const}\ \_\_FlashStringHelper\ *str,\ int16\_t\ x,\ int16\_t\ y,\ int16\_t\ *x1,\ int16\_t\ *y1,\ uint16\_t\ *w,\ uint16\_t\ *h);}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ get\_text\_bounds(\textcolor{keyword}{const}\ String\ \&str,\ int16\_t\ x,\ int16\_t\ y,\ int16\_t\ *x1,\ int16\_t\ *y1,\ uint16\_t\ *w,\ uint16\_t\ *h);}
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Size}}\ get\_text\_dimensions(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Size}}\ get\_text\_dimensions(\textcolor{keyword}{const}\ String\ \&str);}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_text\_size(uint8\_t\ s);}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_text\_size(uint8\_t\ sx,\ uint8\_t\ sy);}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{using\ }Print::write;}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ write(uint8\_t)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_cursor(int16\_t\ x,\ int16\_t\ y)\ \ \ \{\ \_cursor.x\ =\ x;\ \_cursor.y\ =\ y;\ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_cursor(\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Position}}\ pos)\ \ \ \ \ \ \ \ \ \ \ \{\ \_cursor.x\ =\ pos.x;\ \_cursor.y\ =\ pos.y;\ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_text\_color(color\_t\ c)\ \ \ \ \ \ \ \ \ \ \{\ \_text\_fg\ =\ c;\ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_text\_color(color\_t\ c,\ color\_t\ bg)\ \{\ \_text\_fg\ =\ c;\ \_text\_bg\ =\ bg;\ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_text\_wrap(\textcolor{keywordtype}{bool}\ b\ =\ \textcolor{keyword}{true})\ \ \ \ \ \ \ \{\ \_wrap\ =\ b;\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ int16\_t\ width()\textcolor{keyword}{\ const\ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ \_dimensions.x;\ \};}
+\DoxyCodeLine{00083\ \ \ \ \ int16\_t\ height()\textcolor{keyword}{\ const\ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ \_dimensions.y;\ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Size}}\ dimensions()\textcolor{keyword}{\ const\ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ \_dimensions;\ \}}
+\DoxyCodeLine{00085\ \ \ \ \ uint8\_t\ rotation()\textcolor{keyword}{\ const\ \ \ \ }\{\ \textcolor{keywordflow}{return}\ \_rotation;\ \}}
+\DoxyCodeLine{00086\ \ \ \ \ int16\_t\ cursor\_x()\textcolor{keyword}{\ const\ \ \ \ }\{\ \textcolor{keywordflow}{return}\ \_cursor.x;\ \}}
+\DoxyCodeLine{00087\ \ \ \ \ int16\_t\ cursor\_y()\textcolor{keyword}{\ const\ \ \ \ }\{\ \textcolor{keywordflow}{return}\ \_cursor.y;\ \};}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Size}}\ cursor()\textcolor{keyword}{\ const\ \ \ \ \ \ \ \ \ }\{\ \textcolor{keywordflow}{return}\ \_cursor;\ \};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ color\_t\ color\_rgb(uint8\_t\ r,\ uint8\_t\ g,\ uint8\_t\ b);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ char\_bounds(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c,\ int16\_t\ *x,\ int16\_t\ *y,\ int16\_t\ *minx,\ int16\_t\ *miny,\ int16\_t\ *maxx,\ int16\_t\ *maxy);}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ int16\_t\ WIDTH;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ the\ 'raw'\ display\ width\ -\/\ never\ changes}}
+\DoxyCodeLine{00096\ \ \ \ \ int16\_t\ HEIGHT;\ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ the\ 'raw'\ display\ height\ -\/\ never\ changes}}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Size}}\ \_dimensions;\ \ \ \ \ \textcolor{comment}{//\ Display\ dimensions\ as\ modified\ by\ current\ rotation}}
+\DoxyCodeLine{00098\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Position}}\ \_cursor;}
+\DoxyCodeLine{00099\ \ \ \ \ color\_t\ \_text\_fg;}
+\DoxyCodeLine{00100\ \ \ \ \ color\_t\ \_text\_bg;}
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{Size}}\ \_text\_size;}
+\DoxyCodeLine{00102\ \ \ \ \ rotation\_t\ \_rotation;}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{bool}\ \_wrap;}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#ifndef\ write8}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{void}\ write8(uint8\_t\ value);}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#ifndef\ setWriteDir}}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ setWriteDir(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#ifndef\ setReadDir}}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{void}\ setReadDir(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#ifndef\ writeRegister8}}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{void}\ writeRegister8(uint8\_t\ a,\ uint8\_t\ d);}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#ifndef\ writeRegister16}}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{void}\ writeRegister16(uint16\_t\ a,\ uint16\_t\ d);}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{void}\ writeRegister24(uint8\_t\ a,\ uint32\_t\ d);}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{void}\ writeRegister32(uint8\_t\ a,\ uint32\_t\ d);}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#ifndef\ writeRegisterPair}}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordtype}{void}\ writeRegisterPair(uint8\_t\ aH,\ uint8\_t\ aL,\ uint16\_t\ d);}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00126\ \ \ \ \ uint8\_t\ driver;}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#ifndef\ read8}}
+\DoxyCodeLine{00129\ \ \ \ \ uint8\_t\ read8fn(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ read8isFunctionalized}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#ifndef\ USE\_ADAFRUIT\_SHIELD\_PINOUT}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#ifdef\ \_\_AVR\_\_}}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keyword}{volatile}\ uint8\_t\ *csPort,\ *cdPort,\ *wrPort,\ *rdPort;}
+\DoxyCodeLine{00137\ \ \ \ \ uint8\_t\ csPinSet,\ cdPinSet,\ wrPinSet,\ rdPinSet,\ csPinUnset,\ cdPinUnset,\ wrPinUnset,\ rdPinUnset,\ \_reset;}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#if\ defined(\_\_SAM3X8E\_\_)}}
+\DoxyCodeLine{00140\ \ \ \ \ Pio\ *csPort,\ *cdPort,\ *wrPort,\ *rdPort;}
+\DoxyCodeLine{00141\ \ \ \ \ uint32\_t\ csPinSet,\ cdPinSet,\ wrPinSet,\ rdPinSet,\ csPinUnset,\ cdPinUnset,\ wrPinUnset,\ rdPinUnset,\ \_reset;}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00144\ \};}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \}\ \textcolor{comment}{//\ namespace\ gm::gfx}}
+
+\end{DoxyCode}

@@ -1,0 +1,68 @@
+\doxysection{gm\+::gui\+::Waveform Class Reference}
+\hypertarget{classgm_1_1gui_1_1_waveform}{}\label{classgm_1_1gui_1_1_waveform}\index{gm::gui::Waveform@{gm::gui::Waveform}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a40eec3411c5d51ace8dda9c9321040c0}\label{classgm_1_1gui_1_1_waveform_a40eec3411c5d51ace8dda9c9321040c0} 
+{\bfseries Waveform} (const \mbox{\hyperlink{classgm_1_1gfx_1_1_l_c_d}{gfx\+::\+LCD}} \&lcd, long update\+\_\+time, const char \texorpdfstring{$\ast$}{*}title, const char \texorpdfstring{$\ast$}{*}x\+\_\+unit, const char \texorpdfstring{$\ast$}{*}y\+\_\+unit, const char \texorpdfstring{$\ast$}{*}unit\+\_\+symbol, bool loglog=false)
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a65920a264f3f0d0305fd051e6e9af8e9}\label{classgm_1_1gui_1_1_waveform_a65920a264f3f0d0305fd051e6e9af8e9} 
+void {\bfseries draw} (\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{gfx\+::\+Size}} bounds) const
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a8cb87950b0e79aeab4601db1fe12c854}\label{classgm_1_1gui_1_1_waveform_a8cb87950b0e79aeab4601db1fe12c854} 
+void {\bfseries redraw} (\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{gfx\+::\+Size}} bounds) const
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a224adb3e088d490dde705f76aaee178d}\label{classgm_1_1gui_1_1_waveform_a224adb3e088d490dde705f76aaee178d} 
+void {\bfseries export\+\_\+last} (char \texorpdfstring{$\ast$}{*}sensor) const
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a0d8807dd11560d264c83fc1cfb151582}\label{classgm_1_1gui_1_1_waveform_a0d8807dd11560d264c83fc1cfb151582} 
+bool {\bfseries should\+\_\+update} (long ms)
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_ac4b92d073dfe312d7e180dbb52365b2e}\label{classgm_1_1gui_1_1_waveform_ac4b92d073dfe312d7e180dbb52365b2e} 
+void {\bfseries append} (float x)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a5ed602c3b0d2c80b65edeca0844e23af}\label{classgm_1_1gui_1_1_waveform_a5ed602c3b0d2c80b65edeca0844e23af} 
+\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{gfx\+::\+Size}} {\bfseries padding} = \{ 20, 50 \}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_ae4f984379a4a39a01ebd229560bf8735}\label{classgm_1_1gui_1_1_waveform_ae4f984379a4a39a01ebd229560bf8735} 
+\mbox{\hyperlink{structgm_1_1gfx_1_1_vec2}{gfx\+::\+Size}} {\bfseries dimensions} = \{ 100, 100 \}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a17dd9bb06200444e8dbec5cbe20014b8}\label{classgm_1_1gui_1_1_waveform_a17dd9bb06200444e8dbec5cbe20014b8} 
+const char \texorpdfstring{$\ast$}{*} {\bfseries title}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a326b2519c8a10b9cddc0c128266c9191}\label{classgm_1_1gui_1_1_waveform_a326b2519c8a10b9cddc0c128266c9191} 
+const char \texorpdfstring{$\ast$}{*} {\bfseries x\+\_\+unit}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a50824b7ac23a234b313327aa1a676b3c}\label{classgm_1_1gui_1_1_waveform_a50824b7ac23a234b313327aa1a676b3c} 
+const char \texorpdfstring{$\ast$}{*} {\bfseries y\+\_\+unit}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a61bb6456be6d554bf928fd03d4540f2c}\label{classgm_1_1gui_1_1_waveform_a61bb6456be6d554bf928fd03d4540f2c} 
+const char \texorpdfstring{$\ast$}{*} {\bfseries unit\+\_\+symbol}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_af164f76f8bcc1792113a33df272b4762}\label{classgm_1_1gui_1_1_waveform_af164f76f8bcc1792113a33df272b4762} 
+bool {\bfseries loglog}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_afabcfc175eb3b9fadce08a4f066fb2d3}\label{classgm_1_1gui_1_1_waveform_afabcfc175eb3b9fadce08a4f066fb2d3} 
+String {\bfseries current\+\_\+read}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_affd6bc7bbb6457dd58155b4e16c9da26}\label{classgm_1_1gui_1_1_waveform_affd6bc7bbb6457dd58155b4e16c9da26} 
+String {\bfseries mean}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a206272a67ded118f3afd319cffd66dff}\label{classgm_1_1gui_1_1_waveform_a206272a67ded118f3afd319cffd66dff} 
+String {\bfseries stdev}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_a75700af4c2f07308b348e0f6cab9bc44}\label{classgm_1_1gui_1_1_waveform_a75700af4c2f07308b348e0f6cab9bc44} 
+String {\bfseries local\+\_\+max}
+\item 
+\Hypertarget{classgm_1_1gui_1_1_waveform_aaace2f21921050e87cb54c04256a135e}\label{classgm_1_1gui_1_1_waveform_aaace2f21921050e87cb54c04256a135e} 
+String {\bfseries local\+\_\+min}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+grey\+\_\+matter/gm\+\_\+gui\+\_\+\+Waveform.\+hpp\item 
+grey\+\_\+matter/gm\+\_\+gui\+\_\+\+Waveform.\+cpp\end{DoxyCompactItemize}

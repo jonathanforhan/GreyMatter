@@ -1,0 +1,38 @@
+\doxysection{gm\+\_\+gfx\+\_\+\+Vec3.\+hpp}
+\hypertarget{gm__gfx___vec3_8hpp_source}{}\label{gm__gfx___vec3_8hpp_source}\index{grey\_matter/gm\_gfx\_Vec3.hpp@{grey\_matter/gm\_gfx\_Vec3.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{keyword}{namespace\ }gm::gfx\ \{}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ T\ x,\ y,\ z;}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ operator+(T\ n)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ x\ +\ n,\ y\ +\ n,\ z\ +\ n\ \};\ \}}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ operator-\/(T\ n)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ x\ -\/\ n,\ y\ -\/\ n,\ z\ -\/\ n\ \};\ \}}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ operator*(T\ n)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ x\ *\ n,\ y\ *\ n,\ z\ *\ n\ \};\ \}}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ operator/(T\ n)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ x\ /\ n,\ y\ /\ n,\ z\ /\ n\ \};\ \}}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ operator+(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ x\ +\ v.x,\ y\ +\ v.y,\ z\ +\ v.z\ \};\ \}}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ operator-\/(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ x\ -\/\ v.x,\ y\ -\/\ v.y,\ z\ -\/\ v.z\ \};\ \}}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ operator*(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ x\ *\ v.x,\ y\ *\ v.y,\ z\ *\ v.z\ \};\ \}}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ operator/(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \{\ x\ /\ v.x,\ y\ /\ v.y,\ z\ /\ v.z\ \};\ \}}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&operator+=(T\ n)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ x\ +=\ n;\ y\ +=\ n;\ z\ +=\ n;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&operator-\/=(T\ n)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ x\ -\/=\ n;\ y\ -\/=\ n;\ z\ -\/=\ n;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&operator*=(T\ n)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ x\ *=\ n;\ y\ *=\ n;\ z\ *=\ n;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&operator/=(T\ n)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ x\ /=\ n;\ y\ /=\ n;\ z\ /=\ n;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&operator+=(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \ \ \ \ \ \ \ \ \ \{\ x\ +=\ v.x;\ y\ +=\ v.y;\ z\ +=\ v.z;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&operator-\/=(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \ \ \ \ \ \ \ \ \ \{\ x\ -\/=\ v.x;\ y\ -\/=\ v.y;\ z\ -\/=\ v.z;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&operator*=(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \ \ \ \ \ \ \ \ \ \{\ x\ *=\ v.x;\ y\ *=\ v.y;\ z\ *=\ v.z;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&operator/=(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \ \ \ \ \ \ \ \ \ \{\ x\ /=\ v.x;\ y\ /=\ v.y;\ z\ /=\ v.z;\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \{\ \textcolor{keywordflow}{return}\ (v.x\ ==\ x\ \&\&\ v.y\ ==\ y\ \&\&\ v.z\ ==\ z);\ \}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator!=(\textcolor{keyword}{const}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3}}\ \&v)\ \ \ \{\ \textcolor{keywordflow}{return}\ !(*\textcolor{keyword}{this}\ ==\ v);\ \}}
+\DoxyCodeLine{00028\ \};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{using\ }\mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Point3}}\ =\ \mbox{\hyperlink{structgm_1_1gfx_1_1_vec3}{Vec3<float>}};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \}\ \textcolor{comment}{//\ namespace\ gm::gfx}}
+
+\end{DoxyCode}

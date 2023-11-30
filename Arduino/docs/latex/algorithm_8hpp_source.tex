@@ -1,0 +1,61 @@
+\doxysection{algorithm.\+hpp}
+\hypertarget{algorithm_8hpp_source}{}\label{algorithm_8hpp_source}\index{grey\_matter/gm\_stl/algorithm.hpp@{grey\_matter/gm\_stl/algorithm.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#if\ GML\_STL}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}iterator.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#pragma\ GCC\ system\_header}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#undef\ min}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#undef\ max}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{comment}{/*\ extremely\ trimmed\ version\ of\ stl\ algorithm\ */}}
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }std\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00016\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ swap(\_Tp\ \&\_\_a,\ \_Tp\ \&\_\_b)}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \_Tp\ \_\_tmp(\_\_a);}
+\DoxyCodeLine{00019\ \ \ \ \ \_\_a\ =\ \_\_b;}
+\DoxyCodeLine{00020\ \ \ \ \ \_\_b\ =\ \_\_tmp;}
+\DoxyCodeLine{00021\ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00024\ \textcolor{keyword}{constexpr}\ \_Tp\ min(\textcolor{keyword}{const}\ \_Tp\ \&\_\_a,\ \textcolor{keyword}{const}\ \_Tp\ \&\_\_b)}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_a\ <\ \_\_b\ ?\ \_\_a\ :\ \_\_b;}
+\DoxyCodeLine{00027\ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00030\ \textcolor{keyword}{constexpr}\ \_Tp\ max(\textcolor{keyword}{const}\ \_Tp\ \&\_\_a,\ \textcolor{keyword}{const}\ \_Tp\ \&\_\_b)}
+\DoxyCodeLine{00031\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_a\ >\ \_\_b\ ?\ \_\_a\ :\ \_\_b;}
+\DoxyCodeLine{00033\ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00036\ iterator<\_Tp>\ find(iterator<\_Tp>\ \_\_first,\ iterator<\_Tp>\ \_\_last,\ \textcolor{keyword}{const}\ \_Tp\ \&\_\_needle)}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ \_\_first\ !=\ \_\_last;\ ++\_\_first)}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*\_\_first\ ==\ \_\_needle)}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_first;}
+\DoxyCodeLine{00042\ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00045\ iterator<\_Tp>\ find(\_Tp\ *\_\_first,\ \_Tp\ *\_\_last,\ \textcolor{keyword}{const}\ \_Tp\ \&\_\_needle)}
+\DoxyCodeLine{00046\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ \_\_first\ !=\ \_\_last;\ ++\_\_first)}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*\_\_first\ ==\ \_\_needle)}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_first;}
+\DoxyCodeLine{00051\ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \}\ \textcolor{comment}{//\ namespace\ std}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

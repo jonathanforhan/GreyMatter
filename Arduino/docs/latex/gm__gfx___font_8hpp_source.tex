@@ -1,0 +1,32 @@
+\doxysection{gm\+\_\+gfx\+\_\+\+Font.\+hpp}
+\hypertarget{gm__gfx___font_8hpp_source}{}\label{gm__gfx___font_8hpp_source}\index{grey\_matter/gm\_gfx\_Font.hpp@{grey\_matter/gm\_gfx\_Font.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{keyword}{namespace\ }gm::gfx\ \{}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Font\ data\ stored\ PER\ GLYPH}}
+\DoxyCodeLine{00006\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ uint16\_t\ bitmap\_offset;\ \textcolor{comment}{//<\ Pointer\ into\ gm::gfx::font-\/>bitmap}}
+\DoxyCodeLine{00009\ \ \ \ \ uint8\_t\ width;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//<\ Bitmap\ dimensions\ in\ pixels}}
+\DoxyCodeLine{00010\ \ \ \ \ uint8\_t\ height;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//<\ Bitmap\ dimensions\ in\ pixels}}
+\DoxyCodeLine{00011\ \ \ \ \ uint8\_t\ x\_advance;\ \ \ \ \ \ \textcolor{comment}{//<\ Distance\ to\ advance\ cursor\ (x\ axis)}}
+\DoxyCodeLine{00012\ \ \ \ \ int8\_t\ x\_offset;\ \ \ \ \ \ \ \ \textcolor{comment}{//<\ X\ dist\ from\ cursor\ pos\ to\ UL\ corner}}
+\DoxyCodeLine{00013\ \ \ \ \ int8\_t\ y\_offset;\ \ \ \ \ \ \ \ \textcolor{comment}{//<\ Y\ dist\ from\ cursor\ pos\ to\ UL\ corner}}
+\DoxyCodeLine{00014\ \}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_glyph}{Glyph}};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ Data\ stored\ for\ FONT\ AS\ A\ WHOLE}}
+\DoxyCodeLine{00017\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ uint8\_t\ *bitmap;\ \ \ \textcolor{comment}{//<\ Glyph\ bitmaps,\ concatenated}}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{structgm_1_1gfx_1_1_glyph}{Glyph}}\ *glyph;\ \ \ \ \ \ \textcolor{comment}{//<\ Glyph\ array}}
+\DoxyCodeLine{00021\ \ \ \ \ uint16\_t\ first;\ \ \ \ \textcolor{comment}{//<\ ASCII\ extents\ (first\ char)}}
+\DoxyCodeLine{00022\ \ \ \ \ uint16\_t\ last;\ \ \ \ \ \textcolor{comment}{//<\ ASCII\ extents\ (last\ char)}}
+\DoxyCodeLine{00023\ \ \ \ \ uint8\_t\ y\_advance;\ \textcolor{comment}{//<\ Newline\ distance\ (y\ axis)}}
+\DoxyCodeLine{00024\ \}\ \mbox{\hyperlink{structgm_1_1gfx_1_1_font}{Font}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \}\ \textcolor{comment}{//\ namespace\ gm::gfx}}
+
+\end{DoxyCode}

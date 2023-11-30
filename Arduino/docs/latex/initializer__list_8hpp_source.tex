@@ -1,0 +1,86 @@
+\doxysection{initializer\+\_\+list.\+hpp}
+\hypertarget{initializer__list_8hpp_source}{}\label{initializer__list_8hpp_source}\index{grey\_matter/gm\_stl/initializer\_list.hpp@{grey\_matter/gm\_stl/initializer\_list.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#if\ GML\_STL}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}iterator.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#pragma\ GCC\ system\_header}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }std\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }initializer\_list}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{using\ }value\_type\ \ \ \ \ \ \ \ =\ \_Tp;}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{using\ }refernce\ \ \ \ \ \ \ \ \ \ =\ \textcolor{keyword}{const}\ \_Tp\ \&;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{using\ }const\_refernce\ \ \ \ =\ \textcolor{keyword}{const}\ \_Tp\ \&;}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{using\ }size\_type\ \ \ \ \ \ \ \ \ =\ size\_t;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{using\ }iterator\ \ \ \ \ \ \ \ \ \ =\ \_Tp\ *;}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{using\ }const\_iterator\ \ \ \ =\ \textcolor{keyword}{const}\ \_Tp\ *;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//\ \_Tphe\ compiler\ can\ call\ a\ private\ constructor.}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{constexpr}\ initializer\_list(const\_iterator\ \_\_it,\ size\_type\ \_\_size)}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ :\ m\_array(\_\_it),}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ m\_size(\_\_size)\ \{\}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{constexpr}\ initializer\_list()\ noexcept}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ :\ m\_array(0),}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ m\_size(0)\ \{\}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{constexpr}\ size\_type\ size()\ const\ noexcept}
+\DoxyCodeLine{00034\ \ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_size;}
+\DoxyCodeLine{00036\ \ \ \ \ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{constexpr}\ const\_iterator\ begin()\ const\ noexcept}
+\DoxyCodeLine{00039\ \ \ \ \ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_array;}
+\DoxyCodeLine{00041\ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{constexpr}\ const\_iterator\ end()\ const\ noexcept}
+\DoxyCodeLine{00044\ \ \ \ \ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_array\ +\ m\_size;}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00049\ \ \ \ \ iterator\ m\_array;}
+\DoxyCodeLine{00050\ \ \ \ \ size\_type\ m\_size;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00055\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \_Tp\ *begin(initializer\_list<\_Tp>\ \_\_il)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_il.begin();}
+\DoxyCodeLine{00058\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00061\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \_Tp\ *end(initializer\_list<\_Tp>\ \_\_il)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00062\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_il.end();}
+\DoxyCodeLine{00064\ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00067\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ std::reverse\_iterator<\_Tp\ *>\ rbegin(initializer\_list<\_Tp>\ \_\_il)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00068\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_il.end()\ -\/\ 1;}
+\DoxyCodeLine{00070\ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00073\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ std::reverse\_iterator<\_Tp\ *>\ rend(initializer\_list<\_Tp>\ \_\_il)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00074\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_il.begin()\ -\/\ 1;}
+\DoxyCodeLine{00076\ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \}\ \textcolor{comment}{//\ namespace\ std}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GML\_S\_TpL}}
+
+\end{DoxyCode}

@@ -1,0 +1,407 @@
+\doxysection{vector.\+hpp}
+\hypertarget{vector_8hpp_source}{}\label{vector_8hpp_source}\index{grey\_matter/gm\_stl/vector.hpp@{grey\_matter/gm\_stl/vector.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#if\ GML\_STL}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}algorithm.hpp"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}initializer\_list.hpp"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}iterator.hpp"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#pragma\ GCC\ system\_header}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }std\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ limited\ subset\ of\ std::vector\ for\ arduino\ */}}
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ follows\ https://en.cppreference.com/w/cpp/container/vector\ */}}
+\DoxyCodeLine{00015\ \textcolor{comment}{/*\ the\ functions\ are\ documented\ on\ the\ link,\ no\ documentation\ here\ */}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_Tp>}
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }vector}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{using\ }reference\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \_Tp\ \&;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{using\ }const\_reference\ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{keyword}{const}\ \_Tp\ \&;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{using\ }size\_type\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ size\_t;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{using\ }pointer\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \_Tp\ *;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{using\ }const\_pointer\ \ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{keyword}{const}\ \_Tp\ *;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{using\ }value\_type\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \_Tp;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{using\ }iterator\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \_Tp*;}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{using\ }const\_iterator\ \ \ \ \ \ \ \ \ \ \ \ =\ \textcolor{keyword}{const}\ \_Tp*;}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{using\ }reverse\_iterator\ \ \ \ \ \ \ \ \ \ =\ std::reverse\_iterator<iterator>;}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{using\ }const\_reverse\_iterator\ \ \ \ =\ std::reverse\_iterator<const\_iterator>;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{explicit}\ vector()\ noexcept}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ :\ m\_size(0),}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ m\_capacity(0),}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data(\textcolor{keywordtype}{nullptr})}
+\DoxyCodeLine{00039\ \ \ \ \ \{\}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{explicit}\ vector(size\_type\ \_\_n,\ \textcolor{keyword}{const}\ \_Tp\ \&\_\_value\ =\ \_Tp())}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ :\ m\_size(0),}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ m\_capacity(0),}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data(nullptr)}
+\DoxyCodeLine{00045\ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ resize(\_\_n,\ \_\_value);}
+\DoxyCodeLine{00047\ \ \ \ \ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_It>}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{explicit}\ vector(\_It\ \_\_first,\ \_It\ \_\_last)}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ :\ m\_size(0),}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ m\_capacity(0),}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data(nullptr)}
+\DoxyCodeLine{00054\ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ assign(\_\_first,\ \_\_last);}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{explicit}\ vector(\textcolor{keyword}{const}\ vector<\_Tp>\ \&\_\_other)}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ :\ m\_size(0),}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ m\_capacity(0),}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data(nullptr)}
+\DoxyCodeLine{00062\ \ \ \ \ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ assign(\_\_other.begin(),\ \_\_other.end());}
+\DoxyCodeLine{00064\ \ \ \ \ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ vector(initializer\_list<value\_type>\ \_\_il)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ :\ m\_size(0),}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ m\_capacity(0),}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data(nullptr)}
+\DoxyCodeLine{00070\ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ assign(\_\_il);}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \string~vector()}
+\DoxyCodeLine{00075\ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ []\ m\_data;}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ vector\ \&operator=(\textcolor{keyword}{const}\ vector<value\_type>\ \&\_\_other)}
+\DoxyCodeLine{00080\ \ \ \ \ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ ==\ \&\_\_other)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ assign(\_\_other.begin(),\ \_\_other.end());}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ assign(size\_type\ \_\_size,\ const\_reference\ \_\_x)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00087\ \ \ \ \ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ clear();}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ insert(begin(),\ \_\_size,\ \_\_x);}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_It>}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ assign(\_It\ \_\_first,\ \_It\ \_\_last)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00094\ \ \ \ \ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ clear();}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ insert(begin(),\ \_\_first,\ \_\_last);}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ assign(initializer\_list<\_Tp>\ \_\_il)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00100\ \ \ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ assign(\_\_il.begin(),\ \_\_il.end());}
+\DoxyCodeLine{00102\ \ \ \ \ \}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ reference\ at(size\_type\ \_\_i)}
+\DoxyCodeLine{00105\ \ \ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_i\ <\ m\_size\ ?\ m\_data[\_\_i]\ :\ \textcolor{keywordflow}{throw};}
+\DoxyCodeLine{00107\ \ \ \ \ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{constexpr}\ const\_reference\ at(size\_type\ \_\_i)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00110\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_i\ <\ m\_size\ ?\ m\_data[\_\_i]\ :\ \textcolor{keywordflow}{throw};}
+\DoxyCodeLine{00112\ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ reference\ operator[](size\_type\ \_\_i)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00115\ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data[\_\_i];}
+\DoxyCodeLine{00117\ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{constexpr}\ const\_reference\ operator[](size\_type\ \_\_i)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00120\ \ \ \ \ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data[\_\_i];}
+\DoxyCodeLine{00122\ \ \ \ \ \}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ reference\ front()\ noexcept}
+\DoxyCodeLine{00125\ \ \ \ \ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data[0];}
+\DoxyCodeLine{00127\ \ \ \ \ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{constexpr}\ const\_reference\ front()\ const\ noexcept}
+\DoxyCodeLine{00130\ \ \ \ \ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data[0];}
+\DoxyCodeLine{00132\ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ reference\ back()\ noexcept}
+\DoxyCodeLine{00135\ \ \ \ \ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data[m\_size\ -\/\ 1];}
+\DoxyCodeLine{00137\ \ \ \ \ \}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keyword}{constexpr}\ const\_reference\ back()\ const\ noexcept}
+\DoxyCodeLine{00140\ \ \ \ \ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data[m\_size\ -\/\ 1];}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ pointer\ data()\ noexcept}
+\DoxyCodeLine{00145\ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data;}
+\DoxyCodeLine{00147\ \ \ \ \ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keyword}{constexpr}\ const\_pointer\ data()\ const\ noexcept}
+\DoxyCodeLine{00150\ \ \ \ \ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data;}
+\DoxyCodeLine{00152\ \ \ \ \ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ iterator\ begin()\ noexcept}
+\DoxyCodeLine{00155\ \ \ \ \ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_data\ \};}
+\DoxyCodeLine{00157\ \ \ \ \ \}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ const\_iterator\ begin()\ const\ noexcept}
+\DoxyCodeLine{00160\ \ \ \ \ \{}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_data\ \};}
+\DoxyCodeLine{00162\ \ \ \ \ \}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ iterator\ end()\ noexcept}
+\DoxyCodeLine{00165\ \ \ \ \ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_data\ +\ m\_size\ \};}
+\DoxyCodeLine{00167\ \ \ \ \ \}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ const\_iterator\ end()\ const\ noexcept}
+\DoxyCodeLine{00170\ \ \ \ \ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_data\ +\ m\_size\ \};}
+\DoxyCodeLine{00172\ \ \ \ \ \}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ reverse\_iterator\ rbegin()\ noexcept}
+\DoxyCodeLine{00175\ \ \ \ \ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_data\ +\ m\_size\ -\/\ 1\ \};}
+\DoxyCodeLine{00177\ \ \ \ \ \}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ const\_reverse\_iterator\ rbegin()\ const\ noexcept}
+\DoxyCodeLine{00180\ \ \ \ \ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_data\ +\ m\_size\ -\/\ 1\ \};}
+\DoxyCodeLine{00182\ \ \ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ reverse\_iterator\ rend()\ noexcept}
+\DoxyCodeLine{00185\ \ \ \ \ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_data\ -\/\ 1\ \};}
+\DoxyCodeLine{00187\ \ \ \ \ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ const\_reverse\_iterator\ rend()\ const\ noexcept}
+\DoxyCodeLine{00190\ \ \ \ \ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\ m\_data\ -\/\ 1\ \};}
+\DoxyCodeLine{00192\ \ \ \ \ \}}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ empty()\ const\ noexcept}
+\DoxyCodeLine{00195\ \ \ \ \ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_size\ ==\ 0;}
+\DoxyCodeLine{00197\ \ \ \ \ \}}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keyword}{constexpr}\ size\_type\ size()\ const\ noexcept}
+\DoxyCodeLine{00200\ \ \ \ \ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_size;}
+\DoxyCodeLine{00202\ \ \ \ \ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{comment}{//\ max\_size\ not\ implemented}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keywordtype}{void}\ reserve(size\_type\ \_\_n)}
+\DoxyCodeLine{00207\ \ \ \ \ \{}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_capacity\ >=\ \_\_n)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_capacity)\ m\_capacity\ =\ 1;}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (m\_capacity\ <\ \_\_n)\ m\_capacity\ <<=\ 1;}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ pointer\ \_\_new\_data\ =\ \textcolor{keyword}{new}\ value\_type[m\_capacity];}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (size\_type\ i\ =\ 0;\ i\ <\ m\_size;\ i++)}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_new\_data[i]\ =\ m\_data[i];}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ []\ m\_data;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ m\_data\ =\ \_\_new\_data;}
+\DoxyCodeLine{00218\ \ \ \ \ \}}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keyword}{constexpr}\ size\_type\ capacity()\ const\ noexcept}
+\DoxyCodeLine{00221\ \ \ \ \ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_capacity;}
+\DoxyCodeLine{00223\ \ \ \ \ \}}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordtype}{void}\ shrink\_to\_fit()}
+\DoxyCodeLine{00226\ \ \ \ \ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ m\_capacity\ =\ m\_size;}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ pointer\ \_\_new\_data\ =\ \textcolor{keyword}{new}\ value\_type[m\_capacity];}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ 0;\ i\ <\ m\_size;\ i++)}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_new\_data[i]\ =\ m\_data[i];}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ []\ m\_data;}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ m\_data\ =\ \_\_new\_data;}
+\DoxyCodeLine{00235\ \ \ \ \ \}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordtype}{void}\ clear()\ noexcept}
+\DoxyCodeLine{00238\ \ \ \ \ \{}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ m\_size\ =\ 0;}
+\DoxyCodeLine{00240\ \ \ \ \ \}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \ \ \ \ iterator\ insert(iterator\ \_\_pos,\ const\_reference\ \_\_x)}
+\DoxyCodeLine{00243\ \ \ \ \ \{}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \_\_index\ =\ \_\_pos\ -\/\ m\_data;}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ reserve(m\_size\ +\ 1);}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ m\_size;\ i\ >\ \_\_index;\ i-\/-\/)}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data[i]\ =\ m\_data[i\ -\/\ 1];}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ m\_data[\_\_index]\ =\ \_\_x;}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ m\_size++;}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data\ +\ \_\_index;}
+\DoxyCodeLine{00253\ \ \ \ \ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ iterator\ insert(iterator\ \_\_pos,\ \_Tp\ \&\&\_\_x)}
+\DoxyCodeLine{00256\ \ \ \ \ \{}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \_\_index\ =\ \_\_pos\ -\/\ m\_data;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ reserve(m\_size\ +\ 1);}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ m\_size;\ i\ >\ \_\_index;\ i-\/-\/)}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data[i]\ =\ m\_data[i\ -\/\ 1];}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ m\_data[\_\_index]\ =\ \_\_x;}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ m\_size++;}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data\ +\ \_\_index;}
+\DoxyCodeLine{00266\ \ \ \ \ \}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ iterator\ insert(iterator\ \_\_pos,\ size\_type\ \_\_n,\ const\_reference\ \_\_x)}
+\DoxyCodeLine{00269\ \ \ \ \ \{}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \_\_index\ =\ \_\_pos\ -\/\ m\_data;}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ reserve(m\_size\ +\ \_\_n);}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ m\_size\ +\ \_\_n;\ i\ >\ (\_\_index\ +\ \_\_n\ -\/\ 1);\ i-\/-\/)}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data[i]\ =\ m\_data[i\ -\/\ \_\_n];}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ 0;\ i\ <\ \_\_n;\ i++)}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data[i\ +\ \_\_index]\ =\ \_\_x;}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ m\_size\ +=\ \_\_n;}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data\ +\ \_\_index;}
+\DoxyCodeLine{00281\ \ \ \ \ \}}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ \_It>}
+\DoxyCodeLine{00284\ \ \ \ \ iterator\ insert(iterator\ \_\_pos,\ \_It\ \_\_first,\ \_It\ \_\_last)}
+\DoxyCodeLine{00285\ \ \ \ \ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ value\_type\ \_\_tmp;}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\_\_first\ !=\ \_\_last)}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_tmp\ =\ *\_\_first;}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_pos\ =\ insert(\_\_pos,\ \_\_tmp);}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ ++\_\_first;}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ ++\_\_pos;}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \_\_index\ =\ \_\_pos\ -\/\ m\_data;}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data\ +\ \_\_index;}
+\DoxyCodeLine{00296\ \ \ \ \ \}}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ iterator\ insert(iterator\ \_\_pos,\ initializer\_list<\_Tp>\ \_\_il)}
+\DoxyCodeLine{00299\ \ \ \ \ \{}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ insert(\_\_pos,\ \_\_il.begin(),\ \_\_il.end());}
+\DoxyCodeLine{00301\ \ \ \ \ \}}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }...\_Args>}
+\DoxyCodeLine{00304\ \ \ \ \ iterator\ emplace(const\_iterator\ \_\_pos,\ \_Args\&\&...\ \_\_args)}
+\DoxyCodeLine{00305\ \ \ \ \ \{}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \_\_index\ =\ \_\_pos\ -\/\ m\_data;}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ m\_size++;}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ reserve(m\_size);}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ m\_size\ -\/\ 1;\ i\ >\ \_\_index;\ i-\/-\/)}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data[i]\ =\ m\_data[i\ -\/\ 1];}
+\DoxyCodeLine{00312\ }
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ m\_data[\_\_index]\ =\ value\_type(\_\_args...);}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data\ +\ \_\_index;}
+\DoxyCodeLine{00315\ \ \ \ \ \}}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00317\ \ \ \ \ iterator\ erase(const\_iterator\ \_\_pos)}
+\DoxyCodeLine{00318\ \ \ \ \ \{}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ size\_type\ \_\_index\ =\ \_\_pos\ -\/\ m\_data;}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ \_\_index;\ i\ <\ (m\_size\ -\/\ 1);\ i++)}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data[i]\ =\ m\_data[i\ +\ 1];}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ m\_size-\/-\/;}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data\ +\ \_\_index;}
+\DoxyCodeLine{00325\ \ \ \ \ \}}
+\DoxyCodeLine{00326\ }
+\DoxyCodeLine{00327\ \ \ \ \ iterator\ erase(const\_iterator\ \_\_first,\ const\_iterator\ \_\_last)}
+\DoxyCodeLine{00328\ \ \ \ \ \{}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ size\_type\ \_\_index\ =\ \_\_first\ -\/\ m\_data;}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ size\_type\ \_\_n\ =\ \_\_last\ -\/\ \_\_first;}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ \_\_index;\ i\ <\ (m\_size\ -\/\ \_\_n);\ i++)}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data[i]\ =\ m\_data[i\ +\ \_\_n];}
+\DoxyCodeLine{00333\ }
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ m\_size\ -\/=\ \_\_n;}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_data\ +\ \_\_index;}
+\DoxyCodeLine{00336\ \ \ \ \ \}}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{keywordtype}{void}\ push\_back(const\_reference\ \_\_value)}
+\DoxyCodeLine{00339\ \ \ \ \ \{}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ insert(end(),\ \_\_value);}
+\DoxyCodeLine{00341\ \ \ \ \ \}}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordtype}{void}\ push\_back(value\_type\ \&\&\_\_value)}
+\DoxyCodeLine{00344\ \ \ \ \ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ emplace(end(),\ \_\_value);}
+\DoxyCodeLine{00346\ \ \ \ \ \}}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00348\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }...\_Args>}
+\DoxyCodeLine{00349\ \ \ \ \ \textcolor{keywordtype}{void}\ emplace\_back(\_Args\&\&...\ \_\_args)}
+\DoxyCodeLine{00350\ \ \ \ \ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ emplace(end(),\ \_\_args...);}
+\DoxyCodeLine{00352\ \ \ \ \ \}}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \ \ \textcolor{keywordtype}{void}\ pop\_back()}
+\DoxyCodeLine{00355\ \ \ \ \ \{}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ erase(end());}
+\DoxyCodeLine{00357\ \ \ \ \ \}}
+\DoxyCodeLine{00358\ }
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordtype}{void}\ push\_front(\textcolor{keyword}{const}\ reference\ \_\_value)}
+\DoxyCodeLine{00360\ \ \ \ \ \{}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ insert(begin(),\ \_\_value);}
+\DoxyCodeLine{00362\ \ \ \ \ \}}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \ \ \ \ \textcolor{keywordtype}{void}\ push\_front(value\_type\ \&\&\_\_value)}
+\DoxyCodeLine{00365\ \ \ \ \ \{}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ emplace(begin(),\ \_\_value);}
+\DoxyCodeLine{00367\ \ \ \ \ \}}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }...\_Args>}
+\DoxyCodeLine{00370\ \ \ \ \ \textcolor{keywordtype}{void}\ emplace\_front(\_Args\&\&...\ \_\_args)}
+\DoxyCodeLine{00371\ \ \ \ \ \{}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ emplace(begin(),\ \_\_args...);}
+\DoxyCodeLine{00373\ \ \ \ \ \}}
+\DoxyCodeLine{00374\ }
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordtype}{void}\ pop\_front()}
+\DoxyCodeLine{00376\ \ \ \ \ \{}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ erase(begin());}
+\DoxyCodeLine{00378\ \ \ \ \ \}}
+\DoxyCodeLine{00379\ }
+\DoxyCodeLine{00380\ \ \ \ \ \textcolor{keywordtype}{void}\ resize(size\_type\ \_\_n,\ const\_reference\ \_\_value\ =\ value\_type())}
+\DoxyCodeLine{00381\ \ \ \ \ \{}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ reserve(m\_size\ +\ \_\_n);}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ =\ m\_size;\ i\ <\ m\_size\ +\ \_\_n;\ i++)}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ m\_data[i]\ =\ \_\_value;}
+\DoxyCodeLine{00386\ \ \ \ \ \}}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordtype}{void}\ swap(vector<value\_type>\ \&\_\_v)\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ ==\ \&\_\_v)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ std::swap<pointer>(m\_data,\ \_\_v.m\_data);}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ std::swap<size\_type>(m\_size,\ \_\_v.m\_size);}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ std::swap<size\_type>(m\_capacity,\ \_\_v.m\_capacity);}
+\DoxyCodeLine{00393\ \ \ \ \ \}}
+\DoxyCodeLine{00394\ }
+\DoxyCodeLine{00395\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00396\ \ \ \ \ size\_type\ m\_size;}
+\DoxyCodeLine{00397\ \ \ \ \ size\_type\ m\_capacity;}
+\DoxyCodeLine{00398\ \ \ \ \ \_Tp\ *m\_data;}
+\DoxyCodeLine{00399\ \};}
+\DoxyCodeLine{00400\ }
+\DoxyCodeLine{00401\ \}\ \textcolor{comment}{//\ namespace\ std}}
+\DoxyCodeLine{00402\ }
+\DoxyCodeLine{00403\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GML\_STL}}
+
+\end{DoxyCode}
