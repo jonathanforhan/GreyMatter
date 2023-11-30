@@ -14,7 +14,7 @@ Calibration::Calibration(gm::gfx::LCD &lcd, std::initializer_list<CalibrationInf
 
     for (auto &value : this->values)
     {
-        uint8_t *default_val = (uint8_t*)&value.default_value;
+        uint8_t *default_val = (uint8_t *)&value.default_value;
         EEPROM.write(eIndex * sizeof(float) + 0, default_val[0]);
         EEPROM.write(eIndex * sizeof(float) + 1, default_val[1]);
         EEPROM.write(eIndex * sizeof(float) + 2, default_val[2]);
@@ -84,8 +84,8 @@ void Calibration::redraw()
 
         for (int j = 0; j < s.length(); j++)
         {
-            i == position.x && j == position.y
-                ?  lcd.set_text_color(gm::gfx::Black, gm::gfx::White)
+            i == position.x &&j == position.y
+                ? lcd.set_text_color(gm::gfx::Black, gm::gfx::White)
                 : lcd.set_text_color(gm::gfx::White, gm::gfx::Black);
 
             lcd.print(s[j]);
@@ -135,7 +135,7 @@ void Calibration::redraw_on_update()
 
         for (int j = 0; j < s.length(); j++)
         {
-            i == position.x && j == position.y
+            i == position.x &&j == position.y
                 ? lcd.set_text_color(gm::gfx::Black, gm::gfx::White)
                 : lcd.set_text_color(gm::gfx::White, gm::gfx::Black);
 
@@ -153,37 +153,37 @@ void Calibration::handle_ir_action(gm::gui::CallbackAction action)
     else if (!is_active())
         return;
 
-    switch(action)
+    switch (action)
     {
-        case gm::gui::CallbackAction::Next:
-            next_decimal_place();
-            break;
-        case gm::gui::CallbackAction::Back:
-            prev_decimal_place();
-            break;
-        case gm::gui::CallbackAction::Up:
-            next_value();
-            break;
-        case gm::gui::CallbackAction::Down:
-            next_value();
-            break;
-        case gm::gui::CallbackAction::Increment:
-            modify_value(1);
-            break;
-        case gm::gui::CallbackAction::Decrement:
-            modify_value(-1);
-            break;
-        case gm::gui::CallbackAction::ValueQuery:
-            set_value(GUI_VALUE);
-            break;
-        case gm::gui::CallbackAction::Reset:
-            reset();
-            break;
-        case gm::gui::CallbackAction::ResetAll:
-            reset_all();
-            break;
-        default:
-            return;
+    case gm::gui::CallbackAction::Next:
+        next_decimal_place();
+        break;
+    case gm::gui::CallbackAction::Back:
+        prev_decimal_place();
+        break;
+    case gm::gui::CallbackAction::Up:
+        next_value();
+        break;
+    case gm::gui::CallbackAction::Down:
+        next_value();
+        break;
+    case gm::gui::CallbackAction::Increment:
+        modify_value(1);
+        break;
+    case gm::gui::CallbackAction::Decrement:
+        modify_value(-1);
+        break;
+    case gm::gui::CallbackAction::ValueQuery:
+        set_value(GUI_VALUE);
+        break;
+    case gm::gui::CallbackAction::Reset:
+        reset();
+        break;
+    case gm::gui::CallbackAction::ResetAll:
+        reset_all();
+        break;
+    default:
+        return;
     }
     draw();
 }
@@ -196,7 +196,7 @@ void Calibration::reset()
     val[2] = EEPROM.read(value_positions[position.x] * sizeof(float) + 2);
     val[3] = EEPROM.read(value_positions[position.x] * sizeof(float) + 3);
 
-    *values[position.x].value = *(float*)val;
+    *values[position.x].value = *(float *)val;
 
     store_values();
     redraw_on_update();
@@ -205,14 +205,16 @@ void Calibration::reset()
 void Calibration::reset_all()
 {
     int i = 0;
-    for (auto value_pos : value_positions) {
+    for (auto value_pos : value_positions)
+    {
         uint8_t val[4];
         val[0] = EEPROM.read(value_pos * sizeof(float) + 0);
         val[1] = EEPROM.read(value_pos * sizeof(float) + 1);
         val[2] = EEPROM.read(value_pos * sizeof(float) + 2);
         val[3] = EEPROM.read(value_pos * sizeof(float) + 3);
 
-        *values[i++].value = *(float*)val;
+        *values[i].value = *(float *)val;
+        i++;
     }
 
     store_values();
@@ -280,7 +282,7 @@ void Calibration::read_store_values()
         val[1] = EEPROM.read(value_pos * sizeof(float) + 1 + EEPROM_STORE_OFFSET);
         val[2] = EEPROM.read(value_pos * sizeof(float) + 2 + EEPROM_STORE_OFFSET);
         val[3] = EEPROM.read(value_pos * sizeof(float) + 3 + EEPROM_STORE_OFFSET);
-        *values[i].value = *(float*)val;
+        *values[i].value = *(float *)val;
         i++;
     }
 }
