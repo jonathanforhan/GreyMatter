@@ -24,6 +24,7 @@ void Calibration::draw()
             // reset
             if (i == last_position.x && j == last_position.y)
             {
+                lcd.set_text_color(gm::gfx::White, gm::gfx::Black);
                 lcd.print(s[j]);
             }
             // modify
@@ -31,7 +32,6 @@ void Calibration::draw()
             {
                 lcd.set_text_color(gm::gfx::Black, gm::gfx::White);
                 lcd.print(s[j]);
-                lcd.set_text_color(gm::gfx::White, gm::gfx::Black);
             }
             else
             {
@@ -48,6 +48,7 @@ void Calibration::redraw()
     lcd.fill_screen(gfx::Black);
     lcd.set_text_size(2);
 
+    lcd.set_text_color(gm::gfx::White, gm::gfx::Black);
     lcd.print_centered("GM Calibration GUI", 20);
 
     for (int i = 0; i < values.size(); i++)
@@ -61,10 +62,9 @@ void Calibration::redraw()
 
         for (int j = 0; j < s.length(); j++)
         {
-            if (i == position.x && j == position.y)
-                lcd.set_text_color(gm::gfx::Black, gm::gfx::White);
-            else
-                lcd.set_text_color(gm::gfx::White, gm::gfx::Black);
+            i == position.x && j == position.y
+                ?  lcd.set_text_color(gm::gfx::Black, gm::gfx::White)
+                : lcd.set_text_color(gm::gfx::White, gm::gfx::Black);
 
             lcd.print(s[j]);
         }
@@ -113,10 +113,9 @@ void Calibration::redraw_on_update()
 
         for (int j = 0; j < s.length(); j++)
         {
-            if (i == position.x && j == position.y)
-                lcd.set_text_color(gm::gfx::Black, gm::gfx::White);
-            else
-                lcd.set_text_color(gm::gfx::White, gm::gfx::Black);
+            i == position.x && j == position.y
+                ? lcd.set_text_color(gm::gfx::Black, gm::gfx::White)
+                : lcd.set_text_color(gm::gfx::White, gm::gfx::Black);
 
             lcd.print(s[j]);
         }

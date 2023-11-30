@@ -122,7 +122,7 @@ private:
     std::vector<CalibrationInfo> values;
     bool active = false;
     gm::gfx::Position position{0, 0};
-    gm::gfx::Position last_position{0, 0};
+    gm::gfx::Position last_position{-1, -1};
 };
 
 } // namespace gm::gui

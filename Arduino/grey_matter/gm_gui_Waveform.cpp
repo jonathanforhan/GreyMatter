@@ -77,6 +77,7 @@ void Waveform::redraw(gfx::Size bounds)
     if (title)
     {
         lcd.set_text_size(1);
+        lcd.set_text_color(gm::gui::White, gm::gui::Black);
         lcd.print_centered(title, 20);
     }
     current_read = "";
