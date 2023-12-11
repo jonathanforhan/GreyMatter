@@ -57,7 +57,7 @@ LCD::LCD(uint8_t cs, uint8_t cd, uint8_t wr, uint8_t rd, uint8_t reset)
       : WIDTH(TFTWIDTH),
         HEIGHT(TFTHEIGHT),
         _dimensions({ WIDTH, HEIGHT }),
-        _rotation(0),
+        _rotation(r0),
         _cursor({ 0, 0 }),
         _text_size({ 1, 1 }),
         _text_fg(0xFFFF),
