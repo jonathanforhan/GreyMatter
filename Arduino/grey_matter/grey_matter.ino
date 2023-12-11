@@ -150,24 +150,33 @@ void photo_callback(long ms, gm::gui::CallbackAction action)
 {
     static gm::gui::Waveform waveform = gm::gui::Waveform(gui.lcd, 1000, "Photo Sensor", "Seconds", "Lux", "Lux", true);
 
-    static float coef = 28.71f;
-    static float exp = 0.0075f;
+    static float a = 0.0113f;
+    static float b = -1.5753f;
+    static float c = 29.791f;
 
     static gm::gui::Calibration calibration(gui.lcd, {
         {
-            .title = "Coefficient",
-            .value = &coef,
-            .default_value = coef,
+            .title = "A",
+            .value = &a,
+            .default_value = a,
+            .precision = 4,
         },
         {
-            .title = "Exponent",
-            .value = &exp,
-            .default_value = exp,
+            .title = "B",
+            .value = &b,
+            .default_value = b,
+            .precision = 4,
+        },
+        {
+            .title = "C",
+            .value = &c,
+            .default_value = c,
             .precision = 4,
         }
     });
 
-    auto calc_lux = [](float x) -> float { return coef * pow(M_E, (exp * x)); };
+    // auto calc_lux = [](float x) -> float { return coef * pow(M_E, (exp * x)); };
+    auto calc_lux = [](float x) -> float { return (a * pow(x, 2) + b * x + c); };
 
     switch (action)
     {

@@ -92,9 +92,9 @@ void Waveform::export_last(char *sensor) const
 {
     Serial.print(R"({"sensor":")");
     Serial.print(sensor);
-    Serial.print(R"(","reading":")");
+    Serial.print(R"(","reading":)");
     Serial.print(this->data.back());
-    Serial.println(R"("})");
+    Serial.println(R"(})");
 }
 
 bool Waveform::should_update(long ms)
